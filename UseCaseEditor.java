@@ -131,12 +131,14 @@ public class UseCaseEditor extends JDialog implements ActionListener{
 		setSize(800,700);
 		setVisible (true);	
 	}
+	
 	public void addSaveListener(ActionListener listener) {
 		  okButton.addActionListener(listener);
 	}
+	
 	public void actionPerformed(ActionEvent e){
 		
-		//Didn't get this to work yet
+		
 		if(e.getSource() == okButton){
 			closeStatus = OK;
 			
