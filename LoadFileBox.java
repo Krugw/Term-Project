@@ -15,7 +15,7 @@ public class LoadFileBox implements ActionListener{
 	private File selectedFile;
 	public LoadFileBox(){
 		fileChooser = new JFileChooser();
-		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		//fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
 		int result = fileChooser.showOpenDialog(popUp);
 		if (result == JFileChooser.APPROVE_OPTION) {
@@ -38,5 +38,7 @@ public class LoadFileBox implements ActionListener{
 		
 	}
 	
-
+	public static void main(String[] args){
+		LoadFileBox LBF = new LoadFileBox();
+	}
 }
