@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 public class LoadFileBox implements ActionListener{
 	private JFileChooser fileChooser;
 	private JDialog popUp;
-	private File selectedFile;
+	private String selectedFile;
 	public LoadFileBox(){
 		fileChooser = new JFileChooser();
 		//fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -21,8 +21,8 @@ public class LoadFileBox implements ActionListener{
 		if (result == JFileChooser.APPROVE_OPTION) {
 		    // user selects a file
 		}
-		selectedFile = fileChooser.getSelectedFile();
-		
+		selectedFile = fileChooser.getSelectedFile().getAbsolutePath();
+		System.out.println(selectedFile);
 		
 		JPanel messagePane = new JPanel();
 		messagePane.add(new JLabel("Choose File: "));
@@ -30,7 +30,7 @@ public class LoadFileBox implements ActionListener{
 	    //popUp.setVisible(true);
 	}
 	
-	public File getFileSelected(){
+	public String getFileSelected(){
 		return selectedFile;
 	}
 	
@@ -40,5 +40,6 @@ public class LoadFileBox implements ActionListener{
 	
 	public static void main(String[] args){
 		LoadFileBox LBF = new LoadFileBox();
+		
 	}
 }
