@@ -152,7 +152,7 @@ public class UseCase {
 		}
 	}
 
-	public void loadFromText(String filename){
+	/*public void loadFromText(String filename){
 		try {
 			//Scanner scanner = new Scanner(new File(filename));
 			
@@ -166,7 +166,7 @@ public class UseCase {
 			Primaryflow = scanner.nextLine().trim();
 			Alternateflow = scanner.nextLine().trim();
 			MinimalGuarantees = scanner.nextLine().trim();
-			SuccessGuarantees = scanner.nextLine().trim();*/
+			SuccessGuarantees = scanner.nextLine().trim();
 			
 			loadFile = new LoadFileBox();
 			File newFile = loadFile.getFileSelected();
@@ -188,5 +188,5 @@ public class UseCase {
 			e.printStackTrace();
 		}
 
-	}
+	}*/
 }
