@@ -43,6 +43,7 @@ public class UseCaseEditor extends JDialog implements ActionListener{
 		uc.setSupportingActors(supportingActorTxt.getText());
 		uc.setTriggers(triggersTxt.getText());
 		uc.setPreconditions(preconditionsTxt.getText());
+		uc.setPrimaryflow(primaryFlowTxt.getText());
 		uc.setAlternativeflow(alternateFlowTxt.getText());
 		uc.setMinimalGuarantees(minimalGuaranteeTxt.getText());
 		uc.setSuccessGuarantees(successGuaranteeTxt.getText());
@@ -139,6 +140,7 @@ public class UseCaseEditor extends JDialog implements ActionListener{
 		supportingActorTxt.setText(usecase.getSupportingActors());
 		triggersTxt.setText(usecase.getTriggers());
 		preconditionsTxt.setText(usecase.getPreconditions());
+		primaryFlowTxt.setText(usecase.getPrimaryflow());
 		alternateFlowTxt.setText(usecase.getAlternativeflow());
 		minimalGuaranteeTxt.setText(usecase.getMinimalGuaruntees());
 		successGuaranteeTxt.setText(usecase.getSuccessGuarantees());
