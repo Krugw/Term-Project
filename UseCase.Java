@@ -173,4 +173,20 @@ public class UseCase {
 		}
 
 	}
+	@Override
+    public String toString() {
+        return "UseCase{" +
+                "Name='" + Name + '\'' +
+                ", ID='" + ID + '\'' +
+                ", Description='" + Description + '\'' +
+                ", primaryActors='" + primaryActors + '\'' +
+                ", supportingActors='" + supportingActors + '\'' +
+                ", Triggers='" + Triggers + '\'' +
+                ", Preconditions='" + Preconditions + '\'' +
+                ", Primaryflow='" + Primaryflow + '\'' +
+                ", Alternateflow='" + Alternateflow + '\'' +
+                ", MinimalGuarantees='" + MinimalGuarantees + '\'' +
+                ", SuccessGuarantees='" + SuccessGuarantees + '\'' +
+                '}';
+    }
 }
