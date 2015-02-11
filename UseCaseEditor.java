@@ -131,6 +131,18 @@ public class UseCaseEditor extends JDialog implements ActionListener{
 		setSize(800,700);
 		setVisible (true);	
 	}
+	public void setUC(UseCase usecase) {
+		nameTxt.setText(usecase.getName());
+		IDTxt.setText(usecase.getID());
+		descriptionTxt.setText(usecase.getDescription());
+		primaryActorTxt.setText(usecase.getPrimaryActors());
+		supportingActorTxt.setText(usecase.getSupportingActors());
+		triggersTxt.setText(usecase.getTriggers());
+		preconditionsTxt.setText(usecase.getPreconditions());
+		alternateFlowTxt.setText(usecase.getAlternativeflow());
+		minimalGuaranteeTxt.setText(usecase.getMinimalGuaruntees());
+		successGuaranteeTxt.setText(usecase.getSuccessGuarantees());
+	};
 	
 	public void addSaveListener(ActionListener listener) {
 		  okButton.addActionListener(listener);
