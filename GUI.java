@@ -1,4 +1,4 @@
-		import javax.swing.*;
+import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,7 +24,7 @@ public class GUI extends JFrame implements ActionListener {
 	private JLabel description_input;
 	private JLabel ID_input;
 	private JLabel name_input;
-	private project CurrentProject = new project();
+	private Project CurrentProject = new Project();
 	private UseCaseEditor UCE;
 	private UseCase CurrentUseCase;
 	
@@ -244,17 +244,19 @@ public class GUI extends JFrame implements ActionListener {
 		}
 		
 		if (e.getSource() == edit) {
-			if(UCE == null){
 				UCE = new UseCaseEditor();
+				UCE.setUC(CurrentUseCase);
 				UCE.setVisible(true);
 				UCE_Utility();
-			}
-			UCE.setVisible(true);
 		}
 		
 		if (e.getSource() == load) {
+			loadFile = new LoadFileBox();
+			CurrentProject.loadFromXML(loadFile.getFileSelected());
+			System.out.println(CurrentProject.GetUsecase("123").getID());
+			
 			UseCase uc = new UseCase();
-			uc.loadFromText("filename");
+			//uc.loadFromText("filename");
 			CurrentUseCase = uc;
 			success_input.setText(uc.getSuccessGuarantees());
 			minimal_input.setText(uc.getMinimalGuaruntees());
