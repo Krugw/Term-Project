@@ -1,3 +1,5 @@
+
+
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -8,7 +10,6 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.util.*;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -44,7 +45,7 @@ public class Project {
         return ProjectName;
     }
 
-    public void saveToXML(String filename, Project prj) {
+    public void saveToXML(String filename, String directory) {
 
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -53,7 +54,7 @@ public class Project {
             //root element(Project)
             Document doc = (Document) docBuilder.newDocument();
             Element rootElement = doc.createElement("project");
-            rootElement.setAttribute("name", prj.ProjectName);
+            rootElement.setAttribute("name", this.ProjectName);
             doc.appendChild(rootElement);
 
 
@@ -135,7 +136,7 @@ public class Project {
             DOMSource source = new DOMSource(doc);
 
             //********************************NEED TO FIGURE OUT WHERE TO SAVE UNIVERSALLY**************************
-            StreamResult result = new StreamResult(new File("C:\\Users\\HP\\Desktop\\" + filename + ".xml"));
+            StreamResult result = new StreamResult(new File(directory));
             //********************************NEED TO FIGURE OUT WHERE TO SAVE UNIVERSALLY**************************
 
             transformer.transform(source,result);
@@ -157,16 +158,16 @@ public class Project {
                 '}';
     }
 
-    public void loadFromXML(String filename, Project prj) {
+    public void loadFromXML(String filename) {
         try {
-            File file = new File("C:\\Users\\HP\\Desktop\\" + filename + ".xml");
+            File file = new File(filename);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
 
             System.out.println("Root element " + doc.getDocumentElement().getNodeName());
-            prj.setProjectName(doc.getDocumentElement().getAttribute("name"));
+            this.setProjectName(doc.getDocumentElement().getAttribute("name"));
 
             NodeList nodeList = doc.getElementsByTagName("usecase");
 
@@ -244,7 +245,7 @@ public class Project {
                     NodeList sucgNm = sucgNmElmnt.getChildNodes();
                     u.setSuccessGuarantees(String.valueOf(sucgNm.item(0).getNodeValue()));
                 }
-                prj.addUsecase(u);
+                this.addUsecase(u);
             }
 
         } catch (ParserConfigurationException e) {
@@ -275,16 +276,15 @@ public class Project {
             u1.setSuccessGuarantees("Death");
 
         prj.addUsecase(u1);
-        prj.saveToXML("Test", prj);
+        //prj.saveToXML("Test");
         System.out.println("prj: " + prj.toString());
 
         Project p = new Project();
 
-        p.loadFromXML("Test", p);
+       // p.loadFromXML("Test", p);
 
         System.out.println("p: " + p.toString());
     }
 }
-
 
 
