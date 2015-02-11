@@ -18,6 +18,7 @@ public class UseCase {
 	protected String Alternateflow;
 	protected String MinimalGuarantees;
 	protected String SuccessGuarantees;
+	protected LoadFileBox loadFile;
 	
 	public UseCase(){
 		Name = "a";
@@ -153,8 +154,23 @@ public class UseCase {
 
 	public void loadFromText(String filename){
 		try {
-			Scanner scanner = new Scanner(new File(filename));
+			//Scanner scanner = new Scanner(new File(filename));
 			
+			/*Name = scanner.nextLine().trim();
+			ID = scanner.nextLine().trim();
+			Description = scanner.nextLine().trim();
+			primaryActors = scanner.nextLine().trim();
+			supportingActors = scanner.nextLine().trim();
+			Triggers = scanner.nextLine().trim();
+			Preconditions = scanner.nextLine().trim();
+			Primaryflow = scanner.nextLine().trim();
+			Alternateflow = scanner.nextLine().trim();
+			MinimalGuarantees = scanner.nextLine().trim();
+			SuccessGuarantees = scanner.nextLine().trim();*/
+			
+			loadFile = new LoadFileBox();
+			File newFile = loadFile.getFileSelected();
+			Scanner scanner = new Scanner(newFile);
 			Name = scanner.nextLine().trim();
 			ID = scanner.nextLine().trim();
 			Description = scanner.nextLine().trim();
@@ -173,20 +189,4 @@ public class UseCase {
 		}
 
 	}
-	@Override
-    public String toString() {
-        return "UseCase{" +
-                "Name='" + Name + '\'' +
-                ", ID='" + ID + '\'' +
-                ", Description='" + Description + '\'' +
-                ", primaryActors='" + primaryActors + '\'' +
-                ", supportingActors='" + supportingActors + '\'' +
-                ", Triggers='" + Triggers + '\'' +
-                ", Preconditions='" + Preconditions + '\'' +
-                ", Primaryflow='" + Primaryflow + '\'' +
-                ", Alternateflow='" + Alternateflow + '\'' +
-                ", MinimalGuarantees='" + MinimalGuarantees + '\'' +
-                ", SuccessGuarantees='" + SuccessGuarantees + '\'' +
-                '}';
-    }
 }
