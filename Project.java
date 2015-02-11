@@ -36,6 +36,18 @@ public class Project {
         }
         return null;
     }
+    
+    public ArrayList<String> Getids() {
+    	ArrayList<String> ids = new ArrayList<String>();
+        for (UseCase Usecase : Usecases) {
+        	ids.add(Usecase.getID());
+            
+        }
+        if(ids.get(0)!= null){
+        return ids;
+        }
+        return null;
+    }
 
     public void setProjectName(String name) {
         ProjectName = name;
