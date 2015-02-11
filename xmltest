@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="One">
+  <usecase ID="123">
+    <name>tewqrdsa</name>
+    <id>123</id>
+    <description>Teasdasdas</description>
+    <primary-actors>Medasdasd</primary-actors>
+    <supporting-actors>Youasdasda
+asdasd</supporting-actors>
+    <trigger>Ughdasdasdasddw
+asdasd</trigger>
+    <preconditions>Lifeasdasdwsdwdas
+asdasd</preconditions>
+    <primary-flow>Forwarddasdawdasda
+asdasd</primary-flow>
+    <alternate-flow>Sidewayssdasdasd</alternate-flow>
+    <minimal-guarantee>Win</minimal-guarantee>
+    <success-guarantee>Death</success-guarantee>
+  </usecase>
+</project>
