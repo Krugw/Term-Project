@@ -202,16 +202,6 @@ public class GUI extends JFrame implements ActionListener {
 	}
 
 	public void save(UseCase uc) {
-		success_input.setText(uc.getSuccessGuarantees());
-		minimal_input.setText(uc.getMinimalGuaruntees());
-		alternativeFlow_input.setText(uc.getAlternativeflow());
-		primaryFlow_input.setText(uc.getPrimaryflow());
-		preconditions_input.setText(uc.getPreconditions());
-		triggers_input.setText(uc.getTriggers());
-		prim_actors_input.setText(uc.getPrimaryActors());
-		description_input.setText(uc.getDescription());
-		ID_input.setText(uc.getID());
-		name_input.setText(uc.getName());
 		CurrentUseCase = uc;
 		CurrentProject.addUsecase(CurrentUseCase);
 		ids = CurrentProject.Getids();
@@ -230,6 +220,18 @@ public class GUI extends JFrame implements ActionListener {
 		g1_panel.setVgap(2);
 		g1_panel.setHgap(2);
 		panel.setLayout(g1_panel);
+		if(CurrentUseCase != null){
+		success_input.setText(CurrentUseCase.getSuccessGuarantees());
+		minimal_input.setText(CurrentUseCase.getMinimalGuaruntees());
+		alternativeFlow_input.setText(CurrentUseCase.getAlternativeflow());
+		primaryFlow_input.setText(CurrentUseCase.getPrimaryflow());
+		preconditions_input.setText(CurrentUseCase.getPreconditions());
+		triggers_input.setText(CurrentUseCase.getTriggers());
+		prim_actors_input.setText(CurrentUseCase.getPrimaryActors());
+		description_input.setText(CurrentUseCase.getDescription());
+		ID_input.setText(CurrentUseCase.getID());
+		name_input.setText(CurrentUseCase.getName());
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -239,11 +241,9 @@ public class GUI extends JFrame implements ActionListener {
 			UCE_Utility();
 		}
 		if (e.getSource() == new_project) {
-			UseCase uc = new UseCase();
 			Dialog = new CreateDialog();
 			file = Dialog.getDirectory();
 			CurrentProject.setProjectName(Dialog.getFileName());
-			CurrentProject.addUsecase(uc);
 			ids = CurrentProject.Getids();
 			System.out.println(CurrentProject.GetProjectName());
 			System.out.println(file);
@@ -262,11 +262,11 @@ public class GUI extends JFrame implements ActionListener {
 				UCE.setVisible(true);
 				UCE_Utility();
 		}
-		/*if (e.getSource() == ComboBox) {
-		if(getSelectedItem() != null)
-			CurrentUseCase = ComboBox.getSelectedItem();
+		if (e.getSource() == ComboBox) {
+		if(ComboBox.getSelectedItem() != null)
+			CurrentUseCase = (UseCase) ComboBox.getSelectedItem();
 			display();
-		}*/
+		}
 		if (e.getSource() == load) {
 			loadFile = new LoadFileBox();
 			file=loadFile.getFileSelected();
@@ -304,8 +304,8 @@ public class GUI extends JFrame implements ActionListener {
         }
         MyComboBoxModel myModel = new MyComboBoxModel(useCases);
         ComboBox = new JComboBox<UseCase>(myModel);
-        //ComboBox.addActionListener(this);
-        panel_1.remove(ComboBox);
+        ComboBox.addActionListener(this);
+        panel_1.removeAll();
         panel_1.add(ComboBox,BorderLayout.WEST);
     }
 }
