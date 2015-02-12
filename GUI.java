@@ -8,28 +8,18 @@ import java.util.ArrayList;
 
 public class GUI extends JFrame implements ActionListener {
 	private JFrame frame;
-	private JButton create;
-	private JButton temp_create;
-	private JButton save;
-	private JButton edit;
-	private JButton load;
-	private JPanel panel;
-	private JPanel panel2;
-	private JLabel success_input;
-	private JLabel minimal_input;
-	private JLabel alternativeFlow_input;
-	private JLabel primaryFlow_input;
-	private JLabel preconditions_input;
-	private JLabel triggers_input;
-	private JLabel prim_actors_input;
-	private JLabel description_input;
-	private JLabel ID_input;
+	private JButton create,new_project,save,edit,load;
+	private JPanel panel,panel2;
+	private JLabel success_input,minimal_input,alternativeFlow_input;
+	private JLabel primaryFlow_input, preconditions_input, triggers_input;
+	private JLabel prim_actors_input,description_input,ID_input;
 	private JLabel name_input;
 	private Project CurrentProject = new Project();
 	private UseCaseEditor UCE;
 	private UseCase CurrentUseCase;
 	private ArrayList<String> ids;
 	private String file;
+	private JToolBar toolBar;
 	
 	private LoadFileBox loadFile;
 
@@ -54,7 +44,6 @@ public class GUI extends JFrame implements ActionListener {
 	         public void actionPerformed(ActionEvent e) {
 	        	 UseCase uc = UCE.getUC();
 	        	 System.out.println(uc.getPreconditions());
-	        	 CurrentProject.addUsecase(uc);
 	             save(uc);
 	         }
 	     });
@@ -69,10 +58,7 @@ public class GUI extends JFrame implements ActionListener {
 		frame.getContentPane().add(panel_1, BorderLayout.WEST);
 		panel_1.setLayout(new GridLayout(10, 2, 0, 0));
 
-		JTree tree = new JTree();
-		panel_1.add(tree);
-
-		JToolBar toolBar = new JToolBar();
+		toolBar = new JToolBar();
 		frame.getContentPane().add(toolBar, BorderLayout.NORTH);
 
 		save = new JButton("Save");
@@ -80,11 +66,12 @@ public class GUI extends JFrame implements ActionListener {
 		save.addActionListener(this);
 
 		load = new JButton("Load");
-		toolBar.add(load);
 		load.addActionListener(this);
 
-		create = new JButton("Create");
-		toolBar.add(create);
+		new_project = new JButton("New Project");
+		new_project.addActionListener(this);
+		
+		create = new JButton("New Use Case");
 		create.addActionListener(this);
 		
 		panel2 = new JPanel();
@@ -103,7 +90,7 @@ public class GUI extends JFrame implements ActionListener {
 		panel2.add(fill4);
 		JLabel fill5 = new JLabel();
 		panel2.add(fill5);
-		panel2.add(create);
+		panel2.add(new_project);
 		panel2.add(load);
 		JLabel fill6 = new JLabel();
 		panel2.add(fill6);
@@ -228,6 +215,8 @@ public class GUI extends JFrame implements ActionListener {
 	public void display(){
 		panel.setVisible(true);
 		panel2.setVisible(false);
+		toolBar.add(create);
+		toolBar.add(load);
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		GridLayout g1_panel = new GridLayout(10, 2);
 		g1_panel.setVgap(2);
@@ -241,7 +230,8 @@ public class GUI extends JFrame implements ActionListener {
 			UCE.setVisible(true);
 			UCE_Utility();
 		}
-
+		if (e.getSource() == new_project) {
+		}
 		if (e.getSource() == save) {
 			if(CurrentUseCase != null)
 			save(CurrentUseCase);
