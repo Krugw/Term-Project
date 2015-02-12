@@ -1,10 +1,11 @@
 import javax.swing.*;
-import java.util.Vector;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class GUI extends JFrame implements ActionListener {
 	private JFrame frame;
@@ -214,8 +215,10 @@ public class GUI extends JFrame implements ActionListener {
 		name_input.setText(uc.getName());
 		CurrentUseCase = uc;
 		CurrentProject.addUsecase(CurrentUseCase);
+		ids = CurrentProject.Getids();
 		CurrentProject.saveToXML(file);
 		edit.setVisible(true);
+		createComboBox();
 		display();
 	}
 	public void display(){
@@ -242,9 +245,11 @@ public class GUI extends JFrame implements ActionListener {
 			file = Dialog.getDirectory();
 			CurrentProject.setProjectName(Dialog.getFileName());
 			CurrentProject.addUsecase(uc);
+			ids = CurrentProject.Getids();
 			System.out.println(CurrentProject.GetProjectName());
 			System.out.println(file);
 			CurrentProject.saveToXML(file);
+			createComboBox();
 			display();
 		}
 		if (e.getSource() == save) {
