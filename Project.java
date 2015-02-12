@@ -62,7 +62,7 @@ public class Project {
         return ProjectName;
     }
 
-    public void saveToXML(String filename, String directory) {
+    public void saveToXML(String directory) {
 
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -153,7 +153,7 @@ public class Project {
             DOMSource source = new DOMSource(doc);
 
             //********************************NEED TO FIGURE OUT WHERE TO SAVE UNIVERSALLY**************************
-            StreamResult result = new StreamResult(new File(directory));
+            StreamResult result = new StreamResult(new File(directory + "\\"+ this.GetProjectName()));
             //********************************NEED TO FIGURE OUT WHERE TO SAVE UNIVERSALLY**************************
 
             transformer.transform(source,result);
