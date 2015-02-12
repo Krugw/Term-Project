@@ -122,6 +122,11 @@ public class UseCase {
 		return SuccessGuarantees;
 	}
 	
+	@Override
+        public String toString() {
+        	return ID;
+        }
+	
 	
 	public boolean saveAsText(String filename){
 		if (filename.equals("")) {
