@@ -24,7 +24,14 @@ public class Project {
         Usecases = new ArrayList<UseCase>();
     }
 
-    public void addUsecase(UseCase uc) {
+    public void addUsecase(UseCase uc){
+    	for (UseCase uc2 : Usecases) {
+            if (uc2.getID().equals(uc.getID())) {
+            	Usecases.remove(uc2);
+            	Usecases.add(uc);
+                return;
+            }
+        }
         Usecases.add(uc);
     }
 
@@ -36,7 +43,6 @@ public class Project {
         }
         return null;
     }
-    
     public ArrayList<String> Getids() {
     	ArrayList<String> ids = new ArrayList<String>();
         for (UseCase Usecase : Usecases) {
@@ -48,7 +54,6 @@ public class Project {
         }
         return null;
     }
-
     public void setProjectName(String name) {
         ProjectName = name;
     }
@@ -298,5 +303,4 @@ public class Project {
         System.out.println("p: " + p.toString());
     }
 }
-
 
