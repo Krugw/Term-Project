@@ -71,7 +71,6 @@ public class GUI extends JFrame implements ActionListener {
 		save = new JButton("Save");
 		toolBar.add(save);
 		save.addActionListener(this);
-
 		load = new JButton("Load");
 		load.addActionListener(this);
 
@@ -263,13 +262,18 @@ public class GUI extends JFrame implements ActionListener {
 				UCE.setVisible(true);
 				UCE_Utility();
 		}
-		
+		/*if (e.getSource() == ComboBox) {
+		if(getSelectedItem() != null)
+			CurrentUseCase = ComboBox.getSelectedItem();
+			display();
+		}*/
 		if (e.getSource() == load) {
 			loadFile = new LoadFileBox();
 			file=loadFile.getFileSelected();
 			CurrentProject.loadFromXML(file);
 			ids = CurrentProject.Getids();
 			UseCase uc = CurrentProject.GetUsecase(ids.get(0));
+			
 			//uc.loadFromText("filename");
 			
 			CurrentUseCase = uc;
@@ -300,6 +304,7 @@ public class GUI extends JFrame implements ActionListener {
         }
         MyComboBoxModel myModel = new MyComboBoxModel(useCases);
         ComboBox = new JComboBox<UseCase>(myModel);
+        //ComboBox.addActionListener(this);
         panel_1.remove(ComboBox);
         panel_1.add(ComboBox,BorderLayout.WEST);
     }
