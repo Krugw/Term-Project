@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class GUI extends JFrame implements ActionListener {
 	private JFrame frame;
 	private JButton create,new_project,save,edit,load;
-	private JPanel panel,panel2;
+	private JPanel panel,panel2,panel_1;
 	private JLabel success_input,minimal_input,alternativeFlow_input;
 	private JLabel primaryFlow_input, preconditions_input, triggers_input;
 	private JLabel prim_actors_input,description_input,ID_input;
@@ -21,6 +21,7 @@ public class GUI extends JFrame implements ActionListener {
 	private ArrayList<String> ids;
 	private String file;
 	private JToolBar toolBar;
+	private JComboBox<UseCase> ComboBox;
 	
 	private LoadFileBox loadFile;
 
@@ -53,9 +54,13 @@ public class GUI extends JFrame implements ActionListener {
 		frame = new JFrame();
 		frame.setBounds(200, 200, 900, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		ids = new ArrayList<String>();
 		
-		JPanel panel_1 = new JPanel();
+		panel_1 = new JPanel();
+		panel_1.setLayout(new GridBagLayout());
+        	GridBagConstraints constraints = new GridBagConstraints();
+        	constraints.gridwidth = 10;
+        	
 		frame.getContentPane().add(panel_1, BorderLayout.WEST);
 		panel_1.setLayout(new GridLayout(10, 2, 0, 0));
 
@@ -258,7 +263,6 @@ public class GUI extends JFrame implements ActionListener {
 			loadFile = new LoadFileBox();
 			file=loadFile.getFileSelected();
 			CurrentProject.loadFromXML(file);
-			System.out.println(CurrentProject.GetUsecase("123").getID());
 			ids = CurrentProject.Getids();
 			UseCase uc = CurrentProject.GetUsecase(ids.get(0));
 			//uc.loadFromText("filename");
@@ -274,9 +278,24 @@ public class GUI extends JFrame implements ActionListener {
 			description_input.setText(uc.getDescription());
 			ID_input.setText(uc.getID());
 			name_input.setText(uc.getName());
+			createComboBox();
 			edit.setVisible(true);
 			display();
 			
 		}
 	}
+	public void createComboBox() {
+
+        Vector<UseCase> useCases = new Vector<UseCase>();
+        if(!ids.isEmpty()) {
+            for (int i = 0; i < ids.size(); i++) {
+                String id = ids.get(i);
+                useCases.add(CurrentProject.GetUsecase(id));
+            }
+        }
+        MyComboBoxModel myModel = new MyComboBoxModel(useCases);
+        ComboBox = new JComboBox<UseCase>(myModel);
+        panel_1.remove(ComboBox);
+        panel_1.add(ComboBox,BorderLayout.WEST);
+    }
 }
