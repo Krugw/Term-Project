@@ -23,7 +23,21 @@ public class LoadFileBox implements ActionListener{
 		}
 		selectedFile = fileChooser.getSelectedFile().getAbsolutePath();
 		System.out.println(selectedFile);
+		JPanel messagePane = new JPanel();
+		messagePane.add(new JLabel("Choose File: "));
 		
+	    //popUp.setVisible(true);
+	}
+	public LoadFileBox(boolean create){
+		fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+		int result = fileChooser.showOpenDialog(popUp);
+		if (result == JFileChooser.APPROVE_OPTION) {
+		    // user selects a file
+		}
+		selectedFile = fileChooser.getSelectedFile().getAbsolutePath();
+		System.out.println(selectedFile);
 		JPanel messagePane = new JPanel();
 		messagePane.add(new JLabel("Choose File: "));
 		
