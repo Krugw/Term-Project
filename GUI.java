@@ -17,6 +17,7 @@ public class GUI extends JFrame implements ActionListener {
 	private Project CurrentProject = new Project();
 	private UseCaseEditor UCE;
 	private UseCase CurrentUseCase;
+	private CreateDialog Dialog;
 	private ArrayList<String> ids;
 	private String file;
 	private JToolBar toolBar;
@@ -208,7 +209,7 @@ public class GUI extends JFrame implements ActionListener {
 		name_input.setText(uc.getName());
 		CurrentUseCase = uc;
 		CurrentProject.addUsecase(CurrentUseCase);
-		CurrentProject.saveToXML(CurrentProject.GetProjectName(), file);
+		CurrentProject.saveToXML(file);
 		edit.setVisible(true);
 		display();
 	}
@@ -231,6 +232,15 @@ public class GUI extends JFrame implements ActionListener {
 			UCE_Utility();
 		}
 		if (e.getSource() == new_project) {
+			UseCase uc = new UseCase();
+			Dialog = new CreateDialog();
+			file = Dialog.getDirectory();
+			CurrentProject.setProjectName(Dialog.getFileName());
+			CurrentProject.addUsecase(uc);
+			System.out.println(CurrentProject.GetProjectName());
+			System.out.println(file);
+			CurrentProject.saveToXML(file);
+			display();
 		}
 		if (e.getSource() == save) {
 			if(CurrentUseCase != null)
