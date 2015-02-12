@@ -49,10 +49,7 @@ public class Project {
         	ids.add(Usecase.getID());
             
         }
-        if(ids.get(0)!= null){
         return ids;
-        }
-        return null;
     }
     public void setProjectName(String name) {
         ProjectName = name;
