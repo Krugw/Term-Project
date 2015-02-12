@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 public class GUI extends JFrame implements ActionListener {
 	private JFrame frame;
@@ -27,6 +28,8 @@ public class GUI extends JFrame implements ActionListener {
 	private Project CurrentProject = new Project();
 	private UseCaseEditor UCE;
 	private UseCase CurrentUseCase;
+	private ArrayList<String> ids;
+	private String file;
 	
 	private LoadFileBox loadFile;
 
@@ -217,7 +220,8 @@ public class GUI extends JFrame implements ActionListener {
 		ID_input.setText(uc.getID());
 		name_input.setText(uc.getName());
 		CurrentUseCase = uc;
-		uc.saveAsText("filename");
+		CurrentProject.addUsecase(CurrentUseCase);
+		CurrentProject.saveToXML(CurrentProject.GetProjectName(), file);
 		edit.setVisible(true);
 		display();
 	}
@@ -252,11 +256,13 @@ public class GUI extends JFrame implements ActionListener {
 		
 		if (e.getSource() == load) {
 			loadFile = new LoadFileBox();
-			CurrentProject.loadFromXML(loadFile.getFileSelected());
+			file=loadFile.getFileSelected();
+			CurrentProject.loadFromXML(file);
 			System.out.println(CurrentProject.GetUsecase("123").getID());
-			
-			UseCase uc = new UseCase();
+			ids = CurrentProject.Getids();
+			UseCase uc = CurrentProject.GetUsecase(ids.get(0));
 			//uc.loadFromText("filename");
+			
 			CurrentUseCase = uc;
 			success_input.setText(uc.getSuccessGuarantees());
 			minimal_input.setText(uc.getMinimalGuaruntees());
