@@ -26,7 +26,7 @@ public class CreateDialog implements ActionListener{
 		okButton = new JButton("OK");
 		cancelButton = new JButton("Cancel");
 		fileNameTxt = new JTextField(20);
-		
+		box.setModal(true); 
 		panel = new JPanel();
 		panel.setLayout(new FlowLayout());
 		
@@ -52,6 +52,7 @@ public class CreateDialog implements ActionListener{
 			LoadFileBox lfb = new LoadFileBox(true);
 			directory = lfb.getFileSelected();
 			System.out.println(fileNameTxt.getText());
+			box.dispose();
 		}
 		
 		if(e.getSource() == cancelButton){
