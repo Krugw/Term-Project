@@ -319,13 +319,13 @@ public class GUI extends JFrame implements ActionListener {
 				CurrentUseCase = (UseCase) ComboBox.getSelectedItem();
 			display();
 		}
-		/*if (helpUseCase == e.getSource()) {
+		if (helpUseCase == e.getSource()) {
 
 			JOptionPane.showMessageDialog(null,
-					"for future usage i guess\n Version 1.0",
+					"For Future Usage\n Version 1.0",
 					"Version Information", JOptionPane.INFORMATION_MESSAGE);
 
-		}*/
+		}
 		if (e.getSource() == load || e.getSource() == LoadItem) {
 			loadFile = new LoadFileBox();
 			file = loadFile.getFileSelected();
