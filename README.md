@@ -1,8 +1,6 @@
 # Term-Project
 
 Stuff to do:
-1)Add a remove button
-2)Make the exit button work
 3)JUnit tests and test's results
 4)Comment/Clean up code
 5)Vision, Objective, Scope, project functions (Wes?)
@@ -17,4 +15,4 @@ Stuff to do:
 			- any other information you may wish to add
 
 
-
+I went through and try to eliminate any bugs that i noticed in the program. It runs alot smoother now for me.
