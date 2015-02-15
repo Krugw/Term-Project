@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -20,12 +21,13 @@ public class CreateDialog implements ActionListener{
 	private JTextField fileNameTxt;
 	private String directory;
 	
-	public CreateDialog(){
+	public CreateDialog(String s){
 		box = new JDialog();
 		label = new JLabel("File Name:");
 		okButton = new JButton("OK");
 		cancelButton = new JButton("Cancel");
 		fileNameTxt = new JTextField(20);
+		fileNameTxt.setText(s);
 		box.setModal(true); 
 		panel = new JPanel();
 		panel.setLayout(new FlowLayout());
@@ -36,7 +38,6 @@ public class CreateDialog implements ActionListener{
 		panel.add(fileNameTxt);
 		
 		fileNameTxt.setVisible(true);;
-		
 		box.add(panel);
 		
 		okButton.addActionListener(this);
@@ -49,10 +50,17 @@ public class CreateDialog implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		if(e.getSource() == okButton){
+			if(!fileNameTxt.getText().equals("")){
 			LoadFileBox lfb = new LoadFileBox(true);
 			directory = lfb.getFileSelected();
 			System.out.println(fileNameTxt.getText());
 			box.dispose();
+			}else{
+				JOptionPane.showMessageDialog(null,
+						"Please Name Your Project\n", "Name Error",
+						JOptionPane.INFORMATION_MESSAGE);
+				
+			}
 		}
 		
 		if(e.getSource() == cancelButton){
@@ -69,7 +77,7 @@ public class CreateDialog implements ActionListener{
 	}
 	
 	public static void main(String[] args){
-		CreateDialog cd = new CreateDialog();
+		CreateDialog cd = new CreateDialog("");
 	}
 	
 }
