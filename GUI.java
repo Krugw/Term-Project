@@ -1,15 +1,19 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Vector;
+import java.awt.event.*;
 
+import java.io.*;
+import java.util.*;
+
+/*****************************************************************
+GUI creates and manages the main GUI interaction of the program,
+including displaying all current values and allowing the user to access
+other parts of the program dynamically. Extends the default JFrame
+class.
+@author 
+@version Summer 2014
+*****************************************************************/
 public class GUI extends JFrame implements ActionListener {
 	private JMenuBar menus;
 	private JMenu fileMenu;
@@ -48,25 +52,37 @@ public class GUI extends JFrame implements ActionListener {
 	private MyComboBoxModel myModel;
 
 	private LoadFileBox loadFile;
-
+	
+	/*****************************************************************
+	main method, creates the instance of GUI
+	*****************************************************************/	
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI window = new GUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
+		public void run() {
+			try {
+				GUI window = new GUI();					
+				window.frame.setVisible(true);
+				} 
+			
+			catch (Exception e) {					
 					e.printStackTrace();
 				}
 			}
-		});
-	}
-
+		}
+	);
+}
+	/*****************************************************************
+	Uses intialize() to build GUI elements necessary for basic
+	functionality of UseCase program
+	*****************************************************************/
 	public GUI() {
 		initialize();
 	}
-
+	
+	/*****************************************************************
+	performs minimal operations for functionality of UseCase program
+	*****************************************************************/
 	public void UCE_Utility() {
 		UCE.addSaveListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -77,6 +93,9 @@ public class GUI extends JFrame implements ActionListener {
 		});
 	}
 
+	/*****************************************************************
+	Builds required GUI elements for program functionality
+	*****************************************************************/
 	private void initialize() {
 		/** File menu */
 		fileMenu = new JMenu("File");
@@ -264,6 +283,11 @@ public class GUI extends JFrame implements ActionListener {
 		edit.addActionListener(this);
 	}
 
+	/*****************************************************************
+	Performs save operations using saveToXML method from the Project
+	class. 
+	@param UseCase uc - current UseCase being acceessed by user
+	*****************************************************************/
 	public void save(UseCase uc) {
 		CurrentUseCase = uc;
 		CurrentProject.addUsecase(CurrentUseCase);
@@ -273,6 +297,11 @@ public class GUI extends JFrame implements ActionListener {
 		display();
 	}
 
+	/*****************************************************************
+	Creates elements required to display current values from within
+	the UseCase object. Controls most of the GUI display
+	present within the program.
+	*****************************************************************/
 	public void display() {
 		panel.setVisible(true);
 		panel2.setVisible(false);
@@ -301,6 +330,11 @@ public class GUI extends JFrame implements ActionListener {
 		}
 	}
 
+	/**************************************************************
+	 Manages the action listeners that are currently connected to
+	 GUI objects.
+	 @param e the event
+	 **************************************************************/
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == AddUseCase) {
 			UCE = new UseCaseEditor();
@@ -389,6 +423,10 @@ public class GUI extends JFrame implements ActionListener {
 		}
 	}
 
+	/**************************************************************
+	 Controls dynamic updates of the ComboBox, in order to display
+	 the correct (and current) values therein.
+	 **************************************************************/
 	public void updateCombobox() {
 		Vector<UseCase> useCases = new Vector<UseCase>();
 		if (!ids.isEmpty()) {
@@ -401,7 +439,10 @@ public class GUI extends JFrame implements ActionListener {
 		ComboBox.setModel(myModel);
 		ComboBox.getSelectedItem();
 	}
-
+	/**************************************************************
+	 Creates and initalizes a custom ComboBox for use in modifying
+	 and creating UseCase elements.
+	 **************************************************************/
 	public void createComboBox() {
 		if(ComboBox != null)
 			panel_1.removeAll();
