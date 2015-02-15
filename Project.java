@@ -43,8 +43,12 @@ public class Project {
         }
         return null;
     }
-    public ArrayList<String> Getids() {
-    	ArrayList<String> ids = new ArrayList<String>();
+    public boolean RemoveUsecase(UseCase currentUseCase) {
+    	return Usecases.remove(currentUseCase);
+    	
+    }
+    public Vector<String> Getids() {
+    	Vector<String> ids = new Vector<String>();
         for (UseCase Usecase : Usecases) {
         	ids.add(Usecase.getID());
             
@@ -84,57 +88,90 @@ public class Project {
 
                 //enter name element
                 Element name = doc.createElement("name");
+                if(Usecase.getName() != "")
                 name.appendChild(doc.createTextNode(Usecase.getName()));
+                else
+                	name.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((name));
 
                 //enter ID element
                 Element id = doc.createElement("id");
+                if(Usecase.getID() != "")
                 id.appendChild(doc.createTextNode(Usecase.getID()));
+                else
+                	id.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((id));
 
                 //enter description element
                 Element desc = doc.createElement("description");
+                if(Usecase.getDescription() != "")
                 desc.appendChild(doc.createTextNode(Usecase.getDescription()));
+                else
+                desc.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((desc));
 
                 //enter Primary Actors element
                 Element pactors = doc.createElement("primary-actors");
+                if(Usecase.getPrimaryActors() != "")
                 pactors.appendChild(doc.createTextNode(Usecase.getPrimaryActors()));
+                else
+                	pactors.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((pactors));
 
                 //enter Supporting Actors element
                 Element sactors = doc.createElement("supporting-actors");
+                if(Usecase.getSupportingActors() != "")
                 sactors.appendChild(doc.createTextNode(Usecase.getSupportingActors()));
+                else
+                	sactors.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((sactors));
 
                 //enter Triggers element
                 Element triggers = doc.createElement("trigger");
+                if(Usecase.getTriggers() != "")
                 triggers.appendChild(doc.createTextNode(Usecase.getTriggers()));
+                else
+                	triggers.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((triggers));
 
                 //enter Preconditions element
                 Element precondit = doc.createElement("preconditions");
+                if(Usecase.getPreconditions()!= "")
                 precondit.appendChild(doc.createTextNode(Usecase.getPreconditions()));
+                else
+                	precondit.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((precondit));
 
                 //enter Primary Flow element
                 Element pflow = doc.createElement("primary-flow");
+                if(Usecase.getPrimaryflow() != "")
                 pflow.appendChild(doc.createTextNode(Usecase.getPrimaryflow()));
+                else
+                    pflow.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((pflow));
 
                 //enter Alternate Flow element
                 Element altflow = doc.createElement("alternate-flow");
+                if(Usecase.getAlternativeflow() != "")
                 altflow.appendChild(doc.createTextNode(Usecase.getAlternativeflow()));
+                else
+                	altflow.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((altflow));
 
                 //enter Minimal Guarantees element
                 Element minguarantee = doc.createElement("minimal-guarantee");
+                if(Usecase.getMinimalGuaruntees() != "")
                 minguarantee.appendChild(doc.createTextNode(Usecase.getMinimalGuaruntees()));
+                else
+                	minguarantee.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((minguarantee));
 
                 //enter Success Guarantees element
                 Element sucguarantee = doc.createElement("success-guarantee");
+                if(Usecase.getSuccessGuarantees() != "")
                 sucguarantee.appendChild(doc.createTextNode(Usecase.getSuccessGuarantees()));
+                else
+                	sucguarantee.appendChild(doc.createTextNode(" "));
                 usecase.appendChild((sucguarantee));
             }
 
@@ -279,7 +316,7 @@ public class Project {
         UseCase u1 = new UseCase();
             u1.setName("tewqrdsa");
             u1.setID("123");
-            u1.setDescription("Test");
+            u1.setDescription("");
             u1.setPrimaryActors("Me");
             u1.setSupportingActors("You");
             u1.setTriggers("Ugh");
@@ -290,12 +327,12 @@ public class Project {
             u1.setSuccessGuarantees("Death");
 
         prj.addUsecase(u1);
-        //prj.saveToXML("Test");
+        prj.saveToXML("C:\\Users\\stepa_000\\Desktop");
         System.out.println("prj: " + prj.toString());
 
         Project p = new Project();
 
-       // p.loadFromXML("Test", p);
+       p.loadFromXML("C:\\Users\\stepa_000\\Desktop\\one");
 
         System.out.println("p: " + p.toString());
     }
