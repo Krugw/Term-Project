@@ -21,17 +21,17 @@ public class UseCase {
 	protected LoadFileBox loadFile;
 	
 	public UseCase(){
-		Name = "a";
-		ID = "b";
-		Description = "c";
-		primaryActors ="d";
-		supportingActors = "e";
-		Triggers = "f";
-		Preconditions = "g";
-		Primaryflow = "h";
-		Alternateflow = "i";
-		MinimalGuarantees = "j";
-		SuccessGuarantees = "k";
+		Name = "Name";
+		ID = "Must Be Unique";
+		Description = "Description";
+		primaryActors ="Primary Actors";
+		supportingActors = "Supporting Actors";
+		Triggers = "Triggers";
+		Preconditions = "Preconditions";
+		Primaryflow = "Primary flow";
+		Alternateflow = "Alternate Flow";
+		MinimalGuarantees = "Minimal Guarantees";
+		SuccessGuarantees = "Success Guarantees";
 		
 	}
 
@@ -121,77 +121,8 @@ public class UseCase {
 	public String getSuccessGuarantees() {
 		return SuccessGuarantees;
 	}
-	
 	@Override
-        public String toString() {
-        	return ID;
-        }
-	
-	
-	public boolean saveAsText(String filename){
-		if (filename.equals("")) {
-			return false;
-		}
-		
-		try {
-			PrintWriter out = new PrintWriter(new BufferedWriter(
-					new FileWriter(filename)));
-			
-			out.println("" + this.getName());
-			out.println("" + this.getID());
-			out.println("" + this.getDescription());
-			out.println("" + this.getPrimaryActors());
-			out.println("" + this.getSupportingActors());
-			out.println("" + this.getTriggers());
-			out.println("" + this.getPreconditions());
-			out.println("" + this.getPrimaryflow());
-			out.println("" + this.getAlternativeflow());
-			out.println("" + this.getMinimalGuaruntees());
-			out.println("" + this.getSuccessGuarantees());
-			out.close();
-			
-			return true;
-			
-		}catch (IOException ex) {
-			return false;
-		}
-	}
-
-	/*public void loadFromText(String filename){
-		try {
-			//Scanner scanner = new Scanner(new File(filename));
-			
-			/*Name = scanner.nextLine().trim();
-			ID = scanner.nextLine().trim();
-			Description = scanner.nextLine().trim();
-			primaryActors = scanner.nextLine().trim();
-			supportingActors = scanner.nextLine().trim();
-			Triggers = scanner.nextLine().trim();
-			Preconditions = scanner.nextLine().trim();
-			Primaryflow = scanner.nextLine().trim();
-			Alternateflow = scanner.nextLine().trim();
-			MinimalGuarantees = scanner.nextLine().trim();
-			SuccessGuarantees = scanner.nextLine().trim();
-			
-			loadFile = new LoadFileBox();
-			File newFile = loadFile.getFileSelected();
-			Scanner scanner = new Scanner(newFile);
-			Name = scanner.nextLine().trim();
-			ID = scanner.nextLine().trim();
-			Description = scanner.nextLine().trim();
-			primaryActors = scanner.nextLine().trim();
-			supportingActors = scanner.nextLine().trim();
-			Triggers = scanner.nextLine().trim();
-			Preconditions = scanner.nextLine().trim();
-			Primaryflow = scanner.nextLine().trim();
-			Alternateflow = scanner.nextLine().trim();
-			MinimalGuarantees = scanner.nextLine().trim();
-			SuccessGuarantees = scanner.nextLine().trim();
-			scanner.close();
-			
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-
-	}*/
+    public String toString() {
+    	return ID;
+    }
 }
