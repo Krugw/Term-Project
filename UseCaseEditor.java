@@ -1,16 +1,15 @@
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
-
+/*****************************************************************
+UseCaseEditor creates a manages a custom JDialog window for use in
+accepting and creating instances of UseCase. In its current form 
+it relies heavily on both Usecase.java and extends the default
+JDialog class.
+@authors
+@version Winter 2015
+*****************************************************************/
 public class UseCaseEditor extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -35,7 +34,11 @@ public class UseCaseEditor extends JDialog implements ActionListener {
 	public static final int CANCEL = 1;
 
 	private UseCase uc = new UseCase();
-
+	
+    /*****************************************************************
+    Uses .getText() to transfer current values of JTextPanes into their
+    associated parameters within the UseCase object.
+    *****************************************************************/	
 	public UseCase getUC() {
 		uc.setName(nameTxt.getText());
 		uc.setID(IDTxt.getText());
@@ -55,7 +58,15 @@ public class UseCaseEditor extends JDialog implements ActionListener {
 		return closeStatus;
 	}
 
+	
+    /*****************************************************************
+    Instantiates a custom dialog box and adds applicable jTextfields,
+    jButtons, and JComboBoxes. Sets box to modal as well as centering
+    it on click.
+    *****************************************************************/	
 	public UseCaseEditor() {
+		
+		setLocationRelativeTo(null);
 		setTitle("Use Case Editor");
 		closeStatus = CANCEL;
 		setSize(400, 200);
@@ -135,7 +146,13 @@ public class UseCaseEditor extends JDialog implements ActionListener {
 		setSize(800, 700);
 		setVisible(true);
 	}
-
+	
+    /*****************************************************************
+   	setUC(UseCase) is to be used to set the default values of the 
+   	fields, by pulling the data from the already existing values from
+   	within the currently accessed UseCase object.
+   	@param UseCase - The current UseCase object being accessed
+    *****************************************************************/	
 	public void setUC(UseCase usecase) {
 		nameTxt.setText(usecase.getName());
 		IDTxt.setText(usecase.getID());
@@ -150,25 +167,42 @@ public class UseCaseEditor extends JDialog implements ActionListener {
 		successGuaranteeTxt.setText(usecase.getSuccessGuarantees());
 	};
 
+	/**************************************************************
+	 Adds ActionListener to okButton 
+	**************************************************************/
 	public void addSaveListener(ActionListener listener) {
+		
 		okButton.addActionListener(listener);
 	}
-
+	
+	/**************************************************************
+	 Manages the action listeners that are currently connected to
+	 GUI objects.
+	 @param e the event
+	**************************************************************/
 	public void actionPerformed(ActionEvent e) {
 
 		if (e.getSource() == okButton) {
+			
 			closeStatus = OK;
+			
+			/**prevents user from attempting to save with no title **/
 			if (!IDTxt.getText().equals("")) {
 				try {
+					
 					dispose();
+					
 				} catch (Exception e1) {
+					
 					closeStatus = CANCEL;
 					e1.printStackTrace();
-				}
-			} else {
+				}				
+			} 
+			
+			else {
 				JOptionPane.showMessageDialog(null,
-						"ID must be set to save.\n", "ID ERROR",
-						JOptionPane.INFORMATION_MESSAGE);
+				"ID must be set to save.\n", "ID ERROR", //contents of the box
+				JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 
