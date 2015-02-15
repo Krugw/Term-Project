@@ -1,9 +1,12 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -17,29 +20,32 @@ public class GUI extends JFrame implements ActionListener {
 	private JMenuItem New_project;
 	private JMenuItem exitItem;
 	private JMenuItem saveItem;
+	private JMenuItem save_as;
 
 	// account Menu
 	private JMenuItem AddUseCase;
 	private JMenuItem editUseCase;
 	private JMenuItem helpUseCase;
+	private JMenuItem RemoveUseCase;
 
 	private JFrame frame;
-	private JButton new_project, edit, load;
+	private JButton new_project, edit, delete, load;
 	private JPanel panel, panel2, panel_1;
 
 	private JLabel success_input, minimal_input, alternativeFlow_input;
 	private JLabel primaryFlow_input, preconditions_input, triggers_input;
-	private JLabel prim_actors_input, description_input, ID_input;
-	private JLabel name_input;
+	private JLabel prim_actors_input,sup_actors_input, description_input;
+	private JLabel name_input, ID_input;
 
 	private Project CurrentProject = new Project();
 	private UseCaseEditor UCE;
 	private UseCase CurrentUseCase;
-	private ArrayList<String> ids;
+	private Vector<String> ids;
 	private String file;
 
 	private CreateDialog Dialog;
 	private JComboBox<UseCase> ComboBox;
+	private MyComboBoxModel myModel;
 
 	private LoadFileBox loadFile;
 
@@ -78,13 +84,23 @@ public class GUI extends JFrame implements ActionListener {
 		New_project = new JMenuItem("New Project");
 		exitItem = new JMenuItem("Exit");
 		saveItem = new JMenuItem("Save");
-
+		save_as = new JMenuItem("Save As");
+		/*File sourceimage = new File("src/icon.png");
+		Image image = null;
+        try {
+			image = ImageIO.read(sourceimage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 		fileMenu.add(LoadItem);
 		fileMenu.add(New_project);
 		fileMenu.add(saveItem);
+		fileMenu.add(save_as);
 		fileMenu.add(exitItem);
 
 		saveItem.addActionListener(this);
+		save_as.addActionListener(this);
 		New_project.addActionListener(this);
 		LoadItem.addActionListener(this);
 		exitItem.addActionListener(this);
@@ -92,24 +108,39 @@ public class GUI extends JFrame implements ActionListener {
 		/** action menu */
 		actionMenu = new JMenu("Action");
 		AddUseCase = new JMenuItem("New Usecase");
+		RemoveUseCase = new JMenuItem("Remove Usecase");
 		editUseCase = new JMenuItem("Edit");
 		helpUseCase = new JMenuItem("Help");
-		
+
 		AddUseCase.addActionListener(this);
+		RemoveUseCase.addActionListener(this);
 		editUseCase.addActionListener(this);
 		helpUseCase.addActionListener(this);
-		
+
 		actionMenu.add(AddUseCase);
+		actionMenu.add(RemoveUseCase);
 		actionMenu.add(editUseCase);
 		actionMenu.add(helpUseCase);
 
 		frame = new JFrame();
 		frame.setBounds(200, 200, 900, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("UseCase Editor - Lite");
+		//frame.setIconImage(image);
 
+		JScrollPane sp2 = new JScrollPane();
+		JScrollPane sp3 = new JScrollPane();
+		JScrollPane sp4 = new JScrollPane();
+		JScrollPane sp5 = new JScrollPane();
+		JScrollPane sp6 = new JScrollPane();
+		JScrollPane sp7 = new JScrollPane();
+		JScrollPane sp8 = new JScrollPane();
+		JScrollPane sp9 = new JScrollPane();
+		JScrollPane sp10 = new JScrollPane();
+		
 		/** Menu bar */
 		menus = new JMenuBar();
-		ids = new ArrayList<String>();
+		ids = new Vector<String>();
 
 		panel_1 = new JPanel();
 		panel_1.setLayout(new GridBagLayout());
@@ -117,7 +148,7 @@ public class GUI extends JFrame implements ActionListener {
 		constraints.gridwidth = 10;
 
 		frame.getContentPane().add(panel_1, BorderLayout.WEST);
-		panel_1.setLayout(new GridLayout(10, 2, 0, 0));
+		panel_1.setLayout(new GridLayout(11, 2, 0, 0));
 
 		frame.getContentPane().add(menus, BorderLayout.NORTH);
 		load = new JButton("Load");
@@ -132,117 +163,104 @@ public class GUI extends JFrame implements ActionListener {
 		g1_panel.setVgap(10);
 		g1_panel.setHgap(10);
 		panel2.setLayout(g1_panel);
+
+		JLabel fill = new JLabel();
 		JLabel fill1 = new JLabel();
-		panel2.add(fill1);
 		JLabel fill2 = new JLabel();
-		panel2.add(fill2);
 		JLabel fill3 = new JLabel();
-		panel2.add(fill3);
 		JLabel fill4 = new JLabel();
-		panel2.add(fill4);
 		JLabel fill5 = new JLabel();
+		JLabel fill6 = new JLabel();
+		JLabel fill7 = new JLabel();
+		JLabel fill8 = new JLabel();
+		JLabel fill9 = new JLabel();
+		
+		panel2.add(fill);
+		panel2.add(fill1);
+		panel2.add(fill2);
+		panel2.add(fill3);
+		panel2.add(fill4);
 		panel2.add(fill5);
 		panel2.add(new_project);
 		panel2.add(load);
-		JLabel fill6 = new JLabel();
+		panel2.add(fill5);
 		panel2.add(fill6);
-		JLabel fill7 = new JLabel();
 		panel2.add(fill7);
-		JLabel fill8 = new JLabel();
 		panel2.add(fill8);
-		JLabel fill9 = new JLabel();
 		panel2.add(fill9);
-		JLabel fill = new JLabel();
-		panel2.add(fill);
 
 		panel = new JPanel();
 		panel.setVisible(false);
 
 		JLabel space = new JLabel();
-		panel.add(space);
+		JLabel space2 = new JLabel();
+		
+		JLabel prim_actors = new JLabel("Primary Actors");
+		JLabel description = new JLabel("Description");
+		JLabel sup_actors = new JLabel("Supporting Actors");
+		JLabel triggers = new JLabel("Triggers");
+		JLabel preconditions = new JLabel("Precondidtions");
+		JLabel primaryFlow = new JLabel("Primary Flow");
+		JLabel alternativeFlow = new JLabel("Alternative Flow");
+		JLabel minimal = new JLabel("Minimual Guarentees");
+		JLabel success = new JLabel("Success Guearentees");
 
 		name_input = new JLabel("Name");
-		panel.add(name_input);
-
-		JLabel ID = new JLabel();
-		panel.add(ID);
-
 		ID_input = new JLabel("Id");
-		panel.add(ID_input);
-
-		JLabel description = new JLabel();
-		description = new JLabel("Description");
-		panel.add(description);
-
-		JScrollPane sp3 = new JScrollPane();
-		panel.add(sp3);
-
 		description_input = new JLabel("description");
-		sp3.setViewportView(description_input);
-
-		JLabel prim_actors = new JLabel("Primary Actors");
-		panel.add(prim_actors);
-		JScrollPane sp4 = new JScrollPane();
-		panel.add(sp4);
-
 		prim_actors_input = new JLabel("prim_actors");
-		sp4.setViewportView(prim_actors_input);
-
-		JLabel triggers = new JLabel("Triggers");
-		panel.add(triggers);
-		JScrollPane sp5 = new JScrollPane();
-		sp5.setToolTipText("");
-		panel.add(sp5);
-
+		sup_actors_input = new JLabel("Supporting Actors");
 		triggers_input = new JLabel("triggers");
-		sp5.setViewportView(triggers_input);
-
-		JLabel preconditions = new JLabel("Precondidtions");
-		panel.add(preconditions);
-		JScrollPane sp6 = new JScrollPane();
-		panel.add(sp6);
-
 		preconditions_input = new JLabel("preconditions");
-		sp6.setViewportView(preconditions_input);
-
-		JLabel primaryFlow = new JLabel("Primary Flow");
-		panel.add(primaryFlow);
-		JScrollPane sp7 = new JScrollPane();
-		panel.add(sp7);
-
 		primaryFlow_input = new JLabel("primaryFlow");
-		sp7.setViewportView(primaryFlow_input);
-
-		JLabel alternativeFlow = new JLabel("Alternative Flow");
-		panel.add(alternativeFlow);
-		JScrollPane sp8 = new JScrollPane();
-		panel.add(sp8);
-
 		alternativeFlow_input = new JLabel("alternativeFlow");
-		sp8.setViewportView(alternativeFlow_input);
-
-		JLabel minimal = new JLabel("Minimual Guarentees");
-		panel.add(minimal);
-		JScrollPane sp9 = new JScrollPane();
-		panel.add(sp9);
-
 		minimal_input = new JLabel("Minimal");
-		sp9.setViewportView(minimal_input);
-
-		JLabel success = new JLabel("Success Guearentees");
-		panel.add(success);
-		JScrollPane sp10 = new JScrollPane();
-		panel.add(sp10);
-
 		success_input = new JLabel("Success");
+		
+		sp2.setViewportView(description_input);
+		sp3.setViewportView(prim_actors_input);
+		sp4.setViewportView(sup_actors_input);
+		sp5.setViewportView(triggers_input);
+		sp6.setViewportView(preconditions_input);
+		sp7.setViewportView(primaryFlow_input);
+		sp8.setViewportView(alternativeFlow_input);
+		sp9.setViewportView(minimal_input);
 		sp10.setViewportView(success_input);
+
+		
+		panel.add(space);
+		panel.add(name_input);
+		panel.add(space2);
+		panel.add(ID_input);
+		panel.add(description);
+		panel.add(sp2);
+		panel.add(prim_actors);
+		panel.add(sp3);
+		panel.add(sup_actors);
+		panel.add(sp4);
+		panel.add(triggers);
+		panel.add(sp5);
+		panel.add(preconditions);
+		panel.add(sp6);
+		panel.add(primaryFlow);
+		panel.add(sp7);
+		panel.add(alternativeFlow);
+		panel.add(sp8);
+		panel.add(minimal);
+		panel.add(sp9);
+		panel.add(success);
+		panel.add(sp10);
 
 		JPanel panel_2 = new JPanel();
 		frame.getContentPane().add(panel_2, BorderLayout.SOUTH);
 
 		edit = new JButton("Edit");
+		delete = new JButton("Delete");
 		edit.setVisible(false);
+		delete.setVisible(false);
 		panel_2.add(edit);
+		panel_2.add(delete);
+		delete.addActionListener(this);
 		edit.addActionListener(this);
 	}
 
@@ -252,7 +270,6 @@ public class GUI extends JFrame implements ActionListener {
 		ids = CurrentProject.Getids();
 		CurrentProject.saveToXML(file);
 		edit.setVisible(true);
-		createComboBox();
 		display();
 	}
 
@@ -261,12 +278,14 @@ public class GUI extends JFrame implements ActionListener {
 		panel2.setVisible(false);
 		menus.add(fileMenu);
 		menus.add(actionMenu);
+		updateCombobox();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		GridLayout g1_panel = new GridLayout(10, 2);
+		GridLayout g1_panel = new GridLayout(11, 2);
 		g1_panel.setVgap(2);
 		g1_panel.setHgap(2);
 		panel.setLayout(g1_panel);
 		edit.setVisible(true);
+		delete.setVisible(true);
 		if (CurrentUseCase != null) {
 			success_input.setText(CurrentUseCase.getSuccessGuarantees());
 			minimal_input.setText(CurrentUseCase.getMinimalGuaruntees());
@@ -275,6 +294,7 @@ public class GUI extends JFrame implements ActionListener {
 			preconditions_input.setText(CurrentUseCase.getPreconditions());
 			triggers_input.setText(CurrentUseCase.getTriggers());
 			prim_actors_input.setText(CurrentUseCase.getPrimaryActors());
+			sup_actors_input.setText(CurrentUseCase.getSupportingActors());
 			description_input.setText(CurrentUseCase.getDescription());
 			ID_input.setText(CurrentUseCase.getID());
 			name_input.setText(CurrentUseCase.getName());
@@ -287,16 +307,28 @@ public class GUI extends JFrame implements ActionListener {
 			UCE.setVisible(true);
 			UCE_Utility();
 		}
-		if (e.getSource() == new_project || e.getSource() == New_project) {
-			Dialog = new CreateDialog();
+		if (e.getSource() == save_as) {
+			Dialog = new CreateDialog(CurrentProject.GetProjectName());
 			file = Dialog.getDirectory();
 			CurrentProject.setProjectName(Dialog.getFileName());
 			ids = CurrentProject.Getids();
-			System.out.println(CurrentProject.GetProjectName());
-			System.out.println(file);
-			CurrentProject.saveToXML(file);
-			createComboBox();
-			display();
+			if (file != null) {
+				CurrentProject.saveToXML(file);
+				createComboBox();
+				display();
+			}
+		}
+		if (e.getSource() == new_project || e.getSource() == New_project) {
+			Dialog = new CreateDialog("");
+			file = Dialog.getDirectory();
+			CurrentProject = new Project();
+			CurrentProject.setProjectName(Dialog.getFileName());
+			ids = CurrentProject.Getids();
+			if (file != null) {
+				CurrentProject.saveToXML(file);
+				createComboBox();
+				display();
+			}
 		}
 		if (e.getSource() == saveItem) {
 			if (CurrentUseCase != null)
@@ -319,28 +351,45 @@ public class GUI extends JFrame implements ActionListener {
 				CurrentUseCase = (UseCase) ComboBox.getSelectedItem();
 			display();
 		}
+		if (e.getSource() == exitItem) {
+			frame.dispose();
+		}
+		if (e.getSource() == RemoveUseCase || e.getSource() == delete) {
+			if (CurrentProject.RemoveUsecase(CurrentUseCase)) {
+				ids = CurrentProject.Getids();
+				if (!ids.isEmpty()) {
+					CurrentUseCase = CurrentProject.GetUsecase(ids.get(0));
+				} else {
+					UseCase uc = new UseCase();
+					CurrentUseCase = uc;
+				}
+				display();
+			}
+		}
 		if (helpUseCase == e.getSource()) {
-
 			JOptionPane.showMessageDialog(null,
-					"For Future Usage\n Version 1.0",
-					"Version Information", JOptionPane.INFORMATION_MESSAGE);
+					"For Future Usage\n Version 1.0", "Version Information",
+					JOptionPane.INFORMATION_MESSAGE);
 
 		}
 		if (e.getSource() == load || e.getSource() == LoadItem) {
 			loadFile = new LoadFileBox();
 			file = loadFile.getFileSelected();
-			CurrentProject.loadFromXML(file);
-			ids = CurrentProject.Getids();
-			if(!ids.isEmpty())
-			CurrentUseCase = CurrentProject.GetUsecase(ids.get(0));
-			createComboBox();
-			display();
+			if (file != null) {
+				CurrentProject = new Project();
+				CurrentProject.loadFromXML(file);
+				file = file.substring(0, file.lastIndexOf('\\'));
+				ids = CurrentProject.Getids();
+				if (!ids.isEmpty())
+					CurrentUseCase = CurrentProject.GetUsecase(ids.get(0));
+				createComboBox();
+				display();
+			}
 
 		}
 	}
 
-	public void createComboBox() {
-
+	public void updateCombobox() {
 		Vector<UseCase> useCases = new Vector<UseCase>();
 		if (!ids.isEmpty()) {
 			for (int i = 0; i < ids.size(); i++) {
@@ -348,10 +397,25 @@ public class GUI extends JFrame implements ActionListener {
 				useCases.add(CurrentProject.GetUsecase(id));
 			}
 		}
-		MyComboBoxModel myModel = new MyComboBoxModel(useCases);
-		ComboBox = new JComboBox<UseCase>(myModel);
+		myModel = new MyComboBoxModel(useCases);
+		ComboBox.setModel(myModel);
+		ComboBox.getSelectedItem();
+	}
+
+	public void createComboBox() {
+		if(ComboBox != null)
+			panel_1.removeAll();
+		Vector<UseCase> useCases = new Vector<UseCase>();
+		if (!ids.isEmpty()) {
+			for (int i = 0; i < ids.size(); i++) {
+				String id = ids.get(i);
+				useCases.add(CurrentProject.GetUsecase(id));
+			}
+		}
+		myModel = new MyComboBoxModel(useCases);
+		ComboBox = new JComboBox<UseCase>(useCases);
 		ComboBox.addActionListener(this);
-		panel_1.removeAll();
+		ComboBox.setEnabled(true);
 		panel_1.add(ComboBox, BorderLayout.WEST);
 	}
 }
