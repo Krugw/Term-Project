@@ -8,52 +8,56 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
-public class LoadFileBox implements ActionListener{
+public class LoadFileBox implements ActionListener {
 	private JFileChooser fileChooser;
 	private JDialog popUp;
 	private String selectedFile;
-	public LoadFileBox(){
+
+	public LoadFileBox() {
 		fileChooser = new JFileChooser();
-		//fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+		// fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setCurrentDirectory(new File(System
+				.getProperty("user.home")));
 		int result = fileChooser.showOpenDialog(popUp);
 		if (result == JFileChooser.APPROVE_OPTION) {
-		    // user selects a file
+			// user selects a file
+
+			selectedFile = fileChooser.getSelectedFile().getAbsolutePath();
+			System.out.println(selectedFile);
 		}
-		selectedFile = fileChooser.getSelectedFile().getAbsolutePath();
-		System.out.println(selectedFile);
 		JPanel messagePane = new JPanel();
 		messagePane.add(new JLabel("Choose File: "));
-		
-	    //popUp.setVisible(true);
+
+		// popUp.setVisible(true);
 	}
-	public LoadFileBox(boolean create){
+
+	public LoadFileBox(boolean create) {
 		fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setCurrentDirectory(new File(System
+				.getProperty("user.home")));
 		int result = fileChooser.showOpenDialog(popUp);
 		if (result == JFileChooser.APPROVE_OPTION) {
-		    // user selects a file
+			// user selects a file
+			selectedFile = fileChooser.getSelectedFile().getAbsolutePath();
+			System.out.println(selectedFile);
 		}
-		selectedFile = fileChooser.getSelectedFile().getAbsolutePath();
-		System.out.println(selectedFile);
 		JPanel messagePane = new JPanel();
 		messagePane.add(new JLabel("Choose File: "));
-		
-	    //popUp.setVisible(true);
+
+		// popUp.setVisible(true);
 	}
-	
-	public String getFileSelected(){
+
+	public String getFileSelected() {
 		return selectedFile;
 	}
-	
-	public void actionPerformed(ActionEvent e){
-		
+
+	public void actionPerformed(ActionEvent e) {
+
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		LoadFileBox LBF = new LoadFileBox();
-		
+
 	}
 }
