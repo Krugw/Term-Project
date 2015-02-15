@@ -1,17 +1,19 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner;
+/*****************************************************************
+UseCase creates and manages all fields that are connected or attributed
+to the creation of a UseCase. including Name, ID, Description, primaryActors
+supportingActors, Triggers, Preconditions, Primaryflow, Alternateflow,
+MinimalGuarantees, and SuccessGuarantees. 
 
+@authors 
+@version Winter 2015
+*****************************************************************/
 public class UseCase {
-	// Just a basic Idea so far.
+
 	protected String Name;
 	protected String ID;
 	protected String Description;
 	protected String primaryActors; 		//Separated actors into primary
-	protected String supportingActors;	//and supporting actors		
+	protected String supportingActors;		//and supporting actors		
 	protected String Triggers;
 	protected String Preconditions;
 	protected String Primaryflow;
@@ -20,6 +22,9 @@ public class UseCase {
 	protected String SuccessGuarantees;
 	protected LoadFileBox loadFile;
 	
+	/*****************************************************************
+	Default UseCase values
+	*****************************************************************/	
 	public UseCase(){
 		Name = "Name";
 		ID = "Must Be Unique";
@@ -34,7 +39,10 @@ public class UseCase {
 		SuccessGuarantees = "Success Guarantees";
 		
 	}
-
+	
+	/*****************************************************************
+	 Various setters for use in creating UseCase parameter values
+	*****************************************************************/
 	public void setName(String name) {
 		this.Name = name;
 	}
@@ -79,6 +87,9 @@ public class UseCase {
 		this.SuccessGuarantees = successGuarantee;
 	}
 	
+	/*****************************************************************
+	 Various getters for use in creation and returning UseCase values
+	*****************************************************************/
 	public String getName() {
 		return Name;
 	}
