@@ -23,7 +23,6 @@ public class CreateDialog implements ActionListener{
 	
 	public CreateDialog(String s){
 		
-		
 		/*****************************************************************
 		Creation of JDialog box, centers location on pop-up.
 		*****************************************************************/	
