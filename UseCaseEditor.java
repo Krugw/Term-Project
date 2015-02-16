@@ -7,7 +7,8 @@ UseCaseEditor creates a manages a custom JDialog window for use in
 accepting and creating instances of UseCase. In its current form 
 it relies heavily on both Usecase.java and extends the default
 JDialog class.
-@authors
+@authors Wesley Krug, Gabriel Steponovich, 
+         Michael Brecker, Halston Raddatz
 @version Winter 2015
 *****************************************************************/
 public class UseCaseEditor extends JDialog implements ActionListener {
