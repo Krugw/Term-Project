@@ -14,8 +14,9 @@ import org.xml.sax.SAXException;
 Project handles several important features of the UseCase editor
 program, including adding, removing, and saving UseCases that have
 been created by the User.
-@authors 
-@version Summer 2015
+@authors Wesley Krug, Gabriel Steponovich, 
+         Michael Brecker, Halston Raddatz
+@version Winter 2015
 *****************************************************************/
 public class Project {
     private ArrayList<UseCase> Usecases;
