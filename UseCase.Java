@@ -4,7 +4,8 @@ to the creation of a UseCase. including Name, ID, Description, primaryActors
 supportingActors, Triggers, Preconditions, Primaryflow, Alternateflow,
 MinimalGuarantees, and SuccessGuarantees. 
 
-@authors 
+@authors Wesley Krug, Gabriel Steponovich, 
+         Michael Brecker, Halston Raddatz
 @version Winter 2015
 *****************************************************************/
 public class UseCase {
