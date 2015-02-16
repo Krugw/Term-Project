@@ -11,8 +11,9 @@ GUI creates and manages the main GUI interaction of the program,
 including displaying all current values and allowing the user to access
 other parts of the program dynamically. Extends the default JFrame
 class.
-@author 
-@version Summer 2014
+@authors Wesley Krug, Gabriel Steponovich, 
+         Michael Brecker, Halston Raddatz
+@version Winter 2015
 *****************************************************************/
 public class GUI extends JFrame implements ActionListener {
 	private JMenuBar menus;
