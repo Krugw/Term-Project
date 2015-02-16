@@ -7,8 +7,9 @@ MyComboBoxModel creates and manages a ComboBox to be used by other
 parts of our program. In its current form relies on UseCase.java;
 as it's contents are generated therein. Extends the DefaultComboBox
 class.
-@authors
-@version Summer 2015
+@authors Wesley Krug, Gabriel Steponovich, 
+         Michael Brecker, Halston Raddatz
+@version Winter 2015
 *****************************************************************/
 public class MyComboBoxModel extends DefaultComboBoxModel<UseCase> {
     public MyComboBoxModel(Vector<UseCase> useCases) {
