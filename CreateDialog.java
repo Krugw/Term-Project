@@ -8,7 +8,8 @@ CreateDialog handles several creation operations for the UseCase
 program, including naming, confirming the name is valid, and giving 
 the operator a chance to leave the program entirely if they choose.
 
-@authors 
+@authors Wesley Krug, Gabriel Steponovich, 
+         Michael Brecker, Halston Raddatz
 @version Winter 2015
 *****************************************************************/
 public class CreateDialog implements ActionListener{
