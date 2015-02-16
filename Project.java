@@ -1,29 +1,38 @@
 
 
 import java.io.File;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.IOException;
 import java.util.*;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+/*****************************************************************
+Project handles several important features of the UseCase editor
+program, including adding, removing, and saving UseCases that have
+been created by the User.
+@authors 
+@version Summer 2015
+*****************************************************************/
 public class Project {
     private ArrayList<UseCase> Usecases;
     private String ProjectName = "Project";
 
+	/*****************************************************************
+	Builds an ArrayList of UseCase objects
+	*****************************************************************/	
     public Project() {
         Usecases = new ArrayList<UseCase>();
     }
 
+	/*****************************************************************
+	Handles functionality associated with adding a new UseCase object
+	to the UseCase array
+	@param uc - UseCase to be added to array
+	*****************************************************************/	
     public void addUsecase(UseCase uc){
     	for (UseCase uc2 : Usecases) {
             if (uc2.getID().equals(uc.getID())) {
@@ -35,6 +44,10 @@ public class Project {
         Usecases.add(uc);
     }
 
+	/*****************************************************************
+	Returns the UseCase with the requested ID
+	@param id - String representation of UseCase ID being requested
+	*****************************************************************/	
     public UseCase GetUsecase(String id) {
         for (UseCase Usecase : Usecases) {
             if (Usecase.getID().equals(id)) {
@@ -43,10 +56,21 @@ public class Project {
         }
         return null;
     }
+    
+	/*****************************************************************
+	Handles functionality associated with removing a UseCase object
+	from the array. 
+	@param currentUseCase - UseCase to be removed from array
+	*****************************************************************/	
     public boolean RemoveUsecase(UseCase currentUseCase) {
     	return Usecases.remove(currentUseCase);
     	
     }
+    
+	/*****************************************************************
+	Pulls the IDs from UseCase array for use elsewhere in program
+	@return ids - vector of Strings holding IDs of UseCase objects
+	*****************************************************************/	
     public Vector<String> Getids() {
     	Vector<String> ids = new Vector<String>();
         for (UseCase Usecase : Usecases) {
@@ -55,14 +79,29 @@ public class Project {
         }
         return ids;
     }
+    
+	/*****************************************************************
+	Allows user to set the name of their project
+	@param name - String representation of desired project name
+	*****************************************************************/	
     public void setProjectName(String name) {
         ProjectName = name;
     }
 
+	/*****************************************************************
+	Gets the project name of the UseCase currently being accessed
+	@return ProjectName - String representation of project name
+	*****************************************************************/	
     public String GetProjectName() {
         return ProjectName;
     }
 
+	/*****************************************************************
+	Handles save functionality for program to allow operator
+	to save their UseCase for future use. Uses XML as primary filetype.
+	@param directory - String representation of file directory in which
+						the file will be saved.
+	*****************************************************************/	
     public void saveToXML(String directory) {
 
         try {
@@ -208,7 +247,11 @@ public class Project {
                 ", ProjectName='" + ProjectName + '\'' +
                 '}';
     }
-
+	/*****************************************************************
+	Handles load functionality for program to allow operator
+	to load their UseCase from a past use. Uses XML as primary filetype.
+	@param filename - String representation of file name to be loaded
+	*****************************************************************/	
     public void loadFromXML(String filename) {
         try {
             File file = new File(filename);
@@ -337,4 +380,3 @@ public class Project {
         System.out.println("p: " + p.toString());
     }
 }
-
