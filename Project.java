@@ -128,7 +128,7 @@ public class Project {
 
                 //enter name element
                 Element name = doc.createElement("name");
-                if(Usecase.getName() != "")
+                if(!Usecase.getName().isEmpty())
                 name.appendChild(doc.createTextNode(Usecase.getName()));
                 else
                 	name.appendChild(doc.createTextNode(" "));
@@ -136,7 +136,7 @@ public class Project {
 
                 //enter ID element
                 Element id = doc.createElement("id");
-                if(Usecase.getID() != "")
+                if(!Usecase.getID().isEmpty())
                 id.appendChild(doc.createTextNode(Usecase.getID()));
                 else
                 	id.appendChild(doc.createTextNode(" "));
@@ -144,7 +144,7 @@ public class Project {
 
                 //enter description element
                 Element desc = doc.createElement("description");
-                if(Usecase.getDescription() != "")
+                if(!Usecase.getDescription().isEmpty())
                 desc.appendChild(doc.createTextNode(Usecase.getDescription()));
                 else
                 desc.appendChild(doc.createTextNode(" "));
@@ -152,7 +152,7 @@ public class Project {
 
                 //enter Primary Actors element
                 Element pactors = doc.createElement("primary-actors");
-                if(Usecase.getPrimaryActors() != "")
+                if(!Usecase.getPrimaryActors().isEmpty())
                 pactors.appendChild(doc.createTextNode(Usecase.getPrimaryActors()));
                 else
                 	pactors.appendChild(doc.createTextNode(" "));
@@ -160,7 +160,7 @@ public class Project {
 
                 //enter Supporting Actors element
                 Element sactors = doc.createElement("supporting-actors");
-                if(Usecase.getSupportingActors() != "")
+                if(!Usecase.getSupportingActors().isEmpty())
                 sactors.appendChild(doc.createTextNode(Usecase.getSupportingActors()));
                 else
                 	sactors.appendChild(doc.createTextNode(" "));
@@ -168,7 +168,7 @@ public class Project {
 
                 //enter Triggers element
                 Element triggers = doc.createElement("trigger");
-                if(Usecase.getTriggers() != "")
+                if(!Usecase.getTriggers().isEmpty())
                 triggers.appendChild(doc.createTextNode(Usecase.getTriggers()));
                 else
                 	triggers.appendChild(doc.createTextNode(" "));
@@ -176,7 +176,7 @@ public class Project {
 
                 //enter Preconditions element
                 Element precondit = doc.createElement("preconditions");
-                if(Usecase.getPreconditions()!= "")
+                if(!Usecase.getPreconditions().isEmpty())
                 precondit.appendChild(doc.createTextNode(Usecase.getPreconditions()));
                 else
                 	precondit.appendChild(doc.createTextNode(" "));
@@ -184,7 +184,7 @@ public class Project {
 
                 //enter Primary Flow element
                 Element pflow = doc.createElement("primary-flow");
-                if(Usecase.getPrimaryflow() != "")
+                if(!Usecase.getPrimaryflow().isEmpty())
                 pflow.appendChild(doc.createTextNode(Usecase.getPrimaryflow()));
                 else
                     pflow.appendChild(doc.createTextNode(" "));
@@ -192,7 +192,7 @@ public class Project {
 
                 //enter Alternate Flow element
                 Element altflow = doc.createElement("alternate-flow");
-                if(Usecase.getAlternativeflow() != "")
+                if(!Usecase.getAlternativeflow().isEmpty())
                 altflow.appendChild(doc.createTextNode(Usecase.getAlternativeflow()));
                 else
                 	altflow.appendChild(doc.createTextNode(" "));
@@ -200,7 +200,7 @@ public class Project {
 
                 //enter Minimal Guarantees element
                 Element minguarantee = doc.createElement("minimal-guarantee");
-                if(Usecase.getMinimalGuaruntees() != "")
+                if(!Usecase.getMinimalGuaruntees().isEmpty())
                 minguarantee.appendChild(doc.createTextNode(Usecase.getMinimalGuaruntees()));
                 else
                 	minguarantee.appendChild(doc.createTextNode(" "));
@@ -208,7 +208,7 @@ public class Project {
 
                 //enter Success Guarantees element
                 Element sucguarantee = doc.createElement("success-guarantee");
-                if(Usecase.getSuccessGuarantees() != "")
+                if(!Usecase.getSuccessGuarantees().isEmpty())
                 sucguarantee.appendChild(doc.createTextNode(Usecase.getSuccessGuarantees()));
                 else
                 	sucguarantee.appendChild(doc.createTextNode(" "));
