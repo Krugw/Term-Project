@@ -6,7 +6,8 @@ import javax.swing.*;
 LoadFileBox creates and manages a custom JFileChooser for use by the
 other parts of the GUI
 
-@authors 
+@authors Wesley Krug, Gabriel Steponovich, 
+         Michael Brecker, Halston Raddatz
 @version Winter 2015
 *****************************************************************/
 public class LoadFileBox implements ActionListener {
