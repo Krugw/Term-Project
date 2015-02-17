@@ -49,7 +49,10 @@ public class UseCase {
 	}
 	
 	public void setID(String ID) {
-		this.ID = ID;
+		if(!ID.equals(""))
+			this.ID = ID;
+		else
+			this.ID = "ID Not Given";
 	}
 
 	public void setDescription(String description) {
