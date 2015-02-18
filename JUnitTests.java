@@ -1,4 +1,8 @@
+import java.util.Vector;
+
+import org.junit.Assert;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class JUnitTests {
@@ -289,16 +293,98 @@ public class JUnitTests {
 		
 	}
 	
-	//getids
-	//getProjectName
-	//removeUsecase
-	//toString
+	@Test
+	public void testProjectGetIDs(){
+		Project p = new Project();
+		UseCase uc1 = new UseCase();
+		UseCase uc2 = new UseCase();
+		UseCase uc3 = new UseCase();
+		UseCase uc4 = new UseCase();
+		uc1.setID("UC1");
+		uc2.setID("UC2");
+		uc3.setID("UC3");
+		uc4.setID("UC4");
+		p.addUsecase(uc1);
+		p.addUsecase(uc2);
+		p.addUsecase(uc3);
+		p.addUsecase(uc4);
+		Vector<String> IDS = new Vector<String>();
+		IDS.add("UC1");
+		IDS.add("UC2");
+		IDS.add("UC3");
+		IDS.add("UC4");
+		assertEquals(p.Getids(), IDS);
+	}
 	
-	//@Test
-	//public void testLoadFileBox(){
-	//	LoadFileBox lfb = new LoadFileBox();
-	//	String file = lfb.getFileSelected();
-	//	System.out.println(file);
-	//	assertTrue(file.equals("C:\\Users\\Michael\\Desktop\\Test"));
-	//}
+	@Test
+	public void testProjectGetProjectName(){
+		Project p = new Project();
+		assertTrue(p.GetProjectName().equals("Project"));
+	}
+	
+	@Test
+	public void testProjectRemoveUsecase(){
+		Project p = new Project();
+		UseCase uc = new UseCase();
+		UseCase uc1 = new UseCase();
+		uc1.setID("UC1");
+		p.addUsecase(uc);
+		p.RemoveUsecase(uc);
+		assertFalse(p.GetUsecase("Must Be Unique") == uc);
+		p.addUsecase(uc);
+		p.addUsecase(uc1);
+		p.RemoveUsecase(uc);
+		assertFalse(p.GetUsecase("Must Be Unipue") == uc);
+		assertTrue(p.GetUsecase("UC1") == uc1);
+	}
+	
+	@Test 
+	public void testProjectToString(){
+		Project p = new Project();
+		p.setProjectName("Editor");
+		UseCase uc1 = new UseCase();
+		UseCase uc2 = new UseCase();
+		UseCase uc3 = new UseCase();
+		UseCase uc4 = new UseCase();
+		uc1.setID("UC1");
+		uc2.setID("UC2");
+		uc3.setID("UC3");
+		uc4.setID("UC4");
+		p.addUsecase(uc1);
+		p.addUsecase(uc2);
+		p.addUsecase(uc3);
+		p.addUsecase(uc4);
+		System.out.println(p.toString());
+		assertTrue(p.toString().equals("Project{Usecases=[UC1, UC2, UC3, UC4], ProjectName='Editor'}"));
+	}
+	
+	/*
+	 * Tests for LoadFileBox class
+	 * You will have to change the filename/directory to your own
+	@Test
+	public void testLoadFileBox(){
+		LoadFileBox lfb = new LoadFileBox();
+		String file = lfb.getFileSelected();
+		System.out.println(file);
+		assertTrue(file.equals("C:\\Users\\Michael\\Desktop\\Test"));
+	}
+	
+	@Test
+	public void testLoadFileBoxCreate(){
+		LoadFileBox lfb = new LoadFileBox(true);
+		String directory = lfb.getFileSelected();
+		System.out.println(directory);
+		assertTrue(directory.equals("C:\\Users\\Michael\\Desktop"));
+	}
+	*/
+	
+	/* Attempted to test the UseCaseEditor, but I don't think we can
+	@Test
+	public void testUseCaseEditor(){
+		UseCaseEditor uce = new UseCaseEditor();
+		UseCase uc = new UseCase();
+		uce.setUC(uc);
+		assertTrue(uce.getUC() == uc);
+	}
+	*/
 }
