@@ -283,7 +283,7 @@ public class UseCase {
 		return minimalGuarantees;
 	}
 
-	/*****************************************************************
+	/****************************************************************
 	* Gets the success guarantees of the UseCase.
 	* 
 	*  @return successGuarantees are the success guarantees of the UseCase
