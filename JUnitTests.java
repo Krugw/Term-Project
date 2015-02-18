@@ -62,7 +62,7 @@ public class JUnitTests {
 		assertTrue(uc.getSupportingActors() == "Supporting Actors");
 	}
 	
-	/**************************************************************************
+	/*************************************************************************
 	 * Tests the method getTriggers() of class UseCase.
 	 *************************************************************************/
 	@Test
