@@ -231,6 +231,7 @@ public class GUI extends JFrame implements ActionListener {
 		triggers_input = new JTextPane();
 		ID_input = new JTextPane();
 		description_input = new JTextPane();
+		prim_actors_input = new JTextPane();
 		sup_actors_input = new JTextPane();
 		primaryFlow_input = new JTextPane();
 		alternativeFlow_input = new JTextPane();
