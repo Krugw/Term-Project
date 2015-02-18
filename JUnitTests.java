@@ -1,166 +1,247 @@
+package usecase;
+//package package1;
+
 import java.util.Vector;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+/******************************************************************************
+ * JUnitTests creates tests for the UseCase and Project classes.
+ * @author Wesley Krug, Gabriel Steponovich, 
+ *     Michael Brecker, Halston Raddatz
+ * @version Winter 2015
+ *****************************************************************************/
 public class JUnitTests {
 	
-	//UseCase class tests
+	/**************************************************************************
+	 * Tests the getName() method of the class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetName(){
+	public final void testUseCaseGetName() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getName() == "Name");
 	}
 	
+	/**************************************************************************
+	 * Tests the getID() method of the class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetID(){
+	public final void testUseCaseGetID() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getID() == "Must Be Unique");
 	}
 	
+	/**************************************************************************
+	 * Tests the getDescription() method of the class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetDescription(){
+	public final void testUseCaseGetDescription() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getDescription() == "Description");
 	}
 	
+	/**************************************************************************
+	 * Tests the getPrimaryActors() method of the class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetPrimaryActors(){
+	public final void testUseCaseGetPrimaryActors() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getPrimaryActors() == "Primary Actors");
 	}
 	
+	/**************************************************************************
+	 * Tests the method getSupportingActors() of the class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetSupportingActors(){
+	public final void testUseCaseGetSupportingActors() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getSupportingActors() == "Supporting Actors");
 	}
 	
+	/**************************************************************************
+	 * Tests the method getTriggers() of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetTriggers(){
+	public final void testUseCaseGetTriggers() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getTriggers() == "Triggers");
 	}
 	
+	/**************************************************************************
+	 * Tests the method getPreconditions() of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetPreconditions(){
+	public final void testUseCaseGetPreconditions() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getPreconditions() == "Preconditions");
 	}
 	
+	/**************************************************************************
+	 * Tests the method getPrimaryFlow() of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetPrimaryFlow(){
+	public final void testUseCaseGetPrimaryFlow() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getPrimaryflow() == "Primary flow");
 	}
 	
+	/**************************************************************************
+	 * Tests the method getAlternateFlow() of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetAlternateFlow(){
+	public final void testUseCaseGetAlternateFlow() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getAlternativeflow() == "Alternate Flow");
 	}
 	
+	/**************************************************************************
+	 * Tests the method getMinimalGuarentee() of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetMinimalGuarentee(){
+	public final void testUseCaseGetMinimalGuarentee() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getMinimalGuaruntees() == "Minimal Guarantees");
 	}
 	
+	/**************************************************************************
+	 * Tests the method getSuccessGuarentees() of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseGetSuccessGuarentees(){
+	public final void testUseCaseGetSuccessGuarentees() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.getSuccessGuarantees() == "Success Guarantees");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setName(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetName(){
+	public final void testUseCaseSetName() {
 		UseCase uc = new UseCase();
 		uc.setName("Michael");
 		assertTrue(uc.getName() == "Michael");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setID(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetID(){
+	public final void testUseCaseSetID() {
 		UseCase uc = new UseCase();
 		uc.setID("UC1");
 		assertTrue(uc.getID() == "UC1");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setDescription(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetDescription(){
+	public final void testUseCaseSetDescription() {
 		UseCase uc = new UseCase();
 		uc.setDescription("This is a description");
 		assertTrue(uc.getDescription() == "This is a description");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setPrimaryActors(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetPrimaryActors(){
+	public final void testUseCaseSetPrimaryActors() {
 		UseCase uc = new UseCase();
 		uc.setPrimaryActors("User");
 		assertTrue(uc.getPrimaryActors() == "User");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setSupportingActors(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetSupportingActors(){
+	public final void testUseCaseSetSupportingActors() {
 		UseCase uc = new UseCase();
 		uc.setSupportingActors("MichaelB");
 		assertTrue(uc.getSupportingActors() == "MichaelB");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setTriggers(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetTriggers(){
+	public final void testUseCaseSetTriggers() {
 		UseCase uc = new UseCase();
 		uc.setTriggers("OK Button");
 		assertTrue(uc.getTriggers() == "OK Button");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setPreconditions(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetPreconditions(){
+	public final void testUseCaseSetPreconditions() {
 		UseCase uc = new UseCase();
 		uc.setPreconditions("This is a precondition");
 		assertTrue(uc.getPreconditions() == "This is a precondition");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setPrimaryFlow(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetPrimaryFlow(){
+	public final void testUseCaseSetPrimaryFlow() {
 		UseCase uc = new UseCase();
 		uc.setPrimaryflow("First this, then this");
 		assertTrue(uc.getPrimaryflow() == "First this, then this");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setAlternateFlow(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetAlternateFlow(){
+	public final void testUseCaseSetAlternateFlow() {
 		UseCase uc = new UseCase();
 		uc.setAlternativeflow("If this happens, then...");
 		assertTrue(uc.getAlternativeflow() == "If this happens, then...");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setMinimalGuarantees(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetMinimalGuarantees(){
+	public final void testUseCaseSetMinimalGuarantees() {
 		UseCase uc = new UseCase();
 		uc.setMinimalGuarantees("It doesn't fail");
 		assertTrue(uc.getMinimalGuaruntees() == "It doesn't fail");
 	}
 	
+	/**************************************************************************
+	 * Tests the method setSuccessGuarantees(String) of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseSetSuccessGuarantees(){
+	public final void testUseCaseSetSuccessGuarantees() {
 		UseCase uc = new UseCase();
 		uc.setSuccessGuarantees("The program saves!");
 		assertTrue(uc.getSuccessGuarantees() == "The program saves!");
 	}
 	
+	/**************************************************************************
+	 * Tests the method toString() of class UseCase.
+	 *************************************************************************/
 	@Test
-	public void testUseCaseToStringID(){
+	public final void testUseCaseToStringID() {
 		UseCase uc = new UseCase();
 		assertTrue(uc.toString() == "Must Be Unique");
 	}
 	
 	//Project Class Tests
 	
+	/**************************************************************************
+	 * Test the method getUseCase() of class Project.
+	 *************************************************************************/
 	@Test
-	public void testProjectGetUseCase(){
+	public final void testProjectGetUseCase1() {
 		Project p = new Project();
 		UseCase uc = new UseCase();
 		
@@ -168,8 +249,12 @@ public class JUnitTests {
 		assertTrue(p.GetUsecase("Must Be Unique") == uc);
 	}
 	
+	/**************************************************************************
+	 * Test the method getUseCase() of class Project while entering a 
+	 * wrong ID string.
+	 *************************************************************************/
 	@Test
-	public void testProjectGetUseCaseWithWrongID(){
+	public final void testProjectGetUseCaseWithWrongID() {
 		Project p = new Project();
 		UseCase uc = new UseCase();
 		uc.setID("UC2");
@@ -178,8 +263,11 @@ public class JUnitTests {
 		assertFalse(p.GetUsecase("Must Be Unique") == uc);
 	}
 	
+	/**************************************************************************
+	 * Test the method setName() of class Project.
+	 *************************************************************************/
 	@Test
-	public void testProjectChangingID(){
+	public final void testProjectChangingID() {
 		Project p = new Project();
 		UseCase uc = new UseCase();
 		uc.setName("Not Michael");
@@ -188,20 +276,34 @@ public class JUnitTests {
 		assertFalse(p.GetUsecase("Unique ID") == uc);
 	}
 	
+	/**************************************************************************
+	 * Tests the methods getUseCase() and addUseCase()of class Project.
+	 * Tests the method setID(String) of class UseCase.
+	 * Makes 100 UseCases with their own ids.
+	 *************************************************************************/
 	@Test
-	public void testProjectAdding100UseCases(){
+	public final void testProjectAdding100UseCases() {
 		Project p = new Project();
-		for(int i = 0; i<100; i++){
+		final int test = 100;
+		for (int i = 0; i > test; i++) {
 			UseCase uc = new UseCase();
 			uc.setID(i + "");
 			p.addUsecase(uc);
-			assertTrue(p.GetUsecase(i+"") == uc);
+			assertTrue(p.GetUsecase(i + "") == uc);
 		}
+		UseCase uc = new UseCase();
+		uc.setID("47");
+		p.addUsecase(uc);
+		assertTrue(p.GetUsecase("47") == uc);
+		assertFalse(p.GetUsecase("48") == uc);
 		
 	}
 	
+	/**************************************************************************
+	 * Tests the addUsecase() method of class Project.
+	 *************************************************************************/
 	@Test
-	public void testProjectAddingUseCases(){
+	public final void testProjectAddingUseCases() {
 		Project p = new Project();
 		UseCase uc1 = new UseCase();
 		UseCase uc2 = new UseCase();
@@ -224,14 +326,20 @@ public class JUnitTests {
 			
 	}
 	
+	/**************************************************************************
+	 * Tests for a non-existent UseCase in a Project.
+	 *************************************************************************/
 	@Test
-	public void testProjectNonexistantUseCase(){
+	public final void testProjectNonexistantUseCase() {
 		Project p = new Project();
 		assertTrue(p.GetUsecase("123") == null);
 	}
 	
+	/**************************************************************************
+	 * Tests for a non-existent UseCase ID in a Project.
+	 *************************************************************************/
 	@Test
-	public void testProjectNonexistantID(){
+	public final void testProjectNonexistantID() {
 		Project p = new Project();
 		UseCase uc = new UseCase();
 		uc.setID("");
@@ -239,8 +347,11 @@ public class JUnitTests {
 		assertTrue(p.GetUsecase("ID Not Given") == uc);
 	}
 	
+	/**************************************************************************
+	 * Tests the Load and Save functionality of the Project class
+	 *************************************************************************/
 	@Test
-	public void testProjectLoadSave(){
+	public final void testProjectLoadSave() {
 		Project p1 = new Project();
 		UseCase uc = new UseCase();
 		p1.setProjectName("JUnitTest1");
@@ -248,20 +359,33 @@ public class JUnitTests {
 		p1.saveToXML("C:\\Users\\Michael\\workspace\\UseCaseEditor");
 		Project p2 = new Project();
 		p2.loadFromXML("JUnitTest1");
-		assertTrue(p2.GetUsecase("Must Be Unique").getID().equals(uc.getID()));
-		assertTrue(p2.GetUsecase("Must Be Unique").getName().equals(uc.getName()));
-		assertTrue(p2.GetUsecase("Must Be Unique").getDescription().equals(uc.getDescription()));
-		assertTrue(p2.GetUsecase("Must Be Unique").getPreconditions().equals(uc.getPreconditions()));
-		assertTrue(p2.GetUsecase("Must Be Unique").getTriggers().equals(uc.getTriggers()));
-		assertTrue(p2.GetUsecase("Must Be Unique").getPrimaryActors().equals(uc.getPrimaryActors()));
-		assertTrue(p2.GetUsecase("Must Be Unique").getAlternativeflow().equals(uc.getAlternativeflow()));
-		assertTrue(p2.GetUsecase("Must Be Unique").getSupportingActors().equals(uc.getSupportingActors()));
-		assertTrue(p2.GetUsecase("Must Be Unique").getMinimalGuaruntees().equals(uc.getMinimalGuaruntees()));
-		assertTrue(p2.GetUsecase("Must Be Unique").getSuccessGuarantees().equals(uc.getSuccessGuarantees()));
+		assertTrue(p2.GetUsecase("Must Be"
+				+ " Unique").getID().equals(uc.getID()));
+		assertTrue(p2.GetUsecase("Must Be "
+				+ "Unique").getName().equals(uc.getName()));
+		assertTrue(p2.GetUsecase("Must Be "
+				+ "Unique").getDescription().equals(uc.getDescription()));
+		assertTrue(p2.GetUsecase("Must Be "
+				+ "Unique").getPreconditions().equals(uc.getPreconditions()));
+		assertTrue(p2.GetUsecase("Must Be"
+				+ " Unique").getTriggers().equals(uc.getTriggers()));
+		assertTrue(p2.GetUsecase("Must Be "
+				+ "Unique").getPrimaryActors().equals(uc.getPrimaryActors()));
+		assertTrue(p2.GetUsecase("Must Be Unique"
+				+ "").getAlternativeflow().equals(uc.getAlternativeflow()));
+		assertTrue(p2.GetUsecase("Must Be Unique"
+				+ "").getSupportingActors().equals(uc.getSupportingActors()));
+		assertTrue(p2.GetUsecase("Must Be Unique"
+				+ "").getMinimalGuaruntees().equals(uc.getMinimalGuaruntees()));
+		assertTrue(p2.GetUsecase("Must Be Unique"
+				+ "").getSuccessGuarantees().equals(uc.getSuccessGuarantees()));
 	}
 	
+	/**************************************************************************
+	 * Tests Load and Save functions if text fields are empty.
+	 *************************************************************************/
 	@Test
-	public void testProjectLoadSaveEmptyFields(){
+	public final void testProjectLoadSaveEmptyFields() {
 		Project p1 = new Project();
 		UseCase uc = new UseCase();
 		
@@ -281,20 +405,31 @@ public class JUnitTests {
 		Project p2 = new Project();
 		p2.loadFromXML("JUnitTest1");
 		assertTrue(p2.GetUsecase("Must Be Unique").getID().equals(uc.getID()));
-		assertTrue(p2.GetUsecase("Must Be Unique").getName().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be Unique").getDescription().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be Unique").getPreconditions().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be Unique").getTriggers().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be Unique").getPrimaryActors().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be Unique").getAlternativeflow().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be Unique").getSupportingActors().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be Unique").getMinimalGuaruntees().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be Unique").getSuccessGuarantees().equals(" "));
-		
+		assertTrue(p2.GetUsecase("Must Be "
+				+ "Unique").getName().equals(" "));
+		assertTrue(p2.GetUsecase("Must Be "
+				+ "Unique").getDescription().equals(" "));
+		assertTrue(p2.GetUsecase("Must Be"
+				+ " Unique").getPreconditions().equals(" "));
+		assertTrue(p2.GetUsecase("Must Be"
+				+ " Unique").getTriggers().equals(" "));
+		assertTrue(p2.GetUsecase("Must Be"
+				+ " Unique").getPrimaryActors().equals(" "));
+		assertTrue(p2.GetUsecase("Must Be"
+				+ " Unique").getAlternativeflow().equals(" "));
+		assertTrue(p2.GetUsecase("Must Be"
+				+ " Unique").getSupportingActors().equals(" "));
+		assertTrue(p2.GetUsecase("Must Be"
+				+ " Unique").getMinimalGuaruntees().equals(" "));
+		assertTrue(p2.GetUsecase("Must Be"
+				+ " Unique").getSuccessGuarantees().equals(" "));
 	}
 	
+	/**************************************************************************
+	 * Test the getIDs() method of class Project.
+	 *************************************************************************/
 	@Test
-	public void testProjectGetIDs(){
+	public final void testProjectGetIDs() {
 		Project p = new Project();
 		UseCase uc1 = new UseCase();
 		UseCase uc2 = new UseCase();
@@ -308,22 +443,28 @@ public class JUnitTests {
 		p.addUsecase(uc2);
 		p.addUsecase(uc3);
 		p.addUsecase(uc4);
-		Vector<String> IDS = new Vector<String>();
-		IDS.add("UC1");
-		IDS.add("UC2");
-		IDS.add("UC3");
-		IDS.add("UC4");
-		assertEquals(p.Getids(), IDS);
+		Vector<String> ids = new Vector<String>();
+		ids.add("UC1");
+		ids.add("UC2");
+		ids.add("UC3");
+		ids.add("UC4");
+		assertEquals(p.Getids(), ids);
 	}
 	
+	/**************************************************************************
+	 * Test the getProjectName() method of Project class.
+	 *************************************************************************/
 	@Test
-	public void testProjectGetProjectName(){
+	public final void testProjectGetProjectName() {
 		Project p = new Project();
 		assertTrue(p.GetProjectName().equals("Project"));
 	}
 	
+	/**************************************************************************
+	 * Test the removeUsecase() method of Project class.
+	 *************************************************************************/
 	@Test
-	public void testProjectRemoveUsecase(){
+	public final void testProjectRemoveUsecase()  {
 		Project p = new Project();
 		UseCase uc = new UseCase();
 		UseCase uc1 = new UseCase();
@@ -338,8 +479,11 @@ public class JUnitTests {
 		assertTrue(p.GetUsecase("UC1") == uc1);
 	}
 	
-	@Test 
-	public void testProjectToString(){
+	/**************************************************************************
+	 * Test the toString() method of the project class.
+	 *************************************************************************/
+	@Test
+	public final void testProjectToString() {
 		Project p = new Project();
 		p.setProjectName("Editor");
 		UseCase uc1 = new UseCase();
@@ -355,7 +499,8 @@ public class JUnitTests {
 		p.addUsecase(uc3);
 		p.addUsecase(uc4);
 		System.out.println(p.toString());
-		assertTrue(p.toString().equals("Project{Usecases=[UC1, UC2, UC3, UC4], ProjectName='Editor'}"));
+		assertTrue(p.toString().equals("Project{Usecases=[UC1, UC2, UC3, UC4], "
+				+ "ProjectName='Editor'}"));
 	}
 	
 	/*
@@ -376,14 +521,16 @@ public class JUnitTests {
 		System.out.println(directory);
 		assertTrue(directory.equals("C:\\Users\\Michael\\Desktop"));
 	}
-	*/
 	
-	/* Attempted to test the UseCaseEditor, but I don't think we can
+	
+	//Attempted to test the UseCaseEditor, but I don't think we can
 	@Test
 	public void testUseCaseEditor(){
 		UseCaseEditor uce = new UseCaseEditor();
 		UseCase uc = new UseCase();
 		uce.setUC(uc);
+		System.out.println(uce.getUC());
+		System.out.println(uc);
 		assertTrue(uce.getUC() == uc);
 	}
 	*/
