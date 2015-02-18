@@ -1,6 +1,13 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 
 /*****************************************************************
@@ -8,36 +15,72 @@ CreateDialog handles several creation operations for the UseCase
 program, including naming, confirming the name is valid, and giving 
 the operator a chance to leave the program entirely if they choose.
 
-@authors Wesley Krug, Gabriel Steponovich, 
+@author Wesley Krug, Gabriel Steponovich, 
          Michael Brecker, Halston Raddatz
 @version Winter 2015
 *****************************************************************/
-public class CreateDialog implements ActionListener{
+public class CreateDialog implements ActionListener {
+	/****************************************************
+	 * Creates a panel for the JDialog box.
+	 ***************************************************/
 	private JPanel panel;
+	
+	/****************************************************
+	 * Creates a JDialog box.
+	 ***************************************************/
 	private JDialog box;
+	
+	/****************************************************
+	 * Creates a label to go in panel.
+	 ***************************************************/
 	private JLabel label;
+	
+	/****************************************************
+	 * Creates an OK button to go in panel.
+	 ***************************************************/
 	private JButton okButton;
+	
+	/****************************************************
+	 * Creates a cancel button to go in panel.
+	 ***************************************************/
 	private JButton cancelButton;
+	
+	/****************************************************
+	 * Creates a text field to write desired file name.
+	 ***************************************************/
 	private JTextField fileNameTxt;
+	
+	/****************************************************
+	 * Creates a string for the directory path.
+	 ***************************************************/
 	private String directory;
 	
-	public CreateDialog(String s){
+	/**
+	 * This class creates a small dialog box for the user to write their
+	 * desired name for the file they are creating/saving.
+	 * 
+	 * @param s is the default text in the file name text field.
+	 */
+	public CreateDialog(final String s) {
 		
+		final int textfieldSize = 20;
+		final int boxLength = 300;
+		final int boxWidth = 200;
 		/*****************************************************************
-		Creation of JDialog box, centers location on pop-up.
+		* Creation of JDialog box, centers location on pop-up.
 		*****************************************************************/	
 		box = new JDialog();		
 		box.setLocationRelativeTo(null);
 		box.setModal(true); 
 		
 		/*****************************************************************
-		Creates JPanel within JDialog box, adds applicable JButtons for
-		user operation and fields for user input.
+		* Creates JPanel within JDialog box, adds applicable JButtons for
+		* user operation and fields for user input.
 		*****************************************************************/	
 		label = new JLabel("File Name:");
 		okButton = new JButton("OK");
 		cancelButton = new JButton("Cancel");
-		fileNameTxt = new JTextField(20);
+		fileNameTxt = new JTextField(textfieldSize);
 		fileNameTxt.setText(s);		
 		
 		panel = new JPanel();
@@ -47,17 +90,17 @@ public class CreateDialog implements ActionListener{
 		panel.add(cancelButton);
 		panel.add(fileNameTxt);
 		
-		/*****************************************************************
-		Dynamically sets fileNameTxt and box to visible, adds actionlisteners
-		to applicable jbuttons.
-		*****************************************************************/			
-		fileNameTxt.setVisible(true);;
+		/*************************************************************
+		* Dynamically sets fileNameTxt and box to visible, adds 
+		* actionlisteners to applicable jButtons.
+		**************************************************************/			
+		fileNameTxt.setVisible(true);
 		box.add(panel);		
 
 		okButton.addActionListener(this);
 		cancelButton.addActionListener(this);
 		
-		box.setSize(300,200);
+		box.setSize(boxLength, boxWidth);
 		box.setVisible(true);
 		
 	}
@@ -67,50 +110,43 @@ public class CreateDialog implements ActionListener{
 	 GUI objects.
 	 @param e the event
 	 **************************************************************/
-	public void actionPerformed(ActionEvent e){
-		if(e.getSource() == okButton){
+	public final void actionPerformed(final ActionEvent e) {
+		if (e.getSource() == okButton) {
 			
-			if(!fileNameTxt.getText().equals("")){
-				
+			if (!fileNameTxt.getText().equals("")) {
 				LoadFileBox lfb = new LoadFileBox(true);
 				directory = lfb.getFileSelected();
 				System.out.println(fileNameTxt.getText());
-				box.dispose();				
-			}
-			
-			else{
+				box.dispose();	
+			} else {
 				JOptionPane.showMessageDialog(null,
-				"Please Name Your Project\n", "Name Error",  //contents of the box
+				"Please Name Your Project\n", "Name Error", 
 				JOptionPane.INFORMATION_MESSAGE);				
 			}
 		}
 		
-		if(e.getSource() == cancelButton){
+		if (e.getSource() == cancelButton) {
 			box.dispose();
 		}
 	}
 	
 	/*****************************************************************
-	 Returns name of file currently located in fileNameTxt
-	 @return String representation of fileNameTxt
+	 * Returns name of file currently located in fileNameTxt.
+	 *
+	 * @return String representation of fileNameTxt
 	*****************************************************************/	
-	public String getFileName(){
+	public final String getFileName() {
 		return fileNameTxt.getText();
 	}
 	
 	/*****************************************************************
-	 Returns current absolute directory being accessed
-	 @return String 
+	 Returns current absolute directory being accessed.
+	 
+	 @return directory which is the file selected
 	*****************************************************************/	
-	public String getDirectory(){
+	public final String getDirectory() {
 		return directory;
 	}
 	
-	/*****************************************************************
-	main method, creates the instance of CreateDialog
-	*****************************************************************/	
-	public static void main(String[] args){
-		CreateDialog cd = new CreateDialog("");
-	}
 	
 }
