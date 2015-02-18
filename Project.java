@@ -1,383 +1,493 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
-
-import java.io.File;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
 
 /*****************************************************************
-Project handles several important features of the UseCase editor
-program, including adding, removing, and saving UseCases that have
-been created by the User.
+GUI creates and manages the main GUI interaction of the program,
+including displaying all current values and allowing the user to access
+other parts of the program dynamically. Extends the default JFrame
+class.
 @authors Wesley Krug, Gabriel Steponovich, 
          Michael Brecker, Halston Raddatz
 @version Winter 2015
 *****************************************************************/
-public class Project {
-    private ArrayList<UseCase> Usecases;
-    private String ProjectName = "Project";
+public class GUI extends JFrame implements ActionListener {
+	private JMenuBar menus;
+	private JMenu fileMenu;
+	private JMenu actionMenu;
+
+	// fileMenu
+	private JMenuItem LoadItem;
+	private JMenuItem New_project;
+	private JMenuItem exitItem;
+	private JMenuItem saveItem;
+	private JMenuItem save_as;
+
+	// account Menu
+	private JMenuItem AddUseCase;
+	private JMenuItem editUseCase;
+	private JMenuItem helpUseCase;
+	private JMenuItem RemoveUseCase;
+
+	private JFrame frame;
+	private JButton new_project, edit, delete, load;
+	private JPanel panel, panel2, panel_1;
+
+	private JTextPane success_input, minimal_input, alternativeFlow_input;
+	private JTextPane primaryFlow_input, preconditions_input, triggers_input;
+	private JTextPane prim_actors_input,sup_actors_input, description_input;
+	private JTextPane name_input, ID_input;
+
+	private Project CurrentProject = new Project();
+	private UseCaseEditor UCE;
+	private UseCase CurrentUseCase;
+	private Vector<String> ids;
+	private String file;
+
+	private CreateDialog Dialog;
+	private JComboBox<UseCase> ComboBox;
+	private MyComboBoxModel myModel;
+
+	private LoadFileBox loadFile;
+	
+	/*****************************************************************
+	main method, creates the instance of GUI
+	*****************************************************************/	
+	public static void main(String[] args) {
+
+		EventQueue.invokeLater(new Runnable() {
+		public void run() {
+			try {
+				GUI window = new GUI();					
+				window.frame.setVisible(true);
+				} 
+			
+			catch (Exception e) {					
+					e.printStackTrace();
+				}
+			}
+		}
+	);
+}
+	/*****************************************************************
+	Uses intialize() to build GUI elements necessary for basic
+	functionality of UseCase program
+	*****************************************************************/
+	public GUI() {
+		initialize();
+	}
+	
+	/*****************************************************************
+	performs minimal operations for functionality of UseCase program
+	*****************************************************************/
+	public void UCE_Utility() {
+		UCE.addSaveListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				UseCase uc = UCE.getUC();
+				System.out.println(uc.getPreconditions());
+				save(uc);
+			}
+		});
+	}
 
 	/*****************************************************************
-	Builds an ArrayList of UseCase objects
-	*****************************************************************/	
-    public Project() {
-        Usecases = new ArrayList<UseCase>();
-    }
-
-	/*****************************************************************
-	Handles functionality associated with adding a new UseCase object
-	to the UseCase array
-	@param uc - UseCase to be added to array
-	*****************************************************************/	
-    public void addUsecase(UseCase uc){
-    	for (UseCase uc2 : Usecases) {
-            if (uc2.getID().equals(uc.getID())) {
-            	Usecases.remove(uc2);
-            	Usecases.add(uc);
-                return;
-            }
-        }
-        Usecases.add(uc);
-    }
-
-	/*****************************************************************
-	Returns the UseCase with the requested ID
-	@param id - String representation of UseCase ID being requested
-	*****************************************************************/	
-    public UseCase GetUsecase(String id) {
-        for (UseCase Usecase : Usecases) {
-            if (Usecase.getID().equals(id)) {
-                return Usecase;
-            }
-        }
-        return null;
-    }
-    
-	/*****************************************************************
-	Handles functionality associated with removing a UseCase object
-	from the array. 
-	@param currentUseCase - UseCase to be removed from array
-	*****************************************************************/	
-    public boolean RemoveUsecase(UseCase currentUseCase) {
-    	return Usecases.remove(currentUseCase);
-    	
-    }
-    
-	/*****************************************************************
-	Pulls the IDs from UseCase array for use elsewhere in program
-	@return ids - vector of Strings holding IDs of UseCase objects
-	*****************************************************************/	
-    public Vector<String> Getids() {
-    	Vector<String> ids = new Vector<String>();
-        for (UseCase Usecase : Usecases) {
-        	ids.add(Usecase.getID());
-            
-        }
-        return ids;
-    }
-    
-	/*****************************************************************
-	Allows user to set the name of their project
-	@param name - String representation of desired project name
-	*****************************************************************/	
-    public void setProjectName(String name) {
-        ProjectName = name;
-    }
-
-	/*****************************************************************
-	Gets the project name of the UseCase currently being accessed
-	@return ProjectName - String representation of project name
-	*****************************************************************/	
-    public String GetProjectName() {
-        return ProjectName;
-    }
-
-	/*****************************************************************
-	Handles save functionality for program to allow operator
-	to save their UseCase for future use. Uses XML as primary filetype.
-	@param directory - String representation of file directory in which
-						the file will be saved.
-	*****************************************************************/	
-    public void saveToXML(String directory) {
-
+	Builds required GUI elements for program functionality
+	*****************************************************************/
+	private void initialize() {
+		/** File menu */
+		fileMenu = new JMenu("File");
+		LoadItem = new JMenuItem("Load");
+		New_project = new JMenuItem("New Project");
+		exitItem = new JMenuItem("Exit");
+		saveItem = new JMenuItem("Save");
+		save_as = new JMenuItem("Save As");
+		File sourceimage = new File("src/icon.png");
+		Image image = null;
         try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			image = ImageIO.read(sourceimage);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fileMenu.add(LoadItem);
+		fileMenu.add(New_project);
+		fileMenu.add(saveItem);
+		fileMenu.add(save_as);
+		fileMenu.add(exitItem);
 
-            //root element(Project)
-            Document doc = (Document) docBuilder.newDocument();
-            Element rootElement = doc.createElement("project");
-            rootElement.setAttribute("name", this.ProjectName);
-            doc.appendChild(rootElement);
+		saveItem.addActionListener(this);
+		save_as.addActionListener(this);
+		New_project.addActionListener(this);
+		LoadItem.addActionListener(this);
+		exitItem.addActionListener(this);
 
+		/** action menu */
+		actionMenu = new JMenu("Action");
+		AddUseCase = new JMenuItem("New Usecase");
+		RemoveUseCase = new JMenuItem("Remove Usecase");
+		editUseCase = new JMenuItem("Edit");
+		helpUseCase = new JMenuItem("Help");
 
-            //child element(usecase)
-            for (UseCase Usecase : Usecases) {
-                Element usecase = doc.createElement("usecase");
-                rootElement.appendChild(usecase);
+		AddUseCase.addActionListener(this);
+		RemoveUseCase.addActionListener(this);
+		editUseCase.addActionListener(this);
+		helpUseCase.addActionListener(this);
 
-                //add attribute to usecase (ID)
-                usecase.setAttribute("ID", Usecase.getID());
+		actionMenu.add(AddUseCase);
+		actionMenu.add(RemoveUseCase);
+		actionMenu.add(editUseCase);
+		actionMenu.add(helpUseCase);
 
-                //fill in use case information
+		frame = new JFrame();
+		frame.setBounds(200, 200, 900, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("UseCase Editor - Lite");
+		//frame.setIconImage(image);
 
-                //enter name element
-                Element name = doc.createElement("name");
-                if(!Usecase.getName().isEmpty())
-                name.appendChild(doc.createTextNode(Usecase.getName()));
-                else
-                	name.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((name));
+		JScrollPane sp2 = new JScrollPane();
+		JScrollPane sp3 = new JScrollPane();
+		JScrollPane sp4 = new JScrollPane();
+		JScrollPane sp5 = new JScrollPane();
+		JScrollPane sp6 = new JScrollPane();
+		JScrollPane sp7 = new JScrollPane();
+		JScrollPane sp8 = new JScrollPane();
+		JScrollPane sp9 = new JScrollPane();
+		JScrollPane sp10 = new JScrollPane();
+		
+		/** Menu bar */
+		menus = new JMenuBar();
+		ids = new Vector<String>();
 
-                //enter ID element
-                Element id = doc.createElement("id");
-                if(!Usecase.getID().isEmpty())
-                id.appendChild(doc.createTextNode(Usecase.getID()));
-                else
-                	id.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((id));
+		panel_1 = new JPanel();
+		panel_1.setLayout(new GridBagLayout());
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridwidth = 10;
 
-                //enter description element
-                Element desc = doc.createElement("description");
-                if(!Usecase.getDescription().isEmpty())
-                desc.appendChild(doc.createTextNode(Usecase.getDescription()));
-                else
-                desc.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((desc));
+		frame.getContentPane().add(panel_1, BorderLayout.WEST);
+		panel_1.setLayout(new GridLayout(11, 2, 0, 0));
 
-                //enter Primary Actors element
-                Element pactors = doc.createElement("primary-actors");
-                if(!Usecase.getPrimaryActors().isEmpty())
-                pactors.appendChild(doc.createTextNode(Usecase.getPrimaryActors()));
-                else
-                	pactors.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((pactors));
+		frame.getContentPane().add(menus, BorderLayout.NORTH);
+		load = new JButton("Load");
+		load.addActionListener(this);
 
-                //enter Supporting Actors element
-                Element sactors = doc.createElement("supporting-actors");
-                if(!Usecase.getSupportingActors().isEmpty())
-                sactors.appendChild(doc.createTextNode(Usecase.getSupportingActors()));
-                else
-                	sactors.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((sactors));
+		new_project = new JButton("New Project");
+		new_project.addActionListener(this);
 
-                //enter Triggers element
-                Element triggers = doc.createElement("trigger");
-                if(!Usecase.getTriggers().isEmpty())
-                triggers.appendChild(doc.createTextNode(Usecase.getTriggers()));
-                else
-                	triggers.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((triggers));
+		panel2 = new JPanel();
+		frame.getContentPane().add(panel2, BorderLayout.CENTER);
+		GridLayout g1_panel = new GridLayout(3, 4);
+		g1_panel.setVgap(10);
+		g1_panel.setHgap(10);
+		panel2.setLayout(g1_panel);
 
-                //enter Preconditions element
-                Element precondit = doc.createElement("preconditions");
-                if(!Usecase.getPreconditions().isEmpty())
-                precondit.appendChild(doc.createTextNode(Usecase.getPreconditions()));
-                else
-                	precondit.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((precondit));
+		JLabel fill = new JLabel();
+		JLabel fill1 = new JLabel();
+		JLabel fill2 = new JLabel();
+		JLabel fill3 = new JLabel();
+		JLabel fill4 = new JLabel();
+		JLabel fill5 = new JLabel();
+		JLabel fill6 = new JLabel();
+		JLabel fill7 = new JLabel();
+		JLabel fill8 = new JLabel();
+		JLabel fill9 = new JLabel();
+		
+		panel2.add(fill);
+		panel2.add(fill1);
+		panel2.add(fill2);
+		panel2.add(fill3);
+		panel2.add(fill4);
+		panel2.add(fill5);
+		panel2.add(new_project);
+		panel2.add(load);
+		panel2.add(fill5);
+		panel2.add(fill6);
+		panel2.add(fill7);
+		panel2.add(fill8);
+		panel2.add(fill9);
 
-                //enter Primary Flow element
-                Element pflow = doc.createElement("primary-flow");
-                if(!Usecase.getPrimaryflow().isEmpty())
-                pflow.appendChild(doc.createTextNode(Usecase.getPrimaryflow()));
-                else
-                    pflow.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((pflow));
+		panel = new JPanel();
+		panel.setVisible(false);
 
-                //enter Alternate Flow element
-                Element altflow = doc.createElement("alternate-flow");
-                if(!Usecase.getAlternativeflow().isEmpty())
-                altflow.appendChild(doc.createTextNode(Usecase.getAlternativeflow()));
-                else
-                	altflow.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((altflow));
+		JLabel space = new JLabel();
+		JLabel space2 = new JLabel();
+		
+		JLabel prim_actors = new JLabel("Primary Actors");
+		JLabel description = new JLabel("Description");
+		JLabel sup_actors = new JLabel("Supporting Actors");
+		JLabel triggers = new JLabel("Triggers");
+		JLabel preconditions = new JLabel("Precondidtions");
+		JLabel primaryFlow = new JLabel("Primary Flow");
+		JLabel alternativeFlow = new JLabel("Alternative Flow");
+		JLabel minimal = new JLabel("Minimual Guarentees");
+		JLabel success = new JLabel("Success Guearentees");
 
-                //enter Minimal Guarantees element
-                Element minguarantee = doc.createElement("minimal-guarantee");
-                if(!Usecase.getMinimalGuaruntees().isEmpty())
-                minguarantee.appendChild(doc.createTextNode(Usecase.getMinimalGuaruntees()));
-                else
-                	minguarantee.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((minguarantee));
+		//new input text holders
+		name_input = new JTextPane();
+		preconditions_input = new JTextPane();
+		triggers_input = new JTextPane();
+		ID_input = new JTextPane();
+		description_input = new JTextPane();
+		sup_actors_input = new JTextPane();
+		primaryFlow_input = new JTextPane();
+		alternativeFlow_input = new JTextPane();
+		minimal_input = new JTextPane();
+		description_input.setEditable(false);
+		success_input = new JTextPane();
+		
+		//set default display
+		name_input.setText("Name");
+		ID_input.setText("Id");
+		description_input.setText("description");
+		prim_actors_input.setText("prim_actors");
+		sup_actors_input.setText("Supporting Actors");
+		triggers_input.setText("triggers");
+		triggers_input.setText("triggers");
+		preconditions_input.setText("preconditions");
+		primaryFlow_input.setText("primaryFlow");
+		alternativeFlow_input.setText("alternativeFlow");
+		minimal_input.setText("Minimal");
+		success_input.setText("Success");
+		
+		//disable text input in main menu
+		name_input.setEditable(false);
+		ID_input.setEditable(false);
+		prim_actors_input.setEditable(false);
+		sup_actors_input.setEditable(false);
+		triggers_input.setEditable(false);
+		triggers_input.setEditable(false);
+		preconditions_input.setEditable(false);
+		preconditions_input.setEditable(false);
+		primaryFlow_input.setEditable(false);
+		alternativeFlow_input.setEditable(false);
+		minimal_input.setEditable(false);
+		success_input.setEditable(false);
+		
+		//set scroll panes for inputs
+		sp2.setViewportView(description_input);
+		sp3.setViewportView(prim_actors_input);
+		sp4.setViewportView(sup_actors_input);
+		sp5.setViewportView(triggers_input);
+		sp6.setViewportView(preconditions_input);
+		sp7.setViewportView(primaryFlow_input);
+		sp8.setViewportView(alternativeFlow_input);
+		sp9.setViewportView(minimal_input);
+		sp10.setViewportView(success_input);
 
-                //enter Success Guarantees element
-                Element sucguarantee = doc.createElement("success-guarantee");
-                if(!Usecase.getSuccessGuarantees().isEmpty())
-                sucguarantee.appendChild(doc.createTextNode(Usecase.getSuccessGuarantees()));
-                else
-                	sucguarantee.appendChild(doc.createTextNode(" "));
-                usecase.appendChild((sucguarantee));
-            }
+		// Create centered project and load button
+		panel.add(space);
+		panel.add(name_input);
+		panel.add(space2);
+		panel.add(ID_input);
+		panel.add(description);
+		panel.add(sp2);
+		panel.add(prim_actors);
+		panel.add(sp3);
+		panel.add(sup_actors);
+		panel.add(sp4);
+		panel.add(triggers);
+		panel.add(sp5);
+		panel.add(preconditions);
+		panel.add(sp6);
+		panel.add(primaryFlow);
+		panel.add(sp7);
+		panel.add(alternativeFlow);
+		panel.add(sp8);
+		panel.add(minimal);
+		panel.add(sp9);
+		panel.add(success);
+		panel.add(sp10);
 
-            //write content to xml file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
+		JPanel panel_2 = new JPanel();
+		frame.getContentPane().add(panel_2, BorderLayout.SOUTH);
 
-            //make it pretty
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-            //make it pretty
+		edit = new JButton("Edit");
+		delete = new JButton("Delete");
+		edit.setVisible(false);
+		delete.setVisible(false);
+		panel_2.add(edit);
+		panel_2.add(delete);
+		delete.addActionListener(this);
+		edit.addActionListener(this);
+	}
 
-            DOMSource source = new DOMSource(doc);
-
-            //********************************NEED TO FIGURE OUT WHERE TO SAVE UNIVERSALLY**************************
-            StreamResult result = new StreamResult(new File(directory + "\\"+ this.GetProjectName()));
-            //********************************NEED TO FIGURE OUT WHERE TO SAVE UNIVERSALLY**************************
-
-            transformer.transform(source,result);
-
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerConfigurationException e) {
-            e.printStackTrace();
-        } catch (TransformerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "Usecases=" + Usecases +
-                ", ProjectName='" + ProjectName + '\'' +
-                '}';
-    }
 	/*****************************************************************
-	Handles load functionality for program to allow operator
-	to load their UseCase from a past use. Uses XML as primary filetype.
-	@param filename - String representation of file name to be loaded
-	*****************************************************************/	
-    public void loadFromXML(String filename) {
-        try {
-            File file = new File(filename);
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
-            doc.getDocumentElement().normalize();
+	Performs save operations using saveToXML method from the Project
+	class. 
+	@param UseCase uc - current UseCase being acceessed by user
+	*****************************************************************/
+	public void save(UseCase uc) {
+		CurrentUseCase = uc;
+		CurrentProject.addUsecase(CurrentUseCase);
+		ids = CurrentProject.Getids();
+		CurrentProject.saveToXML(file);
+		edit.setVisible(true);
+		display();
+	}
 
-            System.out.println("Root element " + doc.getDocumentElement().getNodeName());
-            this.setProjectName(doc.getDocumentElement().getAttribute("name"));
+	/*****************************************************************
+	Creates elements required to display current values from within
+	the UseCase object. Controls most of the GUI display
+	present within the program.
+	*****************************************************************/
+	public void display() {
+		panel.setVisible(true);
+		panel2.setVisible(false);
+		menus.add(fileMenu);
+		menus.add(actionMenu);
+		updateCombobox();
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
+		GridLayout g1_panel = new GridLayout(11, 2);
+		g1_panel.setVgap(2);
+		g1_panel.setHgap(2);
+		panel.setLayout(g1_panel);
+		edit.setVisible(true);
+		delete.setVisible(true);
+		if (CurrentUseCase != null) {
+			success_input.setText(CurrentUseCase.getSuccessGuarantees());
+			minimal_input.setText(CurrentUseCase.getMinimalGuaruntees());
+			alternativeFlow_input.setText(CurrentUseCase.getAlternativeflow());
+			primaryFlow_input.setText(CurrentUseCase.getPrimaryflow());
+			preconditions_input.setText(CurrentUseCase.getPreconditions());
+			triggers_input.setText(CurrentUseCase.getTriggers());
+			prim_actors_input.setText(CurrentUseCase.getPrimaryActors());
+			sup_actors_input.setText(CurrentUseCase.getSupportingActors());
+			description_input.setText(CurrentUseCase.getDescription());
+			ID_input.setText(CurrentUseCase.getID());
+			name_input.setText(CurrentUseCase.getName());
+		}
+	}
 
-            NodeList nodeList = doc.getElementsByTagName("usecase");
+	/**************************************************************
+	 Manages the action listeners that are currently connected to
+	 GUI objects.
+	 @param e the event
+	 **************************************************************/
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == AddUseCase) {
+			UCE = new UseCaseEditor();
+			UCE.setVisible(true);
+			UCE_Utility();
+		}
+		if (e.getSource() == save_as) {
+			Dialog = new CreateDialog(CurrentProject.GetProjectName());
+			file = Dialog.getDirectory();
+			CurrentProject.setProjectName(Dialog.getFileName());
+			ids = CurrentProject.Getids();
+			if (file != null) {
+				CurrentProject.saveToXML(file);
+				createComboBox();
+				display();
+			}
+		}
+		if (e.getSource() == new_project || e.getSource() == New_project) {
+			Dialog = new CreateDialog("");
+			file = Dialog.getDirectory();
+			CurrentProject = new Project();
+			CurrentProject.setProjectName(Dialog.getFileName());
+			ids = CurrentProject.Getids();
+			if (file != null) {
+				CurrentProject.saveToXML(file);
+				createComboBox();
+				display();
+			}
+		}
+		if (e.getSource() == saveItem) {
+			if (CurrentUseCase != null)
+				save(CurrentUseCase);
+		}
 
-            //Grab info to fill into usecase
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                UseCase u = new UseCase();
-                Node fstNode = nodeList.item(i);
+		if (e.getSource() == edit || e.getSource() == editUseCase) {
+			UCE = new UseCaseEditor();
+			if (CurrentUseCase != null) {
+				UCE.setUC(CurrentUseCase);
+			} else {
+				UseCase uc = new UseCase();
+				UCE.setUC(uc);
+			}
+			UCE.setVisible(true);
+			UCE_Utility();
+		}
+		if (e.getSource() == ComboBox) {
+			if (ComboBox.getSelectedItem() != null)
+				CurrentUseCase = (UseCase) ComboBox.getSelectedItem();
+			display();
+		}
+		if (e.getSource() == exitItem) {
+			frame.dispose();
+		}
+		if (e.getSource() == RemoveUseCase || e.getSource() == delete) {
+			if (CurrentProject.RemoveUsecase(CurrentUseCase)) {
+				ids = CurrentProject.Getids();
+				if (!ids.isEmpty()) {
+					CurrentUseCase = CurrentProject.GetUsecase(ids.get(0));
+				} else {
+					UseCase uc = new UseCase();
+					CurrentUseCase = uc;
+				}
+				display();
+			}
+		}
+		if (helpUseCase == e.getSource()) {
+			JOptionPane.showMessageDialog(null,
+					"For Future Usage\n Version 1.0", "Version Information",
+					JOptionPane.INFORMATION_MESSAGE);
 
-                if(fstNode.getNodeType() == Node.ELEMENT_NODE){
+		}
+		if (e.getSource() == load || e.getSource() == LoadItem) {
+			loadFile = new LoadFileBox();
+			file = loadFile.getFileSelected();
+			if (file != null) {
+				CurrentProject = new Project();
+				CurrentProject.loadFromXML(file);
+				file = file.substring(0, file.lastIndexOf('\\'));
+				ids = CurrentProject.Getids();
+				if (!ids.isEmpty())
+					CurrentUseCase = CurrentProject.GetUsecase(ids.get(0));
+				createComboBox();
+				display();
+			}
 
-                    //Grab Name and set it to u.Name
-                    Element Elmnt = (Element) fstNode;
-                    NodeList nameNmElmntLst = Elmnt.getElementsByTagName("name");
-                    Element nameNmElmnt = (Element) nameNmElmntLst.item(0);
-                    NodeList nameNm = nameNmElmnt.getChildNodes();
-                    u.setName(String.valueOf(nameNm.item(0).getNodeValue()));
+		}
+	}
 
-                    //Grab ID and set it to u.ID
-                    NodeList IDNmElmntLst = Elmnt.getElementsByTagName("id");
-                    Element IDNmElmnt = (Element) IDNmElmntLst.item(0);
-                    NodeList IDNm = IDNmElmnt.getChildNodes();
-                    u.setID(String.valueOf(IDNm.item(0).getNodeValue()));
-
-                    //Grab Description and set it to u.Description
-                    NodeList descNmElmntLst = Elmnt.getElementsByTagName("description");
-                    Element descNmElmnt = (Element) descNmElmntLst.item(0);
-                    NodeList descNm = descNmElmnt.getChildNodes();
-                    u.setDescription(String.valueOf(descNm.item(0).getNodeValue()));
-
-                    //Grab Primary Actors and set it to u.primaryActors
-                    NodeList pactNmElmntLst = Elmnt.getElementsByTagName("primary-actors");
-                    Element pactNmElmnt = (Element) pactNmElmntLst.item(0);
-                    NodeList pactNm = pactNmElmnt.getChildNodes();
-                    u.setPrimaryActors(String.valueOf(pactNm.item(0).getNodeValue()));
-
-                    //Grab Supporting-Actors and set it to u.supportingActors
-                    NodeList sactNmElmntLst = Elmnt.getElementsByTagName("supporting-actors");
-                    Element sactNmElmnt = (Element) sactNmElmntLst.item(0);
-                    NodeList sactNm = sactNmElmnt.getChildNodes();
-                    u.setSupportingActors(String.valueOf(sactNm.item(0).getNodeValue()));
-
-                    //Grab Trigger and set it to u.Trigger
-                    NodeList trigNmElmntLst = Elmnt.getElementsByTagName("trigger");
-                    Element trigNmElmnt = (Element) trigNmElmntLst.item(0);
-                    NodeList trigNm = trigNmElmnt.getChildNodes();
-                    u.setTriggers(String.valueOf(trigNm.item(0).getNodeValue()));
-
-                    //Grab Precondition and set it to u.Precondition
-                    NodeList precNmElmntLst = Elmnt.getElementsByTagName("preconditions");
-                    Element precNmElmnt = (Element) precNmElmntLst.item(0);
-                    NodeList precNm = precNmElmnt.getChildNodes();
-                    u.setPreconditions(String.valueOf(precNm.item(0).getNodeValue()));
-
-                    //Grab Primay Flow and set it to u.primaryFlow
-                    NodeList pflowNmElmntLst = Elmnt.getElementsByTagName("primary-flow");
-                    Element pflowNmElmnt = (Element) pflowNmElmntLst.item(0);
-                    NodeList pflowNm = pflowNmElmnt.getChildNodes();
-                    u.setPrimaryflow(String.valueOf(pflowNm.item(0).getNodeValue()));
-
-                    //Grab Alternate Flow and set it to u.alternateFlow
-                    NodeList aflowNmElmntLst = Elmnt.getElementsByTagName("alternate-flow");
-                    Element aflowNmElmnt = (Element) aflowNmElmntLst.item(0);
-                    NodeList aflowNm = aflowNmElmnt.getChildNodes();
-                    u.setAlternativeflow(String.valueOf(aflowNm.item(0).getNodeValue()));
-
-                    //Grab Minimal Guarantee and set it to u.minimalGuarantee
-                    NodeList mingNmElmntLst = Elmnt.getElementsByTagName("minimal-guarantee");
-                    Element mingNmElmnt = (Element) mingNmElmntLst.item(0);
-                    NodeList mingNm = mingNmElmnt.getChildNodes();
-                    u.setMinimalGuarantees(String.valueOf(mingNm.item(0).getNodeValue()));
-
-                    //Grab Success Guarantee and set it to u.successGuarantee
-                    NodeList sucgNmElmntLst = Elmnt.getElementsByTagName("success-guarantee");
-                    Element sucgNmElmnt = (Element) sucgNmElmntLst.item(0);
-                    NodeList sucgNm = sucgNmElmnt.getChildNodes();
-                    u.setSuccessGuarantees(String.valueOf(sucgNm.item(0).getNodeValue()));
-                }
-                this.addUsecase(u);
-            }
-
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    //FOR TESTING XML CODE********
-    public static void main(String[] args) {
-        Project prj = new Project();
-            prj.setProjectName("One");
-
-        UseCase u1 = new UseCase();
-            u1.setName("tewqrdsa");
-            u1.setID("123");
-            u1.setDescription("");
-            u1.setPrimaryActors("Me");
-            u1.setSupportingActors("You");
-            u1.setTriggers("Ugh");
-            u1.setPreconditions("Life");
-            u1.setPrimaryflow("Forward");
-            u1.setAlternativeflow("Sideways");
-            u1.setMinimalGuarantees("Win");
-            u1.setSuccessGuarantees("Death");
-
-        prj.addUsecase(u1);
-        prj.saveToXML("C:\\Users\\stepa_000\\Desktop");
-        System.out.println("prj: " + prj.toString());
-
-        Project p = new Project();
-
-       p.loadFromXML("C:\\Users\\stepa_000\\Desktop\\one");
-
-        System.out.println("p: " + p.toString());
-    }
+	/**************************************************************
+	 Controls dynamic updates of the ComboBox, in order to display
+	 the correct (and current) values therein.
+	 **************************************************************/
+	public void updateCombobox() {
+		Vector<UseCase> useCases = new Vector<UseCase>();
+		if (!ids.isEmpty()) {
+			for (int i = 0; i < ids.size(); i++) {
+				String id = ids.get(i);
+				useCases.add(CurrentProject.GetUsecase(id));
+			}
+		}
+		myModel = new MyComboBoxModel(useCases);
+		ComboBox.setModel(myModel);
+		ComboBox.getSelectedItem();
+	}
+	/**************************************************************
+	 Creates and initalizes a custom ComboBox for use in modifying
+	 and creating UseCase elements.
+	 **************************************************************/
+	public void createComboBox() {
+		if(ComboBox != null)
+			panel_1.removeAll();
+		Vector<UseCase> useCases = new Vector<UseCase>();
+		if (!ids.isEmpty()) {
+			for (int i = 0; i < ids.size(); i++) {
+				String id = ids.get(i);
+				useCases.add(CurrentProject.GetUsecase(id));
+			}
+		}
+		myModel = new MyComboBoxModel(useCases);
+		ComboBox = new JComboBox<UseCase>(useCases);
+		ComboBox.addActionListener(this);
+		ComboBox.setEnabled(true);
+		panel_1.add(ComboBox, BorderLayout.WEST);
+	}
 }
