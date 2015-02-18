@@ -34,7 +34,6 @@ public class LoadFileBox implements ActionListener {
 		
 		JPanel messagePane = new JPanel();
 		messagePane.add(new JLabel("Choose File: "));		
-		popUp.setLocationRelativeTo(null);
 	}
 
     /*****************************************************************
