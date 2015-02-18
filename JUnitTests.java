@@ -348,7 +348,7 @@ public class JUnitTests {
 	}
 	
 	/**************************************************************************
-	 * Tests the Load and Save functionality of the Project class
+	 * Tests the Load and Save functionality of the Project class.
 	 *************************************************************************/
 	@Test
 	public final void testProjectLoadSave() {
