@@ -37,10 +37,10 @@ public class GUI extends JFrame implements ActionListener {
 	private JButton new_project, edit, delete, load;
 	private JPanel panel, panel2, panel_1;
 
-	private JLabel success_input, minimal_input, alternativeFlow_input;
-	private JLabel primaryFlow_input, preconditions_input, triggers_input;
-	private JLabel prim_actors_input,sup_actors_input, description_input;
-	private JLabel name_input, ID_input;
+	private JTextPane success_input, minimal_input, alternativeFlow_input;
+	private JTextPane primaryFlow_input, preconditions_input, triggers_input;
+	private JTextPane prim_actors_input,sup_actors_input, description_input;
+	private JTextPane name_input, ID_input;
 
 	private Project CurrentProject = new Project();
 	private UseCaseEditor UCE;
@@ -105,14 +105,14 @@ public class GUI extends JFrame implements ActionListener {
 		exitItem = new JMenuItem("Exit");
 		saveItem = new JMenuItem("Save");
 		save_as = new JMenuItem("Save As");
-		/*File sourceimage = new File("src/icon.png");
+		File sourceimage = new File("src/icon.png");
 		Image image = null;
         try {
 			image = ImageIO.read(sourceimage);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		fileMenu.add(LoadItem);
 		fileMenu.add(New_project);
 		fileMenu.add(saveItem);
@@ -225,18 +225,48 @@ public class GUI extends JFrame implements ActionListener {
 		JLabel minimal = new JLabel("Minimual Guarentees");
 		JLabel success = new JLabel("Success Guearentees");
 
-		name_input = new JLabel("Name");
-		ID_input = new JLabel("Id");
-		description_input = new JLabel("description");
-		prim_actors_input = new JLabel("prim_actors");
-		sup_actors_input = new JLabel("Supporting Actors");
-		triggers_input = new JLabel("triggers");
-		preconditions_input = new JLabel("preconditions");
-		primaryFlow_input = new JLabel("primaryFlow");
-		alternativeFlow_input = new JLabel("alternativeFlow");
-		minimal_input = new JLabel("Minimal");
-		success_input = new JLabel("Success");
+		//new input text holders
+		name_input = new JTextPane();
+		preconditions_input = new JTextPane();
+		triggers_input = new JTextPane();
+		ID_input = new JTextPane();
+		description_input = new JTextPane();
+		sup_actors_input = new JTextPane();
+		primaryFlow_input = new JTextPane();
+		alternativeFlow_input = new JTextPane();
+		minimal_input = new JTextPane();
+		description_input.setEditable(false);
+		success_input = new JTextPane();
 		
+		//set default display
+		name_input.setText("Name");
+		ID_input.setText("Id");
+		description_input.setText("description");
+		prim_actors_input.setText("prim_actors");
+		sup_actors_input.setText("Supporting Actors");
+		triggers_input.setText("triggers");
+		triggers_input.setText("triggers");
+		preconditions_input.setText("preconditions");
+		primaryFlow_input.setText("primaryFlow");
+		alternativeFlow_input.setText("alternativeFlow");
+		minimal_input.setText("Minimal");
+		success_input.setText("Success");
+		
+		//disable text input in main menu
+		name_input.setEditable(false);
+		ID_input.setEditable(false);
+		prim_actors_input.setEditable(false);
+		sup_actors_input.setEditable(false);
+		triggers_input.setEditable(false);
+		triggers_input.setEditable(false);
+		preconditions_input.setEditable(false);
+		preconditions_input.setEditable(false);
+		primaryFlow_input.setEditable(false);
+		alternativeFlow_input.setEditable(false);
+		minimal_input.setEditable(false);
+		success_input.setEditable(false);
+		
+		//set scroll panes for inputs
 		sp2.setViewportView(description_input);
 		sp3.setViewportView(prim_actors_input);
 		sp4.setViewportView(sup_actors_input);
@@ -247,7 +277,7 @@ public class GUI extends JFrame implements ActionListener {
 		sp9.setViewportView(minimal_input);
 		sp10.setViewportView(success_input);
 
-		
+		// Create centered project and load button
 		panel.add(space);
 		panel.add(name_input);
 		panel.add(space2);
