@@ -1,6 +1,3 @@
-package usecase;
-//package package1;
-
 import java.util.Vector;
 
 import org.junit.Test;
@@ -62,7 +59,7 @@ public class JUnitTests {
 		assertTrue(uc.getSupportingActors() == "Supporting Actors");
 	}
 	
-	/*************************************************************************
+	/**************************************************************************
 	 * Tests the method getTriggers() of class UseCase.
 	 *************************************************************************/
 	@Test
@@ -246,7 +243,7 @@ public class JUnitTests {
 		UseCase uc = new UseCase();
 		
 		p.addUsecase(uc);
-		assertTrue(p.GetUsecase("Must Be Unique") == uc);
+		assertTrue(p.getUsecase("Must Be Unique") == uc);
 	}
 	
 	/**************************************************************************
@@ -260,7 +257,7 @@ public class JUnitTests {
 		uc.setID("UC2");
 		
 		p.addUsecase(uc);
-		assertFalse(p.GetUsecase("Must Be Unique") == uc);
+		assertFalse(p.getUsecase("Must Be Unique") == uc);
 	}
 	
 	/**************************************************************************
@@ -273,7 +270,7 @@ public class JUnitTests {
 		uc.setName("Not Michael");
 		
 		p.addUsecase(uc);
-		assertFalse(p.GetUsecase("Unique ID") == uc);
+		assertFalse(p.getUsecase("Unique ID") == uc);
 	}
 	
 	/**************************************************************************
@@ -289,13 +286,13 @@ public class JUnitTests {
 			UseCase uc = new UseCase();
 			uc.setID(i + "");
 			p.addUsecase(uc);
-			assertTrue(p.GetUsecase(i + "") == uc);
+			assertTrue(p.getUsecase(i + "") == uc);
 		}
 		UseCase uc = new UseCase();
 		uc.setID("47");
 		p.addUsecase(uc);
-		assertTrue(p.GetUsecase("47") == uc);
-		assertFalse(p.GetUsecase("48") == uc);
+		assertTrue(p.getUsecase("47") == uc);
+		assertFalse(p.getUsecase("48") == uc);
 		
 	}
 	
@@ -319,10 +316,10 @@ public class JUnitTests {
 		p.addUsecase(uc2);
 		p.addUsecase(uc3);
 		p.addUsecase(uc4);
-		assertTrue(p.GetUsecase("UC2") == uc2);
-		assertTrue(p.GetUsecase("UC1") == uc1);
-		assertTrue(p.GetUsecase("UC4") == uc4);
-		assertTrue(p.GetUsecase("UC3") == uc3);
+		assertTrue(p.getUsecase("UC2") == uc2);
+		assertTrue(p.getUsecase("UC1") == uc1);
+		assertTrue(p.getUsecase("UC4") == uc4);
+		assertTrue(p.getUsecase("UC3") == uc3);
 			
 	}
 	
@@ -332,7 +329,7 @@ public class JUnitTests {
 	@Test
 	public final void testProjectNonexistantUseCase() {
 		Project p = new Project();
-		assertTrue(p.GetUsecase("123") == null);
+		assertTrue(p.getUsecase("123") == null);
 	}
 	
 	/**************************************************************************
@@ -344,7 +341,7 @@ public class JUnitTests {
 		UseCase uc = new UseCase();
 		uc.setID("");
 		p.addUsecase(uc);
-		assertTrue(p.GetUsecase("ID Not Given") == uc);
+		assertTrue(p.getUsecase("ID Not Given") == uc);
 	}
 	
 	/**************************************************************************
@@ -359,25 +356,25 @@ public class JUnitTests {
 		p1.saveToXML("C:\\Users\\Michael\\workspace\\UseCaseEditor");
 		Project p2 = new Project();
 		p2.loadFromXML("JUnitTest1");
-		assertTrue(p2.GetUsecase("Must Be"
+		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getID().equals(uc.getID()));
-		assertTrue(p2.GetUsecase("Must Be "
+		assertTrue(p2.getUsecase("Must Be "
 				+ "Unique").getName().equals(uc.getName()));
-		assertTrue(p2.GetUsecase("Must Be "
+		assertTrue(p2.getUsecase("Must Be "
 				+ "Unique").getDescription().equals(uc.getDescription()));
-		assertTrue(p2.GetUsecase("Must Be "
+		assertTrue(p2.getUsecase("Must Be "
 				+ "Unique").getPreconditions().equals(uc.getPreconditions()));
-		assertTrue(p2.GetUsecase("Must Be"
+		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getTriggers().equals(uc.getTriggers()));
-		assertTrue(p2.GetUsecase("Must Be "
+		assertTrue(p2.getUsecase("Must Be "
 				+ "Unique").getPrimaryActors().equals(uc.getPrimaryActors()));
-		assertTrue(p2.GetUsecase("Must Be Unique"
+		assertTrue(p2.getUsecase("Must Be Unique"
 				+ "").getAlternativeflow().equals(uc.getAlternativeflow()));
-		assertTrue(p2.GetUsecase("Must Be Unique"
+		assertTrue(p2.getUsecase("Must Be Unique"
 				+ "").getSupportingActors().equals(uc.getSupportingActors()));
-		assertTrue(p2.GetUsecase("Must Be Unique"
+		assertTrue(p2.getUsecase("Must Be Unique"
 				+ "").getMinimalGuaruntees().equals(uc.getMinimalGuaruntees()));
-		assertTrue(p2.GetUsecase("Must Be Unique"
+		assertTrue(p2.getUsecase("Must Be Unique"
 				+ "").getSuccessGuarantees().equals(uc.getSuccessGuarantees()));
 	}
 	
@@ -404,24 +401,24 @@ public class JUnitTests {
 		p1.saveToXML("C:\\Users\\Michael\\workspace\\UseCaseEditor");
 		Project p2 = new Project();
 		p2.loadFromXML("JUnitTest1");
-		assertTrue(p2.GetUsecase("Must Be Unique").getID().equals(uc.getID()));
-		assertTrue(p2.GetUsecase("Must Be "
+		assertTrue(p2.getUsecase("Must Be Unique").getID().equals(uc.getID()));
+		assertTrue(p2.getUsecase("Must Be "
 				+ "Unique").getName().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be "
+		assertTrue(p2.getUsecase("Must Be "
 				+ "Unique").getDescription().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be"
+		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getPreconditions().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be"
+		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getTriggers().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be"
+		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getPrimaryActors().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be"
+		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getAlternativeflow().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be"
+		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getSupportingActors().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be"
+		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getMinimalGuaruntees().equals(" "));
-		assertTrue(p2.GetUsecase("Must Be"
+		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getSuccessGuarantees().equals(" "));
 	}
 	
@@ -448,7 +445,7 @@ public class JUnitTests {
 		ids.add("UC2");
 		ids.add("UC3");
 		ids.add("UC4");
-		assertEquals(p.Getids(), ids);
+		assertEquals(p.getIDs(), ids);
 	}
 	
 	/**************************************************************************
@@ -457,7 +454,7 @@ public class JUnitTests {
 	@Test
 	public final void testProjectGetProjectName() {
 		Project p = new Project();
-		assertTrue(p.GetProjectName().equals("Project"));
+		assertTrue(p.getProjectName().equals("Project"));
 	}
 	
 	/**************************************************************************
@@ -470,13 +467,13 @@ public class JUnitTests {
 		UseCase uc1 = new UseCase();
 		uc1.setID("UC1");
 		p.addUsecase(uc);
-		p.RemoveUsecase(uc);
-		assertFalse(p.GetUsecase("Must Be Unique") == uc);
+		p.removeUsecase(uc);
+		assertFalse(p.getUsecase("Must Be Unique") == uc);
 		p.addUsecase(uc);
 		p.addUsecase(uc1);
-		p.RemoveUsecase(uc);
-		assertFalse(p.GetUsecase("Must Be Unipue") == uc);
-		assertTrue(p.GetUsecase("UC1") == uc1);
+		p.removeUsecase(uc);
+		assertFalse(p.getUsecase("Must Be Unipue") == uc);
+		assertTrue(p.getUsecase("UC1") == uc1);
 	}
 	
 	/**************************************************************************
@@ -499,8 +496,8 @@ public class JUnitTests {
 		p.addUsecase(uc3);
 		p.addUsecase(uc4);
 		System.out.println(p.toString());
-		assertTrue(p.toString().equals("Project{Usecases=[UC1, UC2, UC3, UC4], "
-				+ "ProjectName='Editor'}"));
+		assertTrue(p.toString().equals("Project{UseCases="
+				+ "[UC1, UC2, UC3, UC4], ProjectName='Editor'}"));
 	}
 	
 	/*
