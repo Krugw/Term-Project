@@ -1,0 +1,118 @@
+
+
+
+
+
+Use Case Term Project
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Wesley Krug
+Gabriel Steponovich
+Michael Brecker
+Halston Raddatz
+
+Project Vision
+We plan on creating a very easy to use and learn program that allows users to take the painfully long process of drawing out use cases by hand and simplifying it by making a simple editor program. Our real objective is just to create a virtual notepad specifically for use cases and their associated projects. 
+	
+Our use case editor will start with a user either creating a project or loading an existing project. After that, the user will have the option to either create or edit use cases using a simple editor. After which that use case will be added to the project’s list of use cases, which will be viewable via a tree diagram in the editor. Through this tree diagram, the user will be able to select the which he or she wants to view. The user will also be able to creator actors who participate in use cases. This is just to keep track of different actors who may partake in multiple different use cases. After the user is done creating his or her project, it will create a printable document of all of the project for display.
+
+Project Objective
+	The point of this project is that creating use cases by hand is very time consuming and unorganized. Either you can draw them by hand or try to find something online to keep track of it, but these products are either expensive or ineffective. Our use case editor will be a very basic use case editor that just helps the user keep track of all this information in an easy to manage manner.
+
+Project Scope
+	In our initial release, our program will only supply the user with the ability to create and load use cases from a project. They will be able to save the entire project to an xml file which can later be loaded back into the editor. The user will be able to create multiple different use cases in a single project and move between them. These use cases will be editable as well. For this release, we are going to use a simple drop down menu to select the use case, but for future releases we will add the ability to create and edit actors as well. There will be a user created glossary that eliminates all ambiguity among terms used by the users, so everybody who sees these use cases will know exactly what is going on. Eventually we will add the ability to print out their current project which selected use cases and actors and show it in a presentable manner via HTML. More features will come along as we see fit.
+
+Product Features
+	Our product will feature the ability to create or load an existing project from XML, and the ability to create and edit use cases in that project. The user will be able to select which use case in the project is currently selected via drop box. It will also offer the ability to save your current project to XML for use later.
+
+Team Self Evaluation
+
+We believe that our team accomplished everything that we set out to accomplish, while also making an effort to keep all members involved and up to date with what was happening on a comprehensive scale. Learning to use repositories such as Github to access, modify, and log our code was something that most of us have never dealt with prior to this project. Some of our initial time was spent learning about how these repositories could be used and how they could benefit us. After we had a moderate level of comfortness with Github, we started to benefit from the added effectiveness it gave us in working together, as we could dynamically modify and comment each other's work as well as work together to tackle tough sections of work.
+
+Over the course of the project, the tasks got increasingly more complex and time consuming but our group was able to keep up. We benefitted from having members with different skill sets, both in creative and more mathematical endeavors. We began to see the benefit of working alongside one-another, something that we haven't truly had the experience with in our other programming classes. As far as we are aware, we’ve had no major complaints and can only speak highly of our time together.
+
+Reflecting on our time spent with our group and what we have accomplished, we feel as though we have learned quite a bit.  Having been novices to code sharing sites such as Github, sometimes we'd find that multiple members had forked the repository and written the same code in different ways. In the same way we've learned to not underestimate our group member’s abilities, but to also attempt to spread the work throughout the group members. Working in groups requires communication and clarity, both of which can really only be mastered through experience. Going forward into release 2 and 3 we are looking forward to adding to this experience.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Roles and Responsibilities
+
+Wesley Krug
+	-Collaborated with group to set strategic direction of project
+	-Met with team on regular basis
+	-Active team participant
+	-Actively contributed to programming within project
+	-Proficient use of coding documentation and comments
+-Responsible for work with CheckStyle violation addon
+
+Gabriel Steponovich
+	-Collaborated with group to set strategic direction of project
+	-Met with team on regular basis
+	-Active team participant
+	-Assures the quality of work produced at comprehensive level
+	-Functioned as the team leader
+	-Actively contributed to programming within project
+	-Proficient use of coding documentation and comments
+-Responsible for work with CheckStyle violation addon
+-Responsible for work with UML ObjectAid addon and documentation
+
+Michael Brecker
+	-Collaborated with group to set strategic direction of project
+	-Met with team on regular basis
+	-Active team participant
+	-Assures the quality of work produced at comprehensive level
+	-Responsible for maintenance of code and code standards
+	-Actively contributed to programming within project
+	-Proficient use of coding documentation and comments
+-Responsible for work with CheckStyle violation addon
+-Responsible for work with UML ObjectAid addon and documentation
+
+Halston Raddatz
+	-Collaborated with group to set strategic direction of project
+	-Met with team on regular basis
+	-Active team participant
+	-Actively contributed to programming within project
+	-Proficient use of coding documentation and comments
+-Responsible for work with UML ObjectAid addon and documentation
+
+	
+
+
