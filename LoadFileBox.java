@@ -1,18 +1,34 @@
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 
 /*****************************************************************
 LoadFileBox creates and manages a custom JFileChooser for use by the
-other parts of the GUI
+other parts of the GUI.
 
-@authors Wesley Krug, Gabriel Steponovich, 
+@author Wesley Krug, Gabriel Steponovich, 
          Michael Brecker, Halston Raddatz
 @version Winter 2015
 *****************************************************************/
 public class LoadFileBox implements ActionListener {
+	/**
+	 * filechooser box.
+	 */
 	private JFileChooser fileChooser;
+	
+	/**
+	 * Jdialog box for filechooser parameter.
+	 */
 	private JDialog popUp;
+	
+	/**
+	 * String of the selected file path.
+	 */
 	private String selectedFile;
 
     /*****************************************************************
@@ -34,17 +50,22 @@ public class LoadFileBox implements ActionListener {
 		
 		JPanel messagePane = new JPanel();
 		messagePane.add(new JLabel("Choose File: "));		
+		
 	}
 
     /*****************************************************************
     Instantiates a custom JfileChooser 
     @param create - boolean request for creation of LoadFileBox
     *****************************************************************/
-	public LoadFileBox(boolean create) {		
+	/**
+	 * @param create a new project/save current project as new.
+	 */
+	public LoadFileBox(final boolean create) {		
 		
 		fileChooser = new JFileChooser();
 		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setCurrentDirectory(new File(System.getProperty(""
+				+ "user.home")));
 		
 		int result = fileChooser.showOpenDialog(popUp);
 		if (result == JFileChooser.APPROVE_OPTION) {
@@ -60,10 +81,10 @@ public class LoadFileBox implements ActionListener {
 
 	}
     /*****************************************************************
-    Returns absolute path of users desired file
+    Returns absolute path of users desired file.
     @return selectedFile - String representation of absolute path
     *****************************************************************/
-	public String getFileSelected() {
+	public final String getFileSelected() {
 		return selectedFile;
 	}
 
@@ -72,15 +93,8 @@ public class LoadFileBox implements ActionListener {
 	 GUI objects.
 	 @param e the event
 	**************************************************************/
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(final ActionEvent e) {
 
 	}
 	
-	/*****************************************************************
-	main method, creates the instance of LoadFileBox()
-	*****************************************************************/	
-	public static void main(String[] args) {
-		LoadFileBox LBF = new LoadFileBox();
-
-	}
 }
