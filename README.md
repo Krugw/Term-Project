@@ -1,4 +1,5 @@
 # Term-Project
+Added Dynamic Tree should work alright shouldn't need a combobox class anymore in your project but keep it up here just in case
 
 Stuff to do:
 6)UML Explorer/Dia Tool
