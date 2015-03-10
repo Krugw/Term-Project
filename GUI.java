@@ -1,7 +1,6 @@
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -11,16 +10,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Vector;
 
 /*****************************************************************
@@ -70,7 +70,7 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * buttons.
 	 */
-	private JButton newproject, edit, delete, load;
+	private JButton open, newproject, edit, delete, load;
 	/**
 	 * Panels.
 	 */
@@ -119,11 +119,8 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * For displaying Usecases.
 	 */
-	private JComboBox<UseCase> comboBox;
-	/**
-	 * For displaying Usecases.
-	 */
-	private MyComboBoxModel myModel;
+	private DynamicTree dTree;
+	private DefaultMutableTreeNode project,treePA,treeSA,treeUC;
 	/**
 	 * For loading files.
 	 */
@@ -168,7 +165,6 @@ public class GUI extends JFrame implements ActionListener {
 		uCE.addSaveListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 				UseCase uc = uCE.getUC();
-				System.out.println(uc.getPreconditions());
 				save(uc);
 			}
 		});
@@ -239,12 +235,9 @@ public class GUI extends JFrame implements ActionListener {
 		ids = new Vector<String>();
 
 		paneL1 = new JPanel();
-		paneL1.setLayout(new GridBagLayout());
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.gridwidth = 10;
+		paneL1.setLayout(new BorderLayout());
 
 		frame.getContentPane().add(paneL1, BorderLayout.WEST);
-		paneL1.setLayout(new GridLayout(11, 2, 0, 0));
 
 		frame.getContentPane().add(menus, BorderLayout.NORTH);
 		load = new JButton("Load");
@@ -399,6 +392,8 @@ public class GUI extends JFrame implements ActionListener {
 
 		edit = new JButton("Edit");
 		delete = new JButton("Delete");
+		open = new JButton("Open");
+		open.addActionListener(this);
 		edit.setVisible(false);
 		delete.setVisible(false);
 		panel3.add(edit);
@@ -414,7 +409,7 @@ public class GUI extends JFrame implements ActionListener {
 	public final void save(final UseCase uc) {
 		currentUseCase = uc;
 		currentProject.addUsecase(currentUseCase);
-		ids = currentProject.Getids();
+		ids = currentProject.getIDs();
 		currentProject.saveToXML(file);
 		edit.setVisible(true);
 		display();
@@ -433,7 +428,7 @@ public class GUI extends JFrame implements ActionListener {
 		panel2.setVisible(false);
 		menus.add(fileMenu);
 		menus.add(actionMenu);
-		updateCombobox();
+		updatedtree();
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		GridLayout glPanel = new GridLayout(11, 2);
 		glPanel.setVgap(2);
@@ -468,13 +463,13 @@ public class GUI extends JFrame implements ActionListener {
 			uceUtility();
 		}
 		if (e.getSource() == saveAs) {
-			dialog = new CreateDialog(currentProject.GetProjectName());
+			dialog = new CreateDialog(currentProject.getProjectName());
 			file = dialog.getDirectory();
 			currentProject.setProjectName(dialog.getFileName());
-			ids = currentProject.Getids();
+			ids = currentProject.getIDs();
 			if (file != null) {
 				currentProject.saveToXML(file);
-				createComboBox();
+				createtree();
 				display();
 			}
 		}
@@ -483,10 +478,10 @@ public class GUI extends JFrame implements ActionListener {
 			file = dialog.getDirectory();
 			currentProject = new Project();
 			currentProject.setProjectName(dialog.getFileName());
-			ids = currentProject.Getids();
+			ids = currentProject.getIDs();
 			if (file != null) {
 				currentProject.saveToXML(file);
-				createComboBox();
+				createtree();
 				display();
 			}
 		}
@@ -494,6 +489,10 @@ public class GUI extends JFrame implements ActionListener {
 			if (currentUseCase != null) {
 				save(currentUseCase);
 			}
+		}
+		if (e.getSource() == open && dTree.selectedUsecase() != null){
+			currentUseCase = dTree.selectedUsecase();
+			display();
 		}
 
 		if (e.getSource() == edit || e.getSource() == editUseCase) {
@@ -507,20 +506,14 @@ public class GUI extends JFrame implements ActionListener {
 			uCE.setVisible(true);
 			uceUtility();
 		}
-		if (e.getSource() == comboBox) {
-			if (comboBox.getSelectedItem() != null) {
-				currentUseCase = (UseCase) comboBox.getSelectedItem();
-			}
-			display();
-		}
 		if (e.getSource() == exitItem) {
 			frame.dispose();
 		}
 		if (e.getSource() == removeUseCase || e.getSource() == delete) {
-			if (currentProject.RemoveUsecase(currentUseCase)) {
-				ids = currentProject.Getids();
+			if (currentProject.removeUsecase(currentUseCase)) {
+				ids = currentProject.getIDs();
 				if (!ids.isEmpty()) {
-					currentUseCase = currentProject.GetUsecase(ids.get(0));
+					currentUseCase = currentProject.getUsecase(ids.get(0));
 				} else {
 					UseCase uc = new UseCase();
 					currentUseCase = uc;
@@ -541,11 +534,11 @@ public class GUI extends JFrame implements ActionListener {
 				currentProject = new Project();
 				currentProject.loadFromXML(file);
 				file = file.substring(0, file.lastIndexOf('\\'));
-				ids = currentProject.Getids();
+				ids = currentProject.getIDs();
 				if (!ids.isEmpty()) {
-					currentUseCase = currentProject.GetUsecase(ids.get(0));
+					currentUseCase = currentProject.getUsecase(ids.get(0));
 				}
-				createComboBox();
+				createtree();
 				display();
 			}
 
@@ -553,46 +546,56 @@ public class GUI extends JFrame implements ActionListener {
 	}
 
 	/**************************************************************
-	 Controls dynamic updates of the ComboBox, in order to display
+	 Controls dynamic updates of the tree, in order to display
 	 the correct (and current) values therein.
 	 **************************************************************/
 	/**
 	 * 
 	 */
-	public final void updateCombobox() {
-		Vector<UseCase> useCases = new Vector<UseCase>();
+	public final void updatedtree() {
+		HashMap<String,DefaultMutableTreeNode> PAD = new HashMap<String,DefaultMutableTreeNode>();
+		HashMap<String,DefaultMutableTreeNode> SAD = new HashMap<String,DefaultMutableTreeNode>();
+		dTree.clear();
+		project = dTree.addObject((DefaultMutableTreeNode)null, currentProject.getProjectName(),true);
+		treeUC = dTree.addObject(project, "UseCases",true);
+		treePA = dTree.addObject(project, "Primary Actors",true);
+		treeSA = dTree.addObject(project, "Secondary Actors",true);
 		if (!ids.isEmpty()) {
+			System.out.println(treePA.toString());
 			for (int i = 0; i < ids.size(); i++) {
-				String id = ids.get(i);
-				useCases.add(currentProject.GetUsecase(id));
+			String id = ids.get(i);
+			UseCase UC = currentProject.getUsecase(id);
+			if(!SAD.containsKey(UC.getSupportingActors())){
+				SAD.put(UC.getSupportingActors(),dTree.addObject(treeSA, UC.getSupportingActors()));
+				dTree.addObject(SAD.get(UC.getSupportingActors()), UC);
+			}else{
+				dTree.addObject(SAD.get(UC.getSupportingActors()), UC);
+			}
+			if(!PAD.containsKey(UC.getPrimaryActors())){
+				PAD.put(UC.getPrimaryActors(), dTree.addObject(treePA, UC.getPrimaryActors()));
+				dTree.addObject(PAD.get(UC.getPrimaryActors()), UC);
+			}else{
+				dTree.addObject(PAD.get(UC.getPrimaryActors()), UC);
+			}
+			dTree.addObject(treeUC, UC);
 			}
 		}
-		myModel = new MyComboBoxModel(useCases);
-		comboBox.setModel(myModel);
-		comboBox.getSelectedItem();
 	}
 	/**************************************************************
-	 Creates and initalizes a custom ComboBox for use in modifying
+	 Creates and initalizes a custom tree for use in modifying
 	 and creating UseCase elements.
 	 **************************************************************/
 	/**
 	 * 
 	 */
-	public final void createComboBox() {
-		if (comboBox != null) {
+	public final void createtree() {
+		if (dTree != null) {
 			paneL1.removeAll();
 		}
-		Vector<UseCase> useCases = new Vector<UseCase>();
-		if (!ids.isEmpty()) {
-			for (int i = 0; i < ids.size(); i++) {
-				String id = ids.get(i);
-				useCases.add(currentProject.GetUsecase(id));
-			}
-		}
-		myModel = new MyComboBoxModel(useCases);
-		comboBox = new JComboBox<UseCase>(useCases);
-		comboBox.addActionListener(this);
-		comboBox.setEnabled(true);
-		paneL1.add(comboBox, BorderLayout.WEST);
+		dTree = new DynamicTree();
+		dTree.setSize(100, 200);
+		updatedtree();
+		paneL1.add(dTree, BorderLayout.CENTER);
+		paneL1.add(open, BorderLayout.SOUTH);
 	}
 }
