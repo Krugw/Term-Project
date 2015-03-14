@@ -9,6 +9,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import java.awt.Color;
+
+import javax.swing.ImageIcon;
+
+import java.net.URL;
+
 
 /*****************************************************************
 CreateDialog handles several creation operations for the UseCase
@@ -77,15 +83,18 @@ public class CreateDialog implements ActionListener {
 		* Creates JPanel within JDialog box, adds applicable JButtons for
 		* user operation and fields for user input.
 		*****************************************************************/	
-		label = new JLabel("File Name:");
 		okButton = new JButton("OK");
+		okButton.setBounds(62, 116, 80, 23);
 		cancelButton = new JButton("Cancel");
+		cancelButton.setBounds(147, 116, 81, 23);
 		fileNameTxt = new JTextField(textfieldSize);
+		fileNameTxt.setOpaque(false);
+		fileNameTxt.setBounds(49, 67, 196, 38);
 		fileNameTxt.setText(s);		
 		
 		panel = new JPanel();
-		panel.setLayout(new FlowLayout());		
-		panel.add(label);
+		panel.setBackground(Color.GRAY);
+		panel.setLayout(null);
 		panel.add(okButton);
 		panel.add(cancelButton);
 		panel.add(fileNameTxt);
@@ -95,7 +104,16 @@ public class CreateDialog implements ActionListener {
 		* actionlisteners to applicable jButtons.
 		**************************************************************/			
 		fileNameTxt.setVisible(true);
-		box.add(panel);		
+		box.getContentPane().add(panel);		
+		label = new JLabel("File Name:");
+		
+		URL boximage = GUI.class.getResource(
+                "/resources/filebox.png");
+		
+		label.setIcon(new ImageIcon(boximage));
+		label.setForeground(Color.WHITE);
+		label.setBounds(0, 0, 284, 161);
+		panel.add(label);
 
 		okButton.addActionListener(this);
 		cancelButton.addActionListener(this);
