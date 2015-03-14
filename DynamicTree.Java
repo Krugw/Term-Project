@@ -33,12 +33,11 @@ protected DefaultMutableTreeNode rootNode;
     treeModel = new DefaultTreeModel(rootNode);
     UIManager.put("Tree.rendererFillBackground", false);
     tree = new JTree(treeModel);
-    tree.setEditable(true);
     tree.setRootVisible(false);
     tree.getSelectionModel().setSelectionMode(
         TreeSelectionModel.SINGLE_TREE_SELECTION);
     tree.setShowsRootHandles(true);
-    tree.setBackground(Color.GRAY);
+    tree.setBackground(Color.WHITE);
     JScrollPane scrollPane = new JScrollPane(tree);
     add(scrollPane);
   }
