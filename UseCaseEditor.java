@@ -5,11 +5,22 @@ import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+
 import javax.swing.JScrollPane;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.border.LineBorder;
+
+import java.awt.Color;
+import java.net.URL;
+import javax.swing.JScrollBar;
+import javax.swing.JFormattedTextField;
 
 /*****************************************************************
  UseCaseEditor creates a manages a custom JDialog window for use in
@@ -122,6 +133,16 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      * Heigh of the usecase.
      */
     public static final int USE_CASE_HEIGHT = 700;
+    private JScrollPane scrollPane_1;
+    private JScrollPane scrollPane_2;
+    private JScrollPane scrollPane_3;
+    private JScrollPane scrollPane_4;
+    private JScrollPane scrollPane_5;
+    private JScrollPane scrollPane_6;
+    private JScrollPane scrollPane_7;
+    private JScrollPane scrollPane_8;
+    private JScrollPane scrollPane_9;
+    private JScrollPane scrollPane_10;
 
 
     /*****************************************************************
@@ -151,82 +172,170 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      *****************************************************************/
     public UseCaseEditor() {
 
-        setLocationRelativeTo(null);
+       // setLocationRelativeTo(null);
         setTitle("Use Case Editor");
         setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
 
         JPanel textPanel = new JPanel();
-        textPanel.setLayout(new GridLayout(TEXT_PANEL_LAYOUT, 2));
 
         /** Sets up the textFields with default values **/
-        textPanel.add(new JLabel("Name: "));
-        nameTxt = new JTextPane();
-        JScrollPane sp = new JScrollPane(nameTxt);
-        textPanel.add(sp);
-
-        textPanel.add(new JLabel("ID: "));
-        idTxt = new JTextPane();
-        sp = new JScrollPane(idTxt);
-        textPanel.add(sp);
-
-        textPanel.add(new JLabel("Description: "));
-        descriptionTxt = new JTextPane();
-        sp = new JScrollPane(descriptionTxt);
-        textPanel.add(sp);
-
-        textPanel.add(new JLabel("Primary Actor: "));
-        primaryActorTxt = new JTextPane();
-        sp = new JScrollPane(primaryActorTxt);
-        textPanel.add(sp);
-
-        textPanel.add(new JLabel("Supporting Actor: "));
-        supportingActorTxt = new JTextPane();
-        sp = new JScrollPane(supportingActorTxt);
-        textPanel.add(sp);
-
-        textPanel.add(new JLabel("Triggers: "));
-        triggersTxt = new JTextPane();
-        sp = new JScrollPane(triggersTxt);
-        textPanel.add(sp);
-
-        textPanel.add(new JLabel("Preconditions: "));
-        preconditionsTxt = new JTextPane();
-        sp = new JScrollPane(preconditionsTxt);
-        textPanel.add(sp);
-
-        textPanel.add(new JLabel("Primary Flow: "));
-        primaryFlowTxt = new JTextPane();
-        sp = new JScrollPane(primaryFlowTxt);
-        textPanel.add(sp);
-
-        textPanel.add(new JLabel("Alternate Flow: "));
-        alternateFlowTxt = new JTextPane();
-        sp = new JScrollPane(alternateFlowTxt);
-        textPanel.add(sp);
-
-        textPanel.add(new JLabel("Minimal Guarentees"));
-        minimalGuaranteeTxt = new JTextPane();
-        sp = new JScrollPane(minimalGuaranteeTxt);
-        textPanel.add(sp);
-
-        textPanel.add(new JLabel("Success Guarantees"));
-        successGuaranteeTxt = new JTextPane();
-        sp = new JScrollPane(successGuaranteeTxt);
-        textPanel.add(sp);
+        textPanel.setLayout(null);
 
         getContentPane().add(textPanel, BorderLayout.CENTER);
 
         okButton = new JButton("Save");
+        
+		
+		URL boximage = GUI.class.getResource(
+                "/resources/bg2.png");
+		URL checkmark = GUI.class.getResource(
+                "/resources/checkmark.png");
+		URL xmark = GUI.class.getResource(
+                "/resources/xmark.png");
+		
+        okButton.setIcon(new ImageIcon(checkmark));
+        okButton.setOpaque(false);
+        okButton.setBounds(667, 517, 79, 50);
         cancelButton = new JButton("Cancel");
+        cancelButton.setIcon(new ImageIcon(xmark));
+        cancelButton.setOpaque(false);
+        cancelButton.setBounds(667, 578, 79, 50);
         textPanel.add(okButton);
         textPanel.add(cancelButton);
+        
+        JScrollPane scrollPane = new JScrollPane();
+        
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        
+        scrollPane_3 = new JScrollPane();
+        scrollPane_3.setOpaque(false);
+        scrollPane_3.setBounds(112, 176, 526, 37);
+        textPanel.add(scrollPane_3);
+        primaryActorTxt = new JTextPane();
+        scrollPane_3.setViewportView(primaryActorTxt);
+        primaryActorTxt.setForeground(Color.WHITE);
+        primaryActorTxt.setBorder(null);
+        primaryActorTxt.setOpaque(false);
+        
+        scrollPane_1 = new JScrollPane();
+        scrollPane_1.setOpaque(false);
+        scrollPane_1.setBounds(407, 43, 237, 44);
+        textPanel.add(scrollPane_1);
+        idTxt = new JTextPane();
+        scrollPane_1.setViewportView(idTxt);
+        idTxt.setForeground(Color.WHITE);
+        idTxt.setBorder(null);
+        idTxt.setOpaque(false);
+        scrollPane.setBounds(112, 43, 275, 44);
+        textPanel.add(scrollPane);
+        nameTxt = new JTextPane();
+        nameTxt.setOpaque(false);
+        nameTxt.setBackground(Color.GRAY);
+        scrollPane.setViewportView(nameTxt);
+        nameTxt.setForeground(Color.WHITE);
+        nameTxt.setBorder(null);
+        
+        scrollPane_2 = new JScrollPane();
+        scrollPane_2.setOpaque(false);
+        scrollPane_2.setBounds(112, 124, 528, 29);
+        textPanel.add(scrollPane_2);
+        descriptionTxt = new JTextPane();
+        scrollPane_2.setViewportView(descriptionTxt);
+        descriptionTxt.setForeground(Color.WHITE);
+        descriptionTxt.setBorder(null);
+        descriptionTxt.setOpaque(false);
+        
+        scrollPane_4 = new JScrollPane();
+        scrollPane_4.setOpaque(false);
+        scrollPane_4.setBounds(112, 233, 527, 37);
+        textPanel.add(scrollPane_4);
+        supportingActorTxt = new JTextPane();
+        scrollPane_4.setViewportView(supportingActorTxt);
+        supportingActorTxt.setForeground(Color.WHITE);
+        supportingActorTxt.setBorder(null);
+        supportingActorTxt.setOpaque(false);
+        
+        scrollPane_5 = new JScrollPane();
+        scrollPane_5.setOpaque(false);
+        scrollPane_5.setBounds(111, 295, 528, 29);
+        textPanel.add(scrollPane_5);
+        triggersTxt = new JTextPane();
+        scrollPane_5.setViewportView(triggersTxt);
+        triggersTxt.setForeground(Color.WHITE);
+        triggersTxt.setOpaque(false);
+        
+        scrollPane_6 = new JScrollPane();
+        scrollPane_6.setOpaque(false);
+        scrollPane_6.setBounds(112, 347, 527, 37);
+        textPanel.add(scrollPane_6);
+        preconditionsTxt = new JTextPane();
+        scrollPane_6.setViewportView(preconditionsTxt);
+        preconditionsTxt.setForeground(Color.WHITE);
+        preconditionsTxt.setBorder(null);
+        preconditionsTxt.setOpaque(false);
+        
+        scrollPane_7 = new JScrollPane();
+        scrollPane_7.setOpaque(false);
+        scrollPane_7.setBounds(112, 405, 527, 37);
+        textPanel.add(scrollPane_7);
+        primaryFlowTxt = new JTextPane();
+        scrollPane_7.setViewportView(primaryFlowTxt);
+        primaryFlowTxt.setForeground(Color.WHITE);
+        primaryFlowTxt.setBorder(null);
+        primaryFlowTxt.setOpaque(false);
+        
+        scrollPane_8 = new JScrollPane();
+        scrollPane_8.setOpaque(false);
+        scrollPane_8.setBounds(112, 462, 529, 37);
+        textPanel.add(scrollPane_8);
+        alternateFlowTxt = new JTextPane();
+        scrollPane_8.setViewportView(alternateFlowTxt);
+        alternateFlowTxt.setForeground(Color.WHITE);
+        alternateFlowTxt.setBorder(null);
+        alternateFlowTxt.setOpaque(false);
+        
+        scrollPane_9 = new JScrollPane();
+        scrollPane_9.setOpaque(false);
+        scrollPane_9.setBounds(112, 519, 526, 37);
+        textPanel.add(scrollPane_9);
+        minimalGuaranteeTxt = new JTextPane();
+        scrollPane_9.setViewportView(minimalGuaranteeTxt);
+        minimalGuaranteeTxt.setForeground(Color.WHITE);
+        minimalGuaranteeTxt.setBorder(null);
+        minimalGuaranteeTxt.setOpaque(false);
+        
+        scrollPane_10 = new JScrollPane();
+        scrollPane_10.setOpaque(false);
+        scrollPane_10.setBounds(112, 578, 529, 37);
+        textPanel.add(scrollPane_10);
+        successGuaranteeTxt = new JTextPane();
+        scrollPane_10.setViewportView(successGuaranteeTxt);
+        successGuaranteeTxt.setForeground(Color.WHITE);
+        successGuaranteeTxt.setBorder(null);
+        successGuaranteeTxt.setOpaque(false);
+        JLabel label = new JLabel("Name: ");
+        label.setIcon(new ImageIcon(boximage));
+        label.setBounds(0, 1, 784, 650);
+        textPanel.add(label);
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(okButton);
-        buttonPanel.add(cancelButton);
+        //buttonPanel.add(okButton);
+        //buttonPanel.add(cancelButton);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         okButton.addActionListener(this);
         cancelButton.addActionListener(this);
-
+        
+        scrollPane_1.getViewport().setOpaque(false);
+        scrollPane_2.getViewport().setOpaque(false);
+        scrollPane_3.getViewport().setOpaque(false);
+        scrollPane_4.getViewport().setOpaque(false);
+        scrollPane_5.getViewport().setOpaque(false);
+        scrollPane_6.getViewport().setOpaque(false);
+        scrollPane_7.getViewport().setOpaque(false);
+        scrollPane_8.getViewport().setOpaque(false);
+        scrollPane_9.getViewport().setOpaque(false);
+        scrollPane_10.getViewport().setOpaque(false);
+        
         setSize(USE_CASE_WIDTH, USE_CASE_HEIGHT);
         setVisible(true);
     }
