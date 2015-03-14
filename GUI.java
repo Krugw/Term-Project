@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import java.net.URL;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
@@ -22,6 +23,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Vector;
+
+import javax.swing.ImageIcon;
+
+import java.awt.Color;
+import java.awt.FlowLayout;
+
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+import java.awt.Rectangle;
 
 /*****************************************************************
 GUI creates and manages the main GUI interaction of the program,
@@ -99,6 +109,8 @@ public class GUI extends JFrame implements ActionListener {
 	 *  editing usecases.
 	 */
 	private UseCaseEditor uCE;
+	
+	
 	/**
 	 * keeping track of current usecase.
 	 */
@@ -125,6 +137,7 @@ public class GUI extends JFrame implements ActionListener {
 	 * For loading files.
 	 */
 	private LoadFileBox loadFile;
+	private JLabel label;
 	
 	/**
 	 * main method, creates the instance of GUI.
@@ -223,7 +236,10 @@ public class GUI extends JFrame implements ActionListener {
 		actionMenu.add(helpUseCase);
 
 		frame = new JFrame();
-		frame.setBounds(200, 200, 900, 600);
+		frame.setBounds(new Rectangle(0, 0, 1366, 766));
+		frame.setResizable(true);
+		frame.setLocationRelativeTo(null);
+	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("UseCase Editor - Lite");
 		//frame.setIconImage(image);
@@ -231,55 +247,55 @@ public class GUI extends JFrame implements ActionListener {
 		
 		
 		/** Menu bar */
-		menus = new JMenuBar();
 		ids = new Vector<String>();
+		menus = new JMenuBar();
+		
+				frame.getContentPane().add(menus, BorderLayout.NORTH);
 
 		paneL1 = new JPanel();
 		paneL1.setLayout(new BorderLayout());
 
 		frame.getContentPane().add(paneL1, BorderLayout.WEST);
-
-		frame.getContentPane().add(menus, BorderLayout.NORTH);
-		load = new JButton("Load");
-		load.addActionListener(this);
-
-		newproject = new JButton("New Project");
-		newproject.addActionListener(this);
-
-		panel2 = new JPanel();
-		frame.getContentPane().add(panel2, BorderLayout.CENTER);
-		GridLayout ganel = new GridLayout(3, 4);
-		ganel.setVgap(10);
-		ganel.setHgap(10);
-		panel2.setLayout(ganel);
-
-		JLabel fill = new JLabel();
-		JLabel fill1 = new JLabel();
-		JLabel fill2 = new JLabel();
-		JLabel fill3 = new JLabel();
-		JLabel fill4 = new JLabel();
-		JLabel fill5 = new JLabel();
-		JLabel fill6 = new JLabel();
-		JLabel fill7 = new JLabel();
-		JLabel fill8 = new JLabel();
-		JLabel fill9 = new JLabel();
 		
-		panel2.add(fill);
-		panel2.add(fill1);
-		panel2.add(fill2);
-		panel2.add(fill3);
-		panel2.add(fill4);
-		panel2.add(fill5);
-		panel2.add(newproject);
-		panel2.add(load);
-		panel2.add(fill5);
-		panel2.add(fill6);
-		panel2.add(fill7);
-		panel2.add(fill8);
-		panel2.add(fill9);
+		
+		///HERE POST IT
+				panel2 = new JPanel();
+		
+				frame.getContentPane().add(panel2, BorderLayout.CENTER);
+						JLabel fill2 = new JLabel();
+						
+						URL url = GUI.class.getResource(
+                                "/resources/bg1.png");
+						
+						
+						fill2.setIcon(new ImageIcon(url));
+						fill2.setBounds(1, 0, 1366, 766);
+						panel2.setLayout(null);
+						
+								newproject = new JButton("New Project");
+								
+								
+								URL newProject = GUI.class.getResource(
+		                                "/resources/NewProject2.png");
+								
+								URL loadProject = GUI.class.getResource(
+		                                "/resources/loadproject2.png");
+								
+								newproject.setIcon(new ImageIcon(newProject));
+								newproject.setBackground(Color.DARK_GRAY);
+								newproject.setForeground(Color.BLACK);
+								newproject.setBounds(450, 443, 213, 53);
+								newproject.addActionListener(this);
+								panel2.add(newproject);
+								load = new JButton("Load Project");
+								load.setIcon(new ImageIcon(loadProject));
+								load.setBounds(700, 443, 213, 53);
+								load.addActionListener(this);
+								panel2.add(load);
+								panel2.add(fill2);
 
 		panel = new JPanel();
-		panel.setVisible(false);
+		panel.setVisible(true);
 		initialize2();
 	}
 	/**
@@ -287,108 +303,126 @@ public class GUI extends JFrame implements ActionListener {
 	 */
 	private void initialize2() {
 		
-		JScrollPane sp2 = new JScrollPane();
-		JScrollPane sp3 = new JScrollPane();
-		JScrollPane sp4 = new JScrollPane();
-		JScrollPane sp5 = new JScrollPane();
-		JScrollPane sp6 = new JScrollPane();
-		JScrollPane sp7 = new JScrollPane();
-		JScrollPane sp8 = new JScrollPane();
-		JScrollPane sp9 = new JScrollPane();
-		JScrollPane sp10 = new JScrollPane();
-		
 		JLabel space = new JLabel();
+		space.setBounds(25, 16, 0, 0);
 		JLabel space2 = new JLabel();
-		
-		JLabel primActors = new JLabel("Primary Actors");
-		JLabel description = new JLabel("Description");
-		JLabel supActors = new JLabel("Supporting Actors");
-		JLabel triggers = new JLabel("Triggers");
-		JLabel preconditions = new JLabel("Precondidtions");
-		JLabel primaryFlow = new JLabel("Primary Flow");
-		JLabel alternativeFlow = new JLabel("Alternative Flow");
-		JLabel minimal = new JLabel("Minimual Guarentees");
-		JLabel success = new JLabel("Success Guearentees");
+		space2.setBounds(68, 16, 0, 0);
 
 		//new input text holders
 		nameInput = new JTextPane();
-		preconditionsInput = new JTextPane();
-		triggersInput = new JTextPane();
+		nameInput.setForeground(Color.WHITE);
+		nameInput.setOpaque(false);
+		nameInput.setBounds(123, 118, 502, 33);
 		idInput = new JTextPane();
-		descriptionInput = new JTextPane();
-		supActorsInput = new JTextPane();
-		primActorsInput = new JTextPane();
-		primaryFlowInput = new JTextPane();
-		alternativeFlowInput = new JTextPane();
-		minimalInput = new JTextPane();
-		descriptionInput.setEditable(false);
-		successInput = new JTextPane();
+		idInput.setForeground(Color.WHITE);
+		idInput.setOpaque(false);
+		idInput.setBounds(668, 118, 242, 33);
 		
 		//set default display
 		nameInput.setText("Name");
 		idInput.setText("Id");
-		descriptionInput.setText("description");
-		primActorsInput.setText("prim_actors");
-		supActorsInput.setText("Supporting Actors");
-		triggersInput.setText("triggers");
-		triggersInput.setText("triggers");
-		preconditionsInput.setText("preconditions");
-		primaryFlowInput.setText("primaryFlow");
-		alternativeFlowInput.setText("alternativeFlow");
-		minimalInput.setText("Minimal");
-		successInput.setText("Success");
 		
 		//disable text input in main menu
 		nameInput.setEditable(false);
 		idInput.setEditable(false);
-		primActorsInput.setEditable(false);
-		supActorsInput.setEditable(false);
-		triggersInput.setEditable(false);
-		triggersInput.setEditable(false);
-		preconditionsInput.setEditable(false);
-		preconditionsInput.setEditable(false);
-		primaryFlowInput.setEditable(false);
-		alternativeFlowInput.setEditable(false);
-		minimalInput.setEditable(false);
-		successInput.setEditable(false);
-		
-		//set scroll panes for inputs
-		sp2.setViewportView(descriptionInput);
-		sp3.setViewportView(primActorsInput);
-		sp4.setViewportView(supActorsInput);
-		sp5.setViewportView(triggersInput);
-		sp6.setViewportView(preconditionsInput);
-		sp7.setViewportView(primaryFlowInput);
-		sp8.setViewportView(alternativeFlowInput);
-		sp9.setViewportView(minimalInput);
-		sp10.setViewportView(successInput);
+		panel.setLayout(null);
 
 		// Create centered project and load button
+
 		panel.add(space);
 		panel.add(nameInput);
 		panel.add(space2);
 		panel.add(idInput);
-		panel.add(description);
-		panel.add(sp2);
-		panel.add(primActors);
-		panel.add(sp3);
-		panel.add(supActors);
-		panel.add(sp4);
-		panel.add(triggers);
-		panel.add(sp5);
-		panel.add(preconditions);
-		panel.add(sp6);
-		panel.add(primaryFlow);
-		panel.add(sp7);
-		panel.add(alternativeFlow);
-		panel.add(sp8);
-		panel.add(minimal);
-		panel.add(sp9);
-		panel.add(success);
-		panel.add(sp10);
+		minimalInput = new JTextPane();
+		minimalInput.setForeground(Color.WHITE);
+		minimalInput.setBorder(null);
+		minimalInput.setOpaque(false);
+		minimalInput.setBounds(123, 565, 434, 43);
+		panel.add(minimalInput);
+		minimalInput.setText("Minimal");
+		minimalInput.setEditable(false);
+		successInput = new JTextPane();
+		successInput.setForeground(Color.WHITE);
+		successInput.setBorder(null);
+		successInput.setOpaque(false);
+		successInput.setBounds(547, 565, 326, 43);
+		panel.add(successInput);
+		successInput.setText("Success");
+		successInput.setEditable(false);
+		alternativeFlowInput = new JTextPane();
+		alternativeFlowInput.setForeground(Color.WHITE);
+		alternativeFlowInput.setBorder(null);
+		alternativeFlowInput.setOpaque(false);
+		alternativeFlowInput.setBounds(584, 315, 415, 43);
+		panel.add(alternativeFlowInput);
+		alternativeFlowInput.setText("alternativeFlow");
+		alternativeFlowInput.setEditable(false);
+		supActorsInput = new JTextPane();
+		supActorsInput.setForeground(Color.WHITE);
+		supActorsInput.setBorder(null);
+		supActorsInput.setOpaque(false);
+		supActorsInput.setBounds(584, 252, 380, 43);
+		panel.add(supActorsInput);
+		supActorsInput.setText("Supporting Actors");
+		supActorsInput.setEditable(false);
+		primaryFlowInput = new JTextPane();
+		primaryFlowInput.setForeground(Color.WHITE);
+		primaryFlowInput.setBorder(null);
+		primaryFlowInput.setOpaque(false);
+		primaryFlowInput.setBounds(123, 315, 434, 49);
+		panel.add(primaryFlowInput);
+		primaryFlowInput.setText("primaryFlow");
+		primaryFlowInput.setEditable(false);
+		primActorsInput = new JTextPane();
+		primActorsInput.setForeground(Color.WHITE);
+		primActorsInput.setBorder(null);
+		primActorsInput.setOpaque(false);
+		primActorsInput.setBounds(123, 250, 434, 43);
+		panel.add(primActorsInput);
+		primActorsInput.setText("prim_actors");
+		primActorsInput.setEditable(false);
+		preconditionsInput = new JTextPane();
+		preconditionsInput.setForeground(Color.WHITE);
+		preconditionsInput.setBorder(null);
+		preconditionsInput.setOpaque(false);
+		preconditionsInput.setBounds(123, 471, 748, 58);
+		panel.add(preconditionsInput);
+		preconditionsInput.setText("preconditions");
+		preconditionsInput.setEditable(false);
+		preconditionsInput.setEditable(false);
+		descriptionInput = new JTextPane();
+		descriptionInput.setForeground(Color.WHITE);
+		descriptionInput.setBorder(null);
+		descriptionInput.setOpaque(false);
+		descriptionInput.setBounds(123, 185, 642, 43);
+		panel.add(descriptionInput);
+		descriptionInput.setEditable(false);
+		descriptionInput.setText("description");
+		triggersInput = new JTextPane();
+		triggersInput.setForeground(Color.WHITE);
+		triggersInput.setOpaque(false);
+		triggersInput.setBounds(123, 386, 683, 50);
+		panel.add(triggersInput);
+		triggersInput.setText("triggers");
+		triggersInput.setText("triggers");
+		triggersInput.setEditable(false);
+		triggersInput.setEditable(false);
+		
+		label = new JLabel("Success Guearentees");
+		label.setBounds(new Rectangle(0, 0, 1366, 766));
+		
+		URL ID = GUI.class.getResource(
+                "/resources/ID.png");
+		
+		label.setIcon(new ImageIcon(ID));
+		label.setBounds(0, -34, 1366, 766);
+		panel.add(label);
+
+		
+
 
 		JPanel panel3 = new JPanel();
-		frame.getContentPane().add(panel3, BorderLayout.SOUTH);
+		//frame.getContentPane().add(panel3, BorderLayout.SOUTH);
 
 		edit = new JButton("Edit");
 		delete = new JButton("Delete");
@@ -400,6 +434,8 @@ public class GUI extends JFrame implements ActionListener {
 		panel3.add(delete);
 		delete.addActionListener(this);
 		edit.addActionListener(this);
+		
+
 	}
 	/**
 	 * Performs save operations using saveToXML method from the Project
@@ -433,7 +469,7 @@ public class GUI extends JFrame implements ActionListener {
 		GridLayout glPanel = new GridLayout(11, 2);
 		glPanel.setVgap(2);
 		glPanel.setHgap(2);
-		panel.setLayout(glPanel);
+		panel.setLayout(null);
 		edit.setVisible(true);
 		delete.setVisible(true);
 		if (currentUseCase != null) {
