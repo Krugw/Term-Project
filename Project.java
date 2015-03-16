@@ -18,7 +18,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-/*****************************************************************
+/**************************************************************
  Project handles several important features of the UseCase editor
  program, including adding, removing, and saving UseCases that have
  been created by the User.
