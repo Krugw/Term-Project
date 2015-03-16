@@ -1,4 +1,3 @@
-
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
@@ -133,6 +132,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      * Heigh of the usecase.
      */
     public static final int USE_CASE_HEIGHT = 700;
+
     private JScrollPane scrollPane_1;
     private JScrollPane scrollPane_2;
     private JScrollPane scrollPane_3;
@@ -143,8 +143,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
     private JScrollPane scrollPane_8;
     private JScrollPane scrollPane_9;
     private JScrollPane scrollPane_10;
-
-
+        
     /*****************************************************************
      Uses .getText() to transfer current values of JTextPanes into their
      associated parameters within the UseCase object.
@@ -172,20 +171,19 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      *****************************************************************/
     public UseCaseEditor() {
 
-       // setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         setTitle("Use Case Editor");
         setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
 
         JPanel textPanel = new JPanel();
 
-        /** Sets up the textFields with default values **/
         textPanel.setLayout(null);
 
-        getContentPane().add(textPanel, BorderLayout.CENTER);
-
-        okButton = new JButton("Save");
+        getContentPane().add(textPanel,BorderLayout.CENTER);
         
-		
+       
+       okButton = new JButton("Save");
+        
 		URL boximage = GUI.class.getResource(
                 "/resources/bg2.png");
 		URL checkmark = GUI.class.getResource(
@@ -212,7 +210,9 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane_3.setOpaque(false);
         scrollPane_3.setBounds(112, 176, 526, 37);
         textPanel.add(scrollPane_3);
+         
         primaryActorTxt = new JTextPane();
+        
         scrollPane_3.setViewportView(primaryActorTxt);
         primaryActorTxt.setForeground(Color.WHITE);
         primaryActorTxt.setBorder(null);
@@ -250,7 +250,10 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane_4.setOpaque(false);
         scrollPane_4.setBounds(112, 233, 527, 37);
         textPanel.add(scrollPane_4);
+        
         supportingActorTxt = new JTextPane();
+
+        
         scrollPane_4.setViewportView(supportingActorTxt);
         supportingActorTxt.setForeground(Color.WHITE);
         supportingActorTxt.setBorder(null);
@@ -260,7 +263,9 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane_5.setOpaque(false);
         scrollPane_5.setBounds(111, 295, 528, 29);
         textPanel.add(scrollPane_5);
+        
         triggersTxt = new JTextPane();
+        
         scrollPane_5.setViewportView(triggersTxt);
         triggersTxt.setForeground(Color.WHITE);
         triggersTxt.setOpaque(false);
@@ -269,7 +274,9 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane_6.setOpaque(false);
         scrollPane_6.setBounds(112, 347, 527, 37);
         textPanel.add(scrollPane_6);
+         
         preconditionsTxt = new JTextPane();
+
         scrollPane_6.setViewportView(preconditionsTxt);
         preconditionsTxt.setForeground(Color.WHITE);
         preconditionsTxt.setBorder(null);
@@ -279,7 +286,9 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane_7.setOpaque(false);
         scrollPane_7.setBounds(112, 405, 527, 37);
         textPanel.add(scrollPane_7);
+      
         primaryFlowTxt = new JTextPane();
+
         scrollPane_7.setViewportView(primaryFlowTxt);
         primaryFlowTxt.setForeground(Color.WHITE);
         primaryFlowTxt.setBorder(null);
@@ -288,8 +297,10 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane_8 = new JScrollPane();
         scrollPane_8.setOpaque(false);
         scrollPane_8.setBounds(112, 462, 529, 37);
-        textPanel.add(scrollPane_8);
+        textPanel.add(scrollPane_8);        
+        
         alternateFlowTxt = new JTextPane();
+
         scrollPane_8.setViewportView(alternateFlowTxt);
         alternateFlowTxt.setForeground(Color.WHITE);
         alternateFlowTxt.setBorder(null);
@@ -299,7 +310,9 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane_9.setOpaque(false);
         scrollPane_9.setBounds(112, 519, 526, 37);
         textPanel.add(scrollPane_9);
+        
         minimalGuaranteeTxt = new JTextPane();
+
         scrollPane_9.setViewportView(minimalGuaranteeTxt);
         minimalGuaranteeTxt.setForeground(Color.WHITE);
         minimalGuaranteeTxt.setBorder(null);
@@ -309,7 +322,9 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane_10.setOpaque(false);
         scrollPane_10.setBounds(112, 578, 529, 37);
         textPanel.add(scrollPane_10);
+        
         successGuaranteeTxt = new JTextPane();
+
         scrollPane_10.setViewportView(successGuaranteeTxt);
         successGuaranteeTxt.setForeground(Color.WHITE);
         successGuaranteeTxt.setBorder(null);
@@ -318,9 +333,9 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         label.setIcon(new ImageIcon(boximage));
         label.setBounds(0, 1, 784, 650);
         textPanel.add(label);
+        
         JPanel buttonPanel = new JPanel();
-        //buttonPanel.add(okButton);
-        //buttonPanel.add(cancelButton);
+
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         okButton.addActionListener(this);
         cancelButton.addActionListener(this);
@@ -335,7 +350,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane_8.getViewport().setOpaque(false);
         scrollPane_9.getViewport().setOpaque(false);
         scrollPane_10.getViewport().setOpaque(false);
-        
+
         setSize(USE_CASE_WIDTH, USE_CASE_HEIGHT);
         setVisible(true);
     }
@@ -359,6 +374,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         minimalGuaranteeTxt.setText(usecase.getMinimalGuaruntees());
         successGuaranteeTxt.setText(usecase.getSuccessGuarantees());
     }
+    
     /**************************************************************
      Adds ActionListener to okButton.
      @param listener the ActionListener to be added to the given button.
