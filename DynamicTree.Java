@@ -12,13 +12,13 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-/**
+/********************************************************************
  * This class creates the functionality for the tree inside the GUI.
  * 
  * @author Wesley Krug, Gabriel Steponovich,
  * Michael Brecker, Halston Raddatz
  * @version Winter 2015
- */
+ ********************************************************************/
 class DynamicTree extends JPanel {
   /**
   * Serializable.
