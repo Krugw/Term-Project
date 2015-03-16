@@ -1,4 +1,3 @@
-
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,10 +24,8 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-
 import java.awt.Color;
 import java.awt.FlowLayout;
-
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import java.awt.Rectangle;
@@ -67,7 +64,7 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * add a usecase to project.
 	 */
-	private JMenuItem addUseCase;
+	private JMenuItem addUseCase,addWord;
 	/**
 	 * menu items for editing saving and removing.
 	 */
@@ -109,11 +106,12 @@ public class GUI extends JFrame implements ActionListener {
 	 *  editing usecases.
 	 */
 	private UseCaseEditor uCE;
-	
-	
 	/**
 	 * keeping track of current usecase.
 	 */
+	
+	private GlossaryWord glossary;
+	
 	private UseCase currentUseCase;
 	/**
 	 * array of project usecase ids.
@@ -122,6 +120,9 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * for directory remembrance.
 	 */
+	
+	private Vector<String> terms;
+	
 	private String file;
 
 	/**
@@ -132,11 +133,12 @@ public class GUI extends JFrame implements ActionListener {
 	 * For displaying Usecases.
 	 */
 	private DynamicTree dTree;
-	private DefaultMutableTreeNode project,treePA,treeSA,treeUC;
+	private DefaultMutableTreeNode project,treePA,treeSA,treeUC,treeG;
 	/**
 	 * For loading files.
 	 */
 	private LoadFileBox loadFile;
+	
 	private JLabel label;
 	
 	/**
@@ -161,9 +163,6 @@ public class GUI extends JFrame implements ActionListener {
 	Uses intialize() to build GUI elements necessary for basic
 	functionality of UseCase program
 	*****************************************************************/
-	/**
-	 * 
-	 */
 	public GUI() {
 		initialize();
 	}
@@ -171,15 +170,22 @@ public class GUI extends JFrame implements ActionListener {
 	/*****************************************************************
 	performs minimal operations for functionality of UseCase program
 	*****************************************************************/
-	/**
-	 * 
-	 */
 	public final void uceUtility() {
 		uCE.addSaveListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 				UseCase uc = uCE.getUC();
 				save(uc);
 			}
+		});
+	}
+	
+	public final void glossUtility() {
+		glossary.addSaveListener(new ActionListener() {
+			public void actionPerformed(final ActionEvent e){
+				Glossary g = glossary.getGlossaryTerm();
+				save(g);
+			}
+			
 		});
 	}
 
@@ -205,7 +211,7 @@ public class GUI extends JFrame implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        //frame.setIconImage(image);
+        
 		fileMenu.add(loadItem);
 		fileMenu.add(newProject);
 		fileMenu.add(saveItem);
@@ -221,102 +227,106 @@ public class GUI extends JFrame implements ActionListener {
 		/** action menu */
 		actionMenu = new JMenu("Action");
 		addUseCase = new JMenuItem("New Usecase");
+		addWord = new JMenuItem("Add Word to Glossary");
 		removeUseCase = new JMenuItem("Remove Usecase");
 		editUseCase = new JMenuItem("Edit");
 		helpUseCase = new JMenuItem("Help");
 
 		addUseCase.addActionListener(this);
+		addWord.addActionListener(this);
 		removeUseCase.addActionListener(this);
 		editUseCase.addActionListener(this);
 		helpUseCase.addActionListener(this);
 
 		actionMenu.add(addUseCase);
+		actionMenu.add(addWord);
 		actionMenu.add(removeUseCase);
 		actionMenu.add(editUseCase);
 		actionMenu.add(helpUseCase);
 
 		frame = new JFrame();
-		frame.setBounds(new Rectangle(0, 0, 1366, 766));
+		frame.setBounds(new Rectangle(0,0,1366,766));
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
-	
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("UseCase Editor - Lite");
-		//frame.setIconImage(image);
+		frame.setIconImage(image);
 
 		
-		
-		/** Menu bar */
 		ids = new Vector<String>();
+		terms = new Vector<String>();
 		menus = new JMenuBar();
 		
-				frame.getContentPane().add(menus, BorderLayout.NORTH);
+		frame.getContentPane().add(menus, BorderLayout.NORTH);
 
 		paneL1 = new JPanel();
 		paneL1.setLayout(new BorderLayout());
 
 		frame.getContentPane().add(paneL1, BorderLayout.WEST);
-		
+
 		
 		///HERE POST IT
-				panel2 = new JPanel();
+		panel2 = new JPanel();
+				
+		frame.getContentPane().add(panel2, BorderLayout.CENTER);
+		JLabel fill2 = new JLabel();
+								
+		URL url = GUI.class.getResource(
+		            "/resources/bg1.png");
+								
+								
+		fill2.setIcon(new ImageIcon(url));
+		fill2.setBounds(1, 0, 1366, 766);
+		panel2.setLayout(null);
+								
+		newproject = new JButton("New Project");
+										
+										
+		URL newProject = GUI.class.getResource(
+		              "/resources/NewProject2.png");
+										
+		URL loadProject = GUI.class.getResource(
+		               "/resources/loadproject2.png");
+										
+		newproject.setIcon(new ImageIcon(newProject));
+		newproject.setBackground(Color.DARK_GRAY);
+		newproject.setForeground(Color.BLACK);
+		newproject.setBounds(450, 443, 213, 53);
+		newproject.addActionListener(this);
+		panel2.add(newproject);
+		load = new JButton("Load Project");
+		load.setIcon(new ImageIcon(loadProject));
+		load.setBounds(700, 443, 213, 53);
+		load.addActionListener(this);
+		panel2.add(load);
+		panel2.add(fill2);
 		
-				frame.getContentPane().add(panel2, BorderLayout.CENTER);
-						JLabel fill2 = new JLabel();
-						
-						URL url = GUI.class.getResource(
-                                "/resources/bg1.png");
-						
-						
-						fill2.setIcon(new ImageIcon(url));
-						fill2.setBounds(1, 0, 1366, 766);
-						panel2.setLayout(null);
-						
-								newproject = new JButton("New Project");
-								
-								
-								URL newProject = GUI.class.getResource(
-		                                "/resources/NewProject2.png");
-								
-								URL loadProject = GUI.class.getResource(
-		                                "/resources/loadproject2.png");
-								
-								newproject.setIcon(new ImageIcon(newProject));
-								newproject.setBackground(Color.DARK_GRAY);
-								newproject.setForeground(Color.BLACK);
-								newproject.setBounds(450, 443, 213, 53);
-								newproject.addActionListener(this);
-								panel2.add(newproject);
-								load = new JButton("Load Project");
-								load.setIcon(new ImageIcon(loadProject));
-								load.setBounds(700, 443, 213, 53);
-								load.addActionListener(this);
-								panel2.add(load);
-								panel2.add(fill2);
-
+				
 		panel = new JPanel();
 		panel.setVisible(true);
 		initialize2();
 	}
+	
 	/**
 	 * 
 	 */
 	private void initialize2() {
 		
 		JLabel space = new JLabel();
-		space.setBounds(25, 16, 0, 0);
+		space.setBounds(25, 16, 0 , 0);
 		JLabel space2 = new JLabel();
-		space2.setBounds(68, 16, 0, 0);
-
+		
+		space.setBounds(68,16,0,0);
+		
 		//new input text holders
 		nameInput = new JTextPane();
 		nameInput.setForeground(Color.WHITE);
 		nameInput.setOpaque(false);
-		nameInput.setBounds(123, 118, 502, 33);
+		nameInput.setBounds(123,118,502,33);
 		idInput = new JTextPane();
 		idInput.setForeground(Color.WHITE);
 		idInput.setOpaque(false);
-		idInput.setBounds(668, 118, 242, 33);
+		idInput.setBounds(668,118,242,33);
 		
 		//set default display
 		nameInput.setText("Name");
@@ -325,15 +335,17 @@ public class GUI extends JFrame implements ActionListener {
 		//disable text input in main menu
 		nameInput.setEditable(false);
 		idInput.setEditable(false);
+		
 		panel.setLayout(null);
 
 		// Create centered project and load button
-
 		panel.add(space);
 		panel.add(nameInput);
 		panel.add(space2);
 		panel.add(idInput);
-		minimalInput = new JTextPane();
+		
+		
+    	minimalInput = new JTextPane();
 		minimalInput.setForeground(Color.WHITE);
 		minimalInput.setBorder(null);
 		minimalInput.setOpaque(false);
@@ -417,12 +429,9 @@ public class GUI extends JFrame implements ActionListener {
 		label.setIcon(new ImageIcon(ID));
 		label.setBounds(0, -34, 1366, 766);
 		panel.add(label);
-
 		
 
-
 		JPanel panel3 = new JPanel();
-		//frame.getContentPane().add(panel3, BorderLayout.SOUTH);
 
 		edit = new JButton("Edit");
 		delete = new JButton("Delete");
@@ -430,16 +439,14 @@ public class GUI extends JFrame implements ActionListener {
 		open.addActionListener(this);
 		edit.setVisible(false);
 		delete.setVisible(false);
-		panel3.add(edit);
 		panel3.add(delete);
 		delete.addActionListener(this);
 		edit.addActionListener(this);
-		
-
 	}
+	
 	/**
 	 * Performs save operations using saveToXML method from the Project
-	class.
+	 * class.
 	 * @param uc
 	 */
 	public final void save(final UseCase uc) {
@@ -449,6 +456,15 @@ public class GUI extends JFrame implements ActionListener {
 		currentProject.saveToXML(file);
 		edit.setVisible(true);
 		display();
+	}
+	
+	public final void save(final Glossary g){
+		if(!g.getWord().equals("")) {
+			currentProject.addGlossaryItem(g);
+			terms = currentProject.getTerms();
+			currentProject.saveToXML(file);
+			display();
+		}
 	}
 
 	/*****************************************************************
@@ -498,6 +514,13 @@ public class GUI extends JFrame implements ActionListener {
 			uCE.setVisible(true);
 			uceUtility();
 		}
+		
+		if(e.getSource() == addWord){
+			glossary = new GlossaryWord();
+			glossary.setVisible(true);
+			glossUtility();
+		}
+		
 		if (e.getSource() == saveAs) {
 			dialog = new CreateDialog(currentProject.getProjectName());
 			file = dialog.getDirectory();
@@ -521,14 +544,43 @@ public class GUI extends JFrame implements ActionListener {
 				display();
 			}
 		}
+		
 		if (e.getSource() == saveItem) {
 			if (currentUseCase != null) {
 				save(currentUseCase);
 			}
 		}
-		if (e.getSource() == open && dTree.selectedUsecase() != null){
-			currentUseCase = dTree.selectedUsecase();
-			display();
+		
+		//try-catch block to avoid null pointer exception when pressing open
+		//with nothing selected...probably should come up with a better fix
+		try {
+			if (e.getSource() == open && dTree.selectedUsecase() != null){
+				currentUseCase = dTree.selectedUsecase();
+				display();
+			}
+		}
+		catch(Exception ex){
+			return;
+		}
+		
+		//try-catch block to avoid null pointer exception when pressing open
+		//with nothing selected...probably should come up with a better fix
+		try{
+			if (e.getSource() == open && dTree.selectedTerm() != null) {
+				
+				for(int i=0; i < terms.size(); i++){
+					String term = terms.get(i);
+				
+					if(term.equals(dTree.selectedTerm())){
+						Glossary g = currentProject.getGlossaryItem(term);
+						JOptionPane.showMessageDialog(frame, g.getWord() + ": " + g.getDefinition());
+					}
+				}
+			
+			}
+		}
+		catch(Exception ex){
+			return;
 		}
 
 		if (e.getSource() == edit || e.getSource() == editUseCase) {
@@ -574,6 +626,7 @@ public class GUI extends JFrame implements ActionListener {
 				if (!ids.isEmpty()) {
 					currentUseCase = currentProject.getUsecase(ids.get(0));
 				}
+				terms = currentProject.getTerms();
 				createtree();
 				display();
 			}
@@ -585,35 +638,48 @@ public class GUI extends JFrame implements ActionListener {
 	 Controls dynamic updates of the tree, in order to display
 	 the correct (and current) values therein.
 	 **************************************************************/
-	/**
-	 * 
-	 */
 	public final void updatedtree() {
 		HashMap<String,DefaultMutableTreeNode> PAD = new HashMap<String,DefaultMutableTreeNode>();
 		HashMap<String,DefaultMutableTreeNode> SAD = new HashMap<String,DefaultMutableTreeNode>();
+		HashMap<String,DefaultMutableTreeNode> GD = new HashMap<String,DefaultMutableTreeNode>();
 		dTree.clear();
 		project = dTree.addObject((DefaultMutableTreeNode)null, currentProject.getProjectName(),true);
 		treeUC = dTree.addObject(project, "UseCases",true);
 		treePA = dTree.addObject(project, "Primary Actors",true);
 		treeSA = dTree.addObject(project, "Secondary Actors",true);
+		treeG = dTree.addObject(project, "Glossary",true);
+		
 		if (!ids.isEmpty()) {
 			System.out.println(treePA.toString());
 			for (int i = 0; i < ids.size(); i++) {
-			String id = ids.get(i);
-			UseCase UC = currentProject.getUsecase(id);
-			if(!SAD.containsKey(UC.getSupportingActors())){
-				SAD.put(UC.getSupportingActors(),dTree.addObject(treeSA, UC.getSupportingActors()));
-				dTree.addObject(SAD.get(UC.getSupportingActors()), UC);
-			}else{
-				dTree.addObject(SAD.get(UC.getSupportingActors()), UC);
+				String id = ids.get(i);
+				UseCase UC = currentProject.getUsecase(id);
+				if(!SAD.containsKey(UC.getSupportingActors())){
+					SAD.put(UC.getSupportingActors(),dTree.addObject(treeSA, UC.getSupportingActors()));
+					dTree.addObject(SAD.get(UC.getSupportingActors()), UC);
+				}else{
+					dTree.addObject(SAD.get(UC.getSupportingActors()), UC);
+				}
+				if(!PAD.containsKey(UC.getPrimaryActors())){
+					PAD.put(UC.getPrimaryActors(), dTree.addObject(treePA, UC.getPrimaryActors()));
+					dTree.addObject(PAD.get(UC.getPrimaryActors()), UC);
+				}else{
+					dTree.addObject(PAD.get(UC.getPrimaryActors()), UC);
+				}
+				dTree.addObject(treeUC, UC);
 			}
-			if(!PAD.containsKey(UC.getPrimaryActors())){
-				PAD.put(UC.getPrimaryActors(), dTree.addObject(treePA, UC.getPrimaryActors()));
-				dTree.addObject(PAD.get(UC.getPrimaryActors()), UC);
-			}else{
-				dTree.addObject(PAD.get(UC.getPrimaryActors()), UC);
-			}
-			dTree.addObject(treeUC, UC);
+		}
+		
+		if (!terms.isEmpty()){
+			for(int j = 0; j < terms.size(); j++){
+				String term = terms.get(j);
+				Glossary g = currentProject.getGlossaryItem(term);
+				if(!GD.containsKey(g.getWord())){
+					GD.put(g.getWord(), dTree.addObject(treeG, g.getWord()));
+					
+				}else{
+					dTree.addObject(GD.get(g.getWord()), g);
+				}
 			}
 		}
 	}
@@ -621,9 +687,6 @@ public class GUI extends JFrame implements ActionListener {
 	 Creates and initalizes a custom tree for use in modifying
 	 and creating UseCase elements.
 	 **************************************************************/
-	/**
-	 * 
-	 */
 	public final void createtree() {
 		if (dTree != null) {
 			paneL1.removeAll();
