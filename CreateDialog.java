@@ -10,9 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.Color;
-
 import javax.swing.ImageIcon;
-
 import java.net.URL;
 
 
@@ -84,12 +82,12 @@ public class CreateDialog implements ActionListener {
 		* user operation and fields for user input.
 		*****************************************************************/	
 		okButton = new JButton("OK");
-		okButton.setBounds(62, 116, 80, 23);
+		okButton.setBounds(62,116,80,23);
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(147, 116, 81, 23);
+		cancelButton.setBounds(147,116,81,23);
 		fileNameTxt = new JTextField(textfieldSize);
 		fileNameTxt.setOpaque(false);
-		fileNameTxt.setBounds(49, 67, 196, 38);
+		fileNameTxt.setBounds(49,67,196,38);
 		fileNameTxt.setText(s);		
 		
 		panel = new JPanel();
@@ -104,15 +102,14 @@ public class CreateDialog implements ActionListener {
 		* actionlisteners to applicable jButtons.
 		**************************************************************/			
 		fileNameTxt.setVisible(true);
-		box.getContentPane().add(panel);		
+		box.getContentPane().add(panel);
 		label = new JLabel("File Name:");
-		
 		URL boximage = GUI.class.getResource(
-                "/resources/filebox.png");
+		"/resources/filebox.png");
 		
 		label.setIcon(new ImageIcon(boximage));
 		label.setForeground(Color.WHITE);
-		label.setBounds(0, 0, 284, 161);
+		label.setBounds(0,0,284,161);
 		panel.add(label);
 
 		okButton.addActionListener(this);
