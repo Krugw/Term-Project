@@ -1,5 +1,4 @@
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 
@@ -7,25 +6,49 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.UIManager;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+/**
+ * This class creates the functionality for the tree inside the GUI.
+ * 
+ * @author Wesley Krug, Gabriel Steponovich,
+ * Michael Brecker, Halston Raddatz
+ * @version Winter 2015
+ */
 class DynamicTree extends JPanel {
   /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-protected DefaultMutableTreeNode rootNode;
-  protected DefaultTreeModel treeModel;
-  protected JTree tree;
+  * Serializable.
+  */
+  private static final long serialVersionUID = 1L;
+  
+  /**
+   * The root node.
+   */
+  private DefaultMutableTreeNode rootNode;
+  
+  /**
+   * The tree model.
+   */
+  private DefaultTreeModel treeModel;
+  
+  /**
+   * The tree.
+   */
+  private JTree tree;
+  
+  /**
+   * The toolkit for the tree.
+   */
   private Toolkit toolkit = Toolkit.getDefaultToolkit();
 
+  /**
+   * Constructor for the tree. It sets up what the tree will
+   * look like in the GUI.
+   */
   public DynamicTree() {
     super(new GridLayout(1, 0));
 
@@ -41,11 +64,38 @@ protected DefaultMutableTreeNode rootNode;
     JScrollPane scrollPane = new JScrollPane(tree);
     add(scrollPane);
   }
-  public UseCase selectedUsecase(){
-	  if(((DefaultMutableTreeNode)tree.getSelectionPath().getLastPathComponent()).getUserObject() instanceof UseCase)
-	  return (UseCase) ((DefaultMutableTreeNode)tree.getSelectionPath().getLastPathComponent()).getUserObject();
-	  return null;
+  
+  /**
+   * This finds which usecase selected in the tree.
+   * 
+   * @return the currently selected usecase.
+   */
+  public UseCase selectedUsecase() {
+	  if (((DefaultMutableTreeNode) tree.getSelectionPath(
+			  ).getLastPathComponent()).getUserObject() instanceof UseCase) {
+		  return (UseCase) ((DefaultMutableTreeNode) tree.getSelectionPath(
+				  ).getLastPathComponent()).getUserObject();
+	  } else {
+		  return null;
+	  }
   }
+  
+  /**
+   * This finds which term is selected in the tree.
+   * 
+   * @return the currently selected usecase.
+   */
+  public String selectedTerm() {
+	  if (((DefaultMutableTreeNode) tree.getSelectionPath(
+			  ).getLastPathComponent()).getUserObject() instanceof String) {
+		return (String) ((DefaultMutableTreeNode) tree.getSelectionPath(
+					  ).getLastPathComponent()).getUserObject();
+	  } else {
+		  return null;
+	  }
+	  
+  }
+  
   /** Remove all nodes except the root node. */
   public void clear() {
     rootNode.removeAllChildren();
@@ -56,8 +106,8 @@ protected DefaultMutableTreeNode rootNode;
   public void removeCurrentNode() {
     TreePath currentSelection = tree.getSelectionPath();
     if (currentSelection != null) {
-      DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (currentSelection
-          .getLastPathComponent());
+      DefaultMutableTreeNode currentNode = (DefaultMutableTreeNode) (
+    		  currentSelection.getLastPathComponent());
       MutableTreeNode parent = (MutableTreeNode) (currentNode.getParent());
       if (parent != null) {
         treeModel.removeNodeFromParent(currentNode);
@@ -69,8 +119,12 @@ protected DefaultMutableTreeNode rootNode;
     toolkit.beep();
   }
 
-  /** Add child to the currently selected node. */
-  public DefaultMutableTreeNode addObject(Object child) {
+  /** Add child to the currently selected node. 
+   * 
+   * @param child is the node to add.
+   * @return returns a node.
+   */
+  public DefaultMutableTreeNode addObject(final Object child) {
     DefaultMutableTreeNode parentNode = null;
     TreePath parentPath = tree.getSelectionPath();
 
@@ -83,29 +137,52 @@ protected DefaultMutableTreeNode rootNode;
     return addObject(parentNode, child, true);
   }
 
-  public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent,
-      Object child) {
-    return addObject(parent, child, false);
+  /**
+   * Add child to the currently selected node.
+   * 
+   * @param parent to add the child to.
+   * @param child is the node to add.
+   * @return returns a node.
+   */
+  public DefaultMutableTreeNode addObject(final DefaultMutableTreeNode parent,
+      final Object child) {
+      return addObject(parent, child, false);
   }
+  
+  /**
+   * Add child to the currently selected node.
+   * 
+   * @param parent to add the child to.
+   * @param child is the object to add.
+   * @param shouldBeVisible boolean to show new child
+   * @return returns a node.
+   */
   public DefaultMutableTreeNode addObject(DefaultMutableTreeNode parent,
-      Object child, boolean shouldBeVisible) {
-    DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
+      final Object child, final boolean shouldBeVisible) {
+	  DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
 
-    if (parent == null) {
-      parent = rootNode;
-    }
+	  if (parent == null) {
+		  parent = rootNode;
+	  }
 
-    // It is key to invoke this on the TreeModel, and NOT DefaultMutableTreeNode
-    treeModel.insertNodeInto(childNode, parent, parent.getChildCount());
-    // Make sure the user can see the lovely new node.
-    if (shouldBeVisible) {
-      tree.scrollPathToVisible(new TreePath(childNode.getPath()));
-    }
-    return childNode;
-  }
-public DefaultMutableTreeNode getSelectedItem(){
+	  //It is key to invoke this on TreeModel, and NOT DefaultMutableTreeNode
+	  treeModel.insertNodeInto(childNode, parent, parent.getChildCount());
+	  // Make sure the user can see the lovely new node.
+	  if (shouldBeVisible) {
+		  tree.scrollPathToVisible(new TreePath(childNode.getPath()));
+	  }
+	  return childNode;
+   }
+  
+  /**
+   * Gets the selected item in the tree.
+   * 
+   * @return the selected item from the tree.
+   */
+  public DefaultMutableTreeNode getSelectedItem() {
 	DefaultMutableTreeNode node;
     node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+    System.out.println(node);
 	return node;
 }
 }
