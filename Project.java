@@ -33,6 +33,9 @@ public class Project {
     /**Default value for projectName.**/
     private String projectName = "Project";
     
+    /**
+     * An array list of glossary items. 
+     */
     private ArrayList<Glossary> glossary;
 
     /*****************************************************************
@@ -59,9 +62,14 @@ public class Project {
         useCases.add(uc);
     }
     
-    public void addGlossaryItem(Glossary g){
-    	for(Glossary gloss : glossary){
-    		if(gloss.getWord().equals(g.getWord())){
+    /**\
+     * Add a glossary item to the glossary array list.
+     * 
+     * @param g is the glossary item to add.
+     */
+    public final void addGlossaryItem(final Glossary g) {
+    	for (Glossary gloss : glossary) {
+    		if (gloss.getWord().equals(g.getWord())) {
     			glossary.remove(gloss);
     			glossary.add(g);
     			return;
@@ -70,26 +78,40 @@ public class Project {
     	glossary.add(g);
     }
     
-    public Glossary getGlossaryItem(String word){
-    	for(Glossary gloss : glossary){
-    		if(gloss.getWord().equals(word)){
+    /**
+     * Gets a desired term from the glossary.
+     * 
+     * @param word is the name of the term wanted
+     * @return a Glossary object with term name and definition
+     */
+    public final Glossary getGlossaryItem(final String word) {
+    	for (Glossary gloss : glossary) {
+    		if (gloss.getWord().equals(word)) {
     			return gloss;
     		}
     	}
     	return null;
     }
     
+    /**
+     * This returns a vector containing all the terms in
+     * the glossary.
+     * 
+     * @return terms is a vector of terms.
+     */
     public final Vector<String> getTerms() {
     	Vector<String> terms = new Vector<String>();
-    	for(Glossary gloss : glossary){
+    	for (Glossary gloss : glossary) {
     		terms.add(gloss.getWord());
     	}
     	return terms;
     }
     
-    public boolean deleteGlossaryItem(Glossary g){
+    /** Not implemented yet.
+    public boolean deleteGlossaryItem(Glossary g) {
     	return glossary.remove(g);
     }
+    **/
 
     /*****************************************************************
      Returns the UseCase with the requested ID.
@@ -157,13 +179,10 @@ public class Project {
             DocumentBuilderFactory docFactory =
                     DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
-            //root element(Project)
             Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("project");
+            Element rootElement = doc.createElement("project"); //Root(project)
             rootElement.setAttribute("name", this.projectName);
             doc.appendChild(rootElement);
-            
             for (UseCase uc : useCases) {
                 Element usecase = doc.createElement("usecase");
                 rootElement.appendChild(usecase);
@@ -264,26 +283,23 @@ public class Project {
                 }
                 usecase.appendChild((sucGuarantee));
             }
-            
             Element dictionary = doc.createElement("dictionary");
             rootElement.appendChild(dictionary);
-            for(Glossary gloss : glossary){
-            	
+            for (Glossary gloss : glossary) {
             	Element term = doc.createElement("term");
             	dictionary.appendChild((term));
             	Element word = doc.createElement("word");
                 if (!gloss.getWord().isEmpty()) {
-                	word.appendChild(doc.createTextNode(gloss.getWord()));
-                    
+                	word.appendChild(doc.createTextNode(gloss.getWord()));      
                 } else {
                     word.appendChild(doc.createTextNode(" "));
                 }
                 term.appendChild((word));
                 
                 Element def = doc.createElement("definition");
-                if(!gloss.getDefinition().isEmpty()){
+                if (!gloss.getDefinition().isEmpty()) {
                 	def.appendChild(doc.createTextNode(gloss.getDefinition()));
-                } else{
+                } else {
                 	def.appendChild(doc.createTextNode(" "));
                 }
                 term.appendChild((def));
@@ -292,16 +308,13 @@ public class Project {
             TransformerFactory transformerFactory =
                     TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
-            
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty(
                     "{http://xml.apache.org/xslt}indent-amount", "2");
-
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(
                     new File(directory + "\\" + this.getProjectName()));
             transformer.transform(source, result);
-
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (TransformerConfigurationException e) {
@@ -340,11 +353,8 @@ public class Project {
             //Grab info to fill into usecase
             for (int i = 0; i < nodeList.getLength(); i++) {
                 UseCase u = new UseCase();
-                
                 Node fstNode = nodeList.item(i);
-
                 if (fstNode.getNodeType() == Node.ELEMENT_NODE) {
-
                     //Grab Name and set it to u.Name
                     Element element = (Element) fstNode;
                     NodeList nameNmElmtLst
@@ -354,13 +364,11 @@ public class Project {
                     NodeList nameNm
                             = nameNmElmnt.getChildNodes();
                     u.setName(String.valueOf(nameNm.item(0).getNodeValue()));
-
                     //Grab ID and set it to u.ID
                     NodeList idNmElmntLst = element.getElementsByTagName("id");
                     Element idNmElmnt = (Element) idNmElmntLst.item(0);
                     NodeList idNm = idNmElmnt.getChildNodes();
                     u.setID(String.valueOf(idNm.item(0).getNodeValue()));
-
                     //Grab Description and set it to u.Description
                     NodeList descNmElmntLst =
                             element.getElementsByTagName("description");
@@ -370,7 +378,6 @@ public class Project {
                             descNmElmnt.getChildNodes();
                     u.setDescription(String.valueOf(
                             descNm.item(0).getNodeValue()));
-                    
                     //Grab Primary Actors and set it to u.primaryActors
                     NodeList pactNmElmntLst
                             = element.getElementsByTagName("primary-actors");
@@ -379,7 +386,6 @@ public class Project {
                     NodeList pactNm = pactNmElmnt.getChildNodes();
                     u.setPrimaryActors(String.valueOf(
                             pactNm.item(0).getNodeValue()));
-
                     //Grab Supporting-Actors and set it to u.supportingActors
                     NodeList sActNmElmntLst =
                             element.getElementsByTagName("supporting-actors");
@@ -389,7 +395,6 @@ public class Project {
                             sActNmElmnt.getChildNodes();
                     u.setSupportingActors(String.valueOf(
                             sActNm.item(0).getNodeValue()));
-
                     //Grab Trigger and set it to u.Trigger
                     NodeList trigNmElmntLst =
                             element.getElementsByTagName("trigger");
@@ -399,7 +404,6 @@ public class Project {
                             trigNmElmnt.getChildNodes();
                     u.setTriggers(String.valueOf(
                             trigNm.item(0).getNodeValue()));
-
                     //Grab Precondition and set it to u.Precondition
                     NodeList preCNmElmntLst =
                             element.getElementsByTagName("preconditions");
@@ -409,7 +413,6 @@ public class Project {
                             preCNmElmnt.getChildNodes();
                     u.setPreconditions(String.valueOf(
                             preCNm.item(0).getNodeValue()));
-
                     //Grab Primary Flow and set it to u.primaryFlow
                     NodeList pFlowNmElmntLst =
                             element.getElementsByTagName("primary-flow");
@@ -419,7 +422,6 @@ public class Project {
                             pFlowNmElmnt.getChildNodes();
                     u.setPrimaryflow(String.valueOf(
                             pFlowNm.item(0).getNodeValue()));
-
                     //Grab Alternate Flow and set it to u.alternateFlow
                     NodeList aFlowNmElmntLst =
                             element.getElementsByTagName("alternate-flow");
@@ -429,7 +431,6 @@ public class Project {
                             aFlowNmElmnt.getChildNodes();
                     u.setAlternativeflow(String.valueOf(
                             aFlowNm.item(0).getNodeValue()));
-
                     //Grab Minimal Guarantee and set it to u.minimalGuarantee
                     NodeList mingNmElmntLst =
                             element.getElementsByTagName("minimal-guarantee");
@@ -439,7 +440,6 @@ public class Project {
                             mingNmElmnt.getChildNodes();
                     u.setMinimalGuarantees(String.valueOf(
                             mingNm.item(0).getNodeValue()));
-
                     //Grab Success Guarantee and set it to u.successGuarantee
                     NodeList sucGNmElmntLst =
                             element.getElementsByTagName("success-guarantee");
@@ -448,8 +448,7 @@ public class Project {
                     NodeList sucGNm =
                             sucGNmElmnt.getChildNodes();
                     u.setSuccessGuarantees(String.valueOf(
-                            sucGNm.item(0).getNodeValue()));
-                    
+                            sucGNm.item(0).getNodeValue())); 
                 }
                 this.addUsecase(u);
             }
@@ -458,19 +457,21 @@ public class Project {
             for (int i = 0; i < nodeList2.getLength(); i++) {
             	Glossary gloss = new Glossary();
             	Node fstNode2 = nodeList2.item(i);
-            	
             	if (fstNode2.getNodeType() == Node.ELEMENT_NODE) {
             		Element element = (Element) fstNode2;
             		
-            		NodeList wordNmElmLst = element.getElementsByTagName("word");
+            		NodeList wordNmElmLst = element.getElementsByTagName(
+            				"word");
             		Element wordNmElmnt = (Element) wordNmElmLst.item(0);
             		NodeList wordNm = wordNmElmnt.getChildNodes();
-            		gloss.setWord(String.valueOf(wordNm.item(0).getNodeValue()));
-            		
-            		NodeList defNmElmtLst = element.getElementsByTagName("definition");
+            		gloss.setWord(String.valueOf(wordNm.item(0
+            				).getNodeValue()));
+            		NodeList defNmElmtLst = element.getElementsByTagName(
+            				"definition");
             		Element defNmElmnt = (Element) defNmElmtLst.item(0);
             		NodeList defNm = defNmElmnt.getChildNodes();
-            		gloss.setDefinition(String.valueOf(defNm.item(0).getNodeValue()));
+            		gloss.setDefinition(String.valueOf(defNm.item(0
+            				).getNodeValue()));
             	}
             	this.addGlossaryItem(gloss);
             }
