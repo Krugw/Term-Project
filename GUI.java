@@ -7,7 +7,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -25,9 +24,6 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import java.awt.Color;
-import java.awt.FlowLayout;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 import java.awt.Rectangle;
 
 /*****************************************************************
@@ -41,7 +37,7 @@ Authors Wesley Krug, Gabriel Steponovich,
 *****************************************************************/
 public class GUI extends JFrame implements ActionListener {
 	/**
-	 * 
+	 * Serializable.
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
@@ -62,9 +58,9 @@ public class GUI extends JFrame implements ActionListener {
 	 */
 	private JMenuItem exitItem, saveItem, saveAs;
 	/**
-	 * add a usecase to project.
+	 * add a usecase or term to project.
 	 */
-	private JMenuItem addUseCase,addWord;
+	private JMenuItem addUseCase, addWord;
 	/**
 	 * menu items for editing saving and removing.
 	 */
@@ -112,6 +108,9 @@ public class GUI extends JFrame implements ActionListener {
 	
 	private GlossaryWord glossary;
 	
+	/**
+	 * This is the current usecase being displayed.
+	 */
 	private UseCase currentUseCase;
 	/**
 	 * array of project usecase ids.
@@ -123,6 +122,9 @@ public class GUI extends JFrame implements ActionListener {
 	
 	private Vector<String> terms;
 	
+	/**
+	 * This is the file path.
+	 */
 	private String file;
 
 	/**
@@ -133,17 +135,22 @@ public class GUI extends JFrame implements ActionListener {
 	 * For displaying Usecases.
 	 */
 	private DynamicTree dTree;
-	private DefaultMutableTreeNode project,treePA,treeSA,treeUC,treeG;
+	/**
+	 * Nodes for the tree.
+	 */
+	private DefaultMutableTreeNode project, treePA, treeSA, treeUC, treeG;
 	/**
 	 * For loading files.
 	 */
 	private LoadFileBox loadFile;
-	
+	/**
+	 * label.
+	 */
 	private JLabel label;
 	
 	/**
 	 * main method, creates the instance of GUI.
-	 * @param args
+	 * @param args is an argument.
 	 */
 	public static void main(final String[] args) {
 
@@ -159,16 +166,16 @@ public class GUI extends JFrame implements ActionListener {
 		}
 	);
 }
-	/*
+	/***************************************************************
 	Uses intialize() to build GUI elements necessary for basic
-	functionality of UseCase program
+	functionality of UseCase program.
 	*****************************************************************/
 	public GUI() {
 		initialize();
 	}
 	
 	/*****************************************************************
-	performs minimal operations for functionality of UseCase program
+	For adding a new usecase to the project.
 	*****************************************************************/
 	public final void uceUtility() {
 		uCE.addSaveListener(new ActionListener() {
@@ -179,9 +186,12 @@ public class GUI extends JFrame implements ActionListener {
 		});
 	}
 	
+	/**
+	 * For adding a new term to the project.
+	 */
 	public final void glossUtility() {
 		glossary.addSaveListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e){
+			public void actionPerformed(final ActionEvent e) {
 				Glossary g = glossary.getGlossaryTerm();
 				save(g);
 			}
@@ -190,11 +200,8 @@ public class GUI extends JFrame implements ActionListener {
 	}
 
 	/*****************************************************************
-	Builds required GUI elements for program functionality
+	Builds required GUI elements for program functionality.
 	*****************************************************************/
-	/**
-	 * 
-	 */
 	private void initialize() {
 		/** File menu */
 		fileMenu = new JMenu("File");
@@ -245,7 +252,7 @@ public class GUI extends JFrame implements ActionListener {
 		actionMenu.add(helpUseCase);
 
 		frame = new JFrame();
-		frame.setBounds(new Rectangle(0,0,1366,766));
+		frame.setBounds(new Rectangle(0, 0, 1366, 766));
 		frame.setResizable(true);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -264,7 +271,6 @@ public class GUI extends JFrame implements ActionListener {
 
 		frame.getContentPane().add(paneL1, BorderLayout.WEST);
 
-		
 		///HERE POST IT
 		panel2 = new JPanel();
 				
@@ -282,13 +288,13 @@ public class GUI extends JFrame implements ActionListener {
 		newproject = new JButton("New Project");
 										
 										
-		URL newProject = GUI.class.getResource(
+		URL newProject1 = GUI.class.getResource(
 		              "/resources/NewProject2.png");
 										
 		URL loadProject = GUI.class.getResource(
 		               "/resources/loadproject2.png");
 										
-		newproject.setIcon(new ImageIcon(newProject));
+		newproject.setIcon(new ImageIcon(newProject1));
 		newproject.setBackground(Color.DARK_GRAY);
 		newproject.setForeground(Color.BLACK);
 		newproject.setBounds(450, 443, 213, 53);
@@ -308,25 +314,25 @@ public class GUI extends JFrame implements ActionListener {
 	}
 	
 	/**
-	 * 
+	 * Second initializing.
 	 */
 	private void initialize2() {
 		
 		JLabel space = new JLabel();
-		space.setBounds(25, 16, 0 , 0);
+		space.setBounds(25, 16, 0, 0);
 		JLabel space2 = new JLabel();
 		
-		space.setBounds(68,16,0,0);
+		space.setBounds(68, 16, 0, 0);
 		
 		//new input text holders
 		nameInput = new JTextPane();
 		nameInput.setForeground(Color.WHITE);
 		nameInput.setOpaque(false);
-		nameInput.setBounds(123,118,502,33);
+		nameInput.setBounds(123, 118, 502, 33);
 		idInput = new JTextPane();
 		idInput.setForeground(Color.WHITE);
 		idInput.setOpaque(false);
-		idInput.setBounds(668,118,242,33);
+		idInput.setBounds(668, 118, 242, 33);
 		
 		//set default display
 		nameInput.setText("Name");
@@ -423,10 +429,10 @@ public class GUI extends JFrame implements ActionListener {
 		label = new JLabel("Success Guearentees");
 		label.setBounds(new Rectangle(0, 0, 1366, 766));
 		
-		URL ID = GUI.class.getResource(
+		URL iD = GUI.class.getResource(
                 "/resources/ID.png");
 		
-		label.setIcon(new ImageIcon(ID));
+		label.setIcon(new ImageIcon(iD));
 		label.setBounds(0, -34, 1366, 766);
 		panel.add(label);
 		
@@ -447,7 +453,7 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * Performs save operations using saveToXML method from the Project
 	 * class.
-	 * @param uc
+	 * @param uc is the usecase to save
 	 */
 	public final void save(final UseCase uc) {
 		currentUseCase = uc;
@@ -458,8 +464,12 @@ public class GUI extends JFrame implements ActionListener {
 		display();
 	}
 	
-	public final void save(final Glossary g){
-		if(!g.getWord().equals("")) {
+	/**
+	 * Saves the glossary item.
+	 * @param g is the glossary item to save.
+	 */
+	public final void save(final Glossary g) {
+		if (!g.getWord().equals("")) {
 			currentProject.addGlossaryItem(g);
 			terms = currentProject.getTerms();
 			currentProject.saveToXML(file);
@@ -515,7 +525,7 @@ public class GUI extends JFrame implements ActionListener {
 			uceUtility();
 		}
 		
-		if(e.getSource() == addWord){
+		if (e.getSource() == addWord) {
 			glossary = new GlossaryWord();
 			glossary.setVisible(true);
 			glossUtility();
@@ -532,6 +542,7 @@ public class GUI extends JFrame implements ActionListener {
 				display();
 			}
 		}
+		
 		if (e.getSource() == newproject || e.getSource() == newProject) {
 			dialog = new CreateDialog("");
 			file = dialog.getDirectory();
@@ -554,32 +565,31 @@ public class GUI extends JFrame implements ActionListener {
 		//try-catch block to avoid null pointer exception when pressing open
 		//with nothing selected...probably should come up with a better fix
 		try {
-			if (e.getSource() == open && dTree.selectedUsecase() != null){
+			if (e.getSource() == open && dTree.selectedUsecase() != null) {
 				currentUseCase = dTree.selectedUsecase();
 				display();
 			}
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			return;
 		}
 		
 		//try-catch block to avoid null pointer exception when pressing open
 		//with nothing selected...probably should come up with a better fix
-		try{
+		try {
 			if (e.getSource() == open && dTree.selectedTerm() != null) {
 				
-				for(int i=0; i < terms.size(); i++){
+				for (int i = 0; i < terms.size(); i++) {
 					String term = terms.get(i);
 				
-					if(term.equals(dTree.selectedTerm())){
+					if (term.equals(dTree.selectedTerm())) {
 						Glossary g = currentProject.getGlossaryItem(term);
-						JOptionPane.showMessageDialog(frame, g.getWord() + ": " + g.getDefinition());
+						JOptionPane.showMessageDialog(frame, 
+								g.getWord() + ": " + g.getDefinition());
 					}
 				}
 			
 			}
-		}
-		catch(Exception ex){
+		} catch (Exception ex) {
 			return;
 		}
 
@@ -639,46 +649,52 @@ public class GUI extends JFrame implements ActionListener {
 	 the correct (and current) values therein.
 	 **************************************************************/
 	public final void updatedtree() {
-		HashMap<String,DefaultMutableTreeNode> PAD = new HashMap<String,DefaultMutableTreeNode>();
-		HashMap<String,DefaultMutableTreeNode> SAD = new HashMap<String,DefaultMutableTreeNode>();
-		HashMap<String,DefaultMutableTreeNode> GD = new HashMap<String,DefaultMutableTreeNode>();
+		HashMap<String, DefaultMutableTreeNode> pad = new HashMap<
+				String, DefaultMutableTreeNode>();
+		HashMap<String, DefaultMutableTreeNode> sad = new HashMap<
+				String, DefaultMutableTreeNode>();
+		HashMap<String, DefaultMutableTreeNode> gd = new HashMap<
+				String, DefaultMutableTreeNode>();
 		dTree.clear();
-		project = dTree.addObject((DefaultMutableTreeNode)null, currentProject.getProjectName(),true);
-		treeUC = dTree.addObject(project, "UseCases",true);
-		treePA = dTree.addObject(project, "Primary Actors",true);
-		treeSA = dTree.addObject(project, "Secondary Actors",true);
-		treeG = dTree.addObject(project, "Glossary",true);
+		project = dTree.addObject((DefaultMutableTreeNode
+				) null, currentProject.getProjectName(), true);
+		treeUC = dTree.addObject(project, "UseCases", true);
+		treePA = dTree.addObject(project, "Primary Actors", true);
+		treeSA = dTree.addObject(project, "Secondary Actors", true);
+		treeG = dTree.addObject(project, "Glossary", true);
 		
 		if (!ids.isEmpty()) {
 			System.out.println(treePA.toString());
 			for (int i = 0; i < ids.size(); i++) {
 				String id = ids.get(i);
-				UseCase UC = currentProject.getUsecase(id);
-				if(!SAD.containsKey(UC.getSupportingActors())){
-					SAD.put(UC.getSupportingActors(),dTree.addObject(treeSA, UC.getSupportingActors()));
-					dTree.addObject(SAD.get(UC.getSupportingActors()), UC);
-				}else{
-					dTree.addObject(SAD.get(UC.getSupportingActors()), UC);
+				UseCase uc = currentProject.getUsecase(id);
+				if (!sad.containsKey(uc.getSupportingActors())) {
+					sad.put(uc.getSupportingActors(), dTree.addObject(treeSA, 
+							uc.getSupportingActors()));
+					dTree.addObject(sad.get(uc.getSupportingActors()), uc);
+				} else {
+					dTree.addObject(sad.get(uc.getSupportingActors()), uc);
 				}
-				if(!PAD.containsKey(UC.getPrimaryActors())){
-					PAD.put(UC.getPrimaryActors(), dTree.addObject(treePA, UC.getPrimaryActors()));
-					dTree.addObject(PAD.get(UC.getPrimaryActors()), UC);
-				}else{
-					dTree.addObject(PAD.get(UC.getPrimaryActors()), UC);
+				if (!pad.containsKey(uc.getPrimaryActors())) {
+					pad.put(uc.getPrimaryActors(), dTree.addObject(
+							treePA, uc.getPrimaryActors()));
+					dTree.addObject(pad.get(uc.getPrimaryActors()), uc);
+				} else {
+					dTree.addObject(pad.get(uc.getPrimaryActors()), uc);
 				}
-				dTree.addObject(treeUC, UC);
+				dTree.addObject(treeUC, uc);
 			}
 		}
 		
-		if (!terms.isEmpty()){
-			for(int j = 0; j < terms.size(); j++){
+		if (!terms.isEmpty()) {
+			for (int j = 0; j < terms.size(); j++) {
 				String term = terms.get(j);
 				Glossary g = currentProject.getGlossaryItem(term);
-				if(!GD.containsKey(g.getWord())){
-					GD.put(g.getWord(), dTree.addObject(treeG, g.getWord()));
+				if (!gd.containsKey(g.getWord())) {
+					gd.put(g.getWord(), dTree.addObject(treeG, g.getWord()));
 					
-				}else{
-					dTree.addObject(GD.get(g.getWord()), g);
+				} else {
+					dTree.addObject(gd.get(g.getWord()), g);
 				}
 			}
 		}
