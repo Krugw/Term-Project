@@ -81,12 +81,12 @@ public class CreateDialog implements ActionListener {
 		* user operation and fields for user input.
 		*****************************************************************/	
 		okButton = new JButton("OK");
-		okButton.setBounds(62,116,80,23);
+		okButton.setBounds(62, 116, 80, 23);
 		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(147,116,81,23);
+		cancelButton.setBounds(147, 116, 81, 23);
 		fileNameTxt = new JTextField(textfieldSize);
 		fileNameTxt.setOpaque(false);
-		fileNameTxt.setBounds(49,67,196,38);
+		fileNameTxt.setBounds(49, 67, 196, 38);
 		fileNameTxt.setText(s);		
 		
 		panel = new JPanel();
@@ -108,7 +108,7 @@ public class CreateDialog implements ActionListener {
 		
 		label.setIcon(new ImageIcon(boximage));
 		label.setForeground(Color.WHITE);
-		label.setBounds(0,0,284,161);
+		label.setBounds(0, 0, 284, 161);
 		panel.add(label);
 
 		okButton.addActionListener(this);
