@@ -500,35 +500,108 @@ public class JUnitTests {
 				+ "[UC1, UC2, UC3, UC4], ProjectName='Editor'}"));
 	}
 	
-	/*
-	 * Tests for LoadFileBox class
-	 * You will have to change the filename/directory to your own
+	/**
+	 * testing get and set term for word.
+	 */
 	@Test
-	public void testLoadFileBox(){
-		LoadFileBox lfb = new LoadFileBox();
-		String file = lfb.getFileSelected();
-		System.out.println(file);
-		assertTrue(file.equals("C:\\Users\\Michael\\Desktop\\Test"));
+	public final void testGlossaryGetSetWord(){
+		Glossary g = new Glossary();
+		g.setWord("word");
+		assertTrue(g.getWord().equals("word"));
+		g.setDefinition("word");
+		assertTrue(g.getDefinition().equals("word"));
 	}
 	
+	/**
+	 * Test setting nothing for word.
+	 */
 	@Test
-	public void testLoadFileBoxCreate(){
-		LoadFileBox lfb = new LoadFileBox(true);
-		String directory = lfb.getFileSelected();
-		System.out.println(directory);
-		assertTrue(directory.equals("C:\\Users\\Michael\\Desktop"));
+	public final void testBlankSetWord() {
+		Glossary g = new Glossary();
+		g.setWord("");
+		assertTrue(g.getWord().equals(""));
 	}
 	
-	
-	//Attempted to test the UseCaseEditor, but I don't think we can
+	/**
+	 * Test setting 100 words and defs.
+	 */
 	@Test
-	public void testUseCaseEditor(){
-		UseCaseEditor uce = new UseCaseEditor();
-		UseCase uc = new UseCase();
-		uce.setUC(uc);
-		System.out.println(uce.getUC());
-		System.out.println(uc);
-		assertTrue(uce.getUC() == uc);
+	public final void testGlossaryWord() {
+		Glossary g = new Glossary();
+		for (int i = 1; i < 100; i++) {
+			g.setWord("w" + i);
+			g.setDefinition("d" + i);
+			assertTrue(g.getWord().equals("w" + i));
+			assertTrue(g.getDefinition().equals("d" + i));
+		}
 	}
-	*/
-}
+	
+	/**
+	 * Test not setting word.
+	 */
+	@Test
+	public final void testGlossaryGetWord() {
+		Glossary g = new Glossary();
+		assertTrue(g.getWord().equals(""));
+	}
+	
+	/**
+	 * Saving/loading a glossary term.
+	 */
+	@Test
+	public final void testSaveTermProject() {
+		 Project p = new Project();
+		 Glossary g = new Glossary();
+		 Glossary g2 = new Glossary();
+		 p.setProjectName("JUnitTest2");
+		 g.setWord("word");
+		 g.setDefinition("def");
+		 p.addGlossaryItem(g);
+		 g2.setWord("word2");
+		 g2.setDefinition("def2");
+		 p.addGlossaryItem(g2);
+		 p.saveToXML("C:\\Users\\Michael\\workspace\\UseCaseEditor");
+		 Project p2 = new Project();
+		 p2.loadFromXML("JUnitTest2");
+		 assertTrue(p2.getGlossaryItem("word").getDefinition().equals("def"));
+		 assertTrue(p2.getGlossaryItem("word2").getDefinition().equals("def2"));
+	}
+	
+	/**
+	 * Test getting the vector of terms.
+	 */
+	@Test
+	public final void testGetTermsVector() {
+		Glossary g1 = new Glossary();
+		Glossary g2 = new Glossary();
+		Glossary g3 = new Glossary();
+		Glossary g4 = new Glossary();
+		Glossary g5 = new Glossary();
+		
+		Project p = new Project();
+		g1.setWord("w1");
+		g1.setDefinition("d1");
+		g2.setWord("w2");
+		g2.setDefinition("d2");
+		g3.setWord("w3");
+		g3.setDefinition("d3");
+		g4.setWord("w4");
+		g4.setDefinition("d4");
+		g5.setWord("w5");
+		g5.setDefinition("d5");
+		
+		p.addGlossaryItem(g1);
+		p.addGlossaryItem(g2);
+		p.addGlossaryItem(g3);
+		p.addGlossaryItem(g4);
+		p.addGlossaryItem(g5);
+		
+		Vector<String> v = new Vector<String>();
+		v.add("w1");
+		v.add("w2");
+		v.add("w3");
+		v.add("w4");
+		v.add("w5");
+		
+		assertTrue(v.equals(p.getTerms()));
+	}
