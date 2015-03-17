@@ -32,7 +32,7 @@ public class Project {
 
     /**Default value for projectName.**/
     private String projectName = "Project";
-    
+
     /**
      * An array list of glossary items. 
      */
@@ -61,57 +61,57 @@ public class Project {
         }
         useCases.add(uc);
     }
-    
+
     /**\
      * Add a glossary item to the glossary array list.
-     * 
+     *
      * @param g is the glossary item to add.
      */
     public final void addGlossaryItem(final Glossary g) {
-    	for (Glossary gloss : glossary) {
-    		if (gloss.getWord().equals(g.getWord())) {
-    			glossary.remove(gloss);
-    			glossary.add(g);
-    			return;
-    		}
-    	}
-    	glossary.add(g);
+        for (Glossary gloss : glossary) {
+            if (gloss.getWord().equals(g.getWord())) {
+                glossary.remove(gloss);
+                glossary.add(g);
+                return;
+            }
+        }
+        glossary.add(g);
     }
-    
+
     /**
      * Gets a desired term from the glossary.
-     * 
+     *
      * @param word is the name of the term wanted
      * @return a Glossary object with term name and definition
      */
     public final Glossary getGlossaryItem(final String word) {
-    	for (Glossary gloss : glossary) {
-    		if (gloss.getWord().equals(word)) {
-    			return gloss;
-    		}
-    	}
-    	return null;
+        for (Glossary gloss : glossary) {
+            if (gloss.getWord().equals(word)) {
+                return gloss;
+            }
+        }
+        return null;
     }
-    
+
     /**
      * This returns a vector containing all the terms in
      * the glossary.
-     * 
+     *
      * @return terms is a vector of terms.
      */
     public final Vector<String> getTerms() {
-    	Vector<String> terms = new Vector<String>();
-    	for (Glossary gloss : glossary) {
-    		terms.add(gloss.getWord());
-    	}
-    	return terms;
+        Vector<String> terms = new Vector<String>();
+        for (Glossary gloss : glossary) {
+            terms.add(gloss.getWord());
+        }
+        return terms;
     }
-    
+
     /** Not implemented yet.
-    public boolean deleteGlossaryItem(Glossary g) {
-    	return glossary.remove(g);
-    }
-    **/
+     public boolean deleteGlossaryItem(Glossary g) {
+     return glossary.remove(g);
+     }
+     **/
 
     /*****************************************************************
      Returns the UseCase with the requested ID.
@@ -150,7 +150,7 @@ public class Project {
         }
         return ids;
     }
-    
+
 
     /*****************************************************************
      Allows user to set the name of their project.
@@ -194,7 +194,7 @@ public class Project {
                     name.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((name));
-                
+
                 Element id = doc.createElement("id");
                 if (!uc.getID().isEmpty()) {
                     id.appendChild(doc.createTextNode(uc.getID()));
@@ -202,7 +202,7 @@ public class Project {
                     id.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((id));
-                
+
                 Element desc = doc.createElement("description");
                 if (!uc.getDescription().isEmpty()) {
                     desc.appendChild(doc.createTextNode(uc.getDescription()));
@@ -210,7 +210,7 @@ public class Project {
                     desc.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((desc));
-                
+
                 Element pActors = doc.createElement("primary-actors");
                 if (!uc.getPrimaryActors().isEmpty()) {
                     pActors.appendChild(doc.createTextNode(
@@ -219,7 +219,7 @@ public class Project {
                     pActors.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((pActors));
-                
+
                 Element sActors = doc.createElement("supporting-actors");
                 if (!uc.getSupportingActors().isEmpty()) {
                     sActors.appendChild(doc.createTextNode(
@@ -228,7 +228,7 @@ public class Project {
                     sActors.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((sActors));
-                
+
                 Element triggers = doc.createElement("trigger");
                 if (!uc.getTriggers().isEmpty()) {
                     triggers.appendChild(doc.createTextNode(
@@ -237,7 +237,7 @@ public class Project {
                     triggers.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((triggers));
-                
+
                 Element preConditions = doc.createElement("preconditions");
                 if (!uc.getPreconditions().isEmpty()) {
                     preConditions.appendChild(doc.createTextNode(
@@ -246,7 +246,7 @@ public class Project {
                     preConditions.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((preConditions));
-                
+
                 Element pFlow = doc.createElement("primary-flow");
                 if (!uc.getPrimaryflow().isEmpty()) {
                     pFlow.appendChild(doc.createTextNode(
@@ -255,7 +255,7 @@ public class Project {
                     pFlow.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((pFlow));
-                
+
                 Element altFlow = doc.createElement("alternate-flow");
                 if (!uc.getAlternativeflow().isEmpty()) {
                     altFlow.appendChild(doc.createTextNode(
@@ -264,7 +264,7 @@ public class Project {
                     altFlow.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((altFlow));
-                
+
                 Element minGuarantee = doc.createElement("minimal-guarantee");
                 if (!uc.getMinimalGuaruntees().isEmpty()) {
                     minGuarantee.appendChild(doc.createTextNode(
@@ -273,7 +273,7 @@ public class Project {
                     minGuarantee.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((minGuarantee));
-                
+
                 Element sucGuarantee = doc.createElement("success-guarantee");
                 if (!uc.getSuccessGuarantees().isEmpty()) {
                     sucGuarantee.appendChild(doc.createTextNode(
@@ -286,25 +286,25 @@ public class Project {
             Element dictionary = doc.createElement("dictionary");
             rootElement.appendChild(dictionary);
             for (Glossary gloss : glossary) {
-            	Element term = doc.createElement("term");
-            	dictionary.appendChild((term));
-            	Element word = doc.createElement("word");
+                Element term = doc.createElement("term");
+                dictionary.appendChild((term));
+                Element word = doc.createElement("word");
                 if (!gloss.getWord().isEmpty()) {
-                	word.appendChild(doc.createTextNode(gloss.getWord()));      
+                    word.appendChild(doc.createTextNode(gloss.getWord()));
                 } else {
                     word.appendChild(doc.createTextNode(" "));
                 }
                 term.appendChild((word));
-                
+
                 Element def = doc.createElement("definition");
                 if (!gloss.getDefinition().isEmpty()) {
-                	def.appendChild(doc.createTextNode(gloss.getDefinition()));
+                    def.appendChild(doc.createTextNode(gloss.getDefinition()));
                 } else {
-                	def.appendChild(doc.createTextNode(" "));
+                    def.appendChild(doc.createTextNode(" "));
                 }
                 term.appendChild((def));
             }
-            
+
             TransformerFactory transformerFactory =
                     TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
@@ -344,8 +344,6 @@ public class Project {
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
 
-            System.out.println("Root element "
-                    + doc.getDocumentElement().getNodeName());
             this.setProjectName(doc.getDocumentElement().getAttribute("name"));
 
             NodeList nodeList = doc.getElementsByTagName("usecase");
@@ -448,32 +446,32 @@ public class Project {
                     NodeList sucGNm =
                             sucGNmElmnt.getChildNodes();
                     u.setSuccessGuarantees(String.valueOf(
-                            sucGNm.item(0).getNodeValue())); 
+                            sucGNm.item(0).getNodeValue()));
                 }
                 this.addUsecase(u);
             }
-            
+
             NodeList nodeList2 = doc.getElementsByTagName("term");
             for (int i = 0; i < nodeList2.getLength(); i++) {
-            	Glossary gloss = new Glossary();
-            	Node fstNode2 = nodeList2.item(i);
-            	if (fstNode2.getNodeType() == Node.ELEMENT_NODE) {
-            		Element element = (Element) fstNode2;
-            		
-            		NodeList wordNmElmLst = element.getElementsByTagName(
-            				"word");
-            		Element wordNmElmnt = (Element) wordNmElmLst.item(0);
-            		NodeList wordNm = wordNmElmnt.getChildNodes();
-            		gloss.setWord(String.valueOf(wordNm.item(0
-            				).getNodeValue()));
-            		NodeList defNmElmtLst = element.getElementsByTagName(
-            				"definition");
-            		Element defNmElmnt = (Element) defNmElmtLst.item(0);
-            		NodeList defNm = defNmElmnt.getChildNodes();
-            		gloss.setDefinition(String.valueOf(defNm.item(0
-            				).getNodeValue()));
-            	}
-            	this.addGlossaryItem(gloss);
+                Glossary gloss = new Glossary();
+                Node fstNode2 = nodeList2.item(i);
+                if (fstNode2.getNodeType() == Node.ELEMENT_NODE) {
+                    Element element = (Element) fstNode2;
+
+                    NodeList wordNmElmLst = element.getElementsByTagName(
+                            "word");
+                    Element wordNmElmnt = (Element) wordNmElmLst.item(0);
+                    NodeList wordNm = wordNmElmnt.getChildNodes();
+                    gloss.setWord(String.valueOf(wordNm.item(0
+                    ).getNodeValue()));
+                    NodeList defNmElmtLst = element.getElementsByTagName(
+                            "definition");
+                    Element defNmElmnt = (Element) defNmElmtLst.item(0);
+                    NodeList defNm = defNmElmnt.getChildNodes();
+                    gloss.setDefinition(String.valueOf(defNm.item(0
+                    ).getNodeValue()));
+                }
+                this.addGlossaryItem(gloss);
             }
 
         } catch (ParserConfigurationException e) {
