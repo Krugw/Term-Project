@@ -659,15 +659,17 @@ public class GUI extends JFrame implements ActionListener {
             file = loadFile.getFileSelected();
             if (file != null) {
                 currentProject = new Project();
-                currentProject.loadFromXML(file);
-                file = file.substring(0, file.lastIndexOf('\\'));
-                ids = currentProject.getIDs();
-                if (!ids.isEmpty()) {
-                    currentUseCase = currentProject.getUsecase(ids.get(0));
+
+                if (currentProject.loadFromXML(file)) {
+                    file = file.substring(0, file.lastIndexOf('\\'));
+                    ids = currentProject.getIDs();
+                    if (!ids.isEmpty()) {
+                        currentUseCase = currentProject.getUsecase(ids.get(0));
+                    }
+                    terms = currentProject.getTerms();
+                    createtree();
+                    display();
                 }
-                terms = currentProject.getTerms();
-                createtree();
-                display();
             }
 
         }
