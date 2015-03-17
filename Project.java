@@ -1,4 +1,5 @@
 import java.io.File;
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
@@ -313,7 +314,7 @@ public class Project {
                     "{http://xml.apache.org/xslt}indent-amount", "2");
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(
-                    new File(directory + "\\" + this.getProjectName()));
+                    new File(directory + "\\" + this.getProjectName() + ".ucp"));
             transformer.transform(source, result);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
@@ -336,11 +337,17 @@ public class Project {
      to load their UseCase from a past use. Uses XML as primary fileType.
      @param filename - String representation of file name to be loaded
      *****************************************************************/
-    public final void loadFromXML(final String filename) {
+    public final boolean loadFromXML(final String filename) {
         try {
             File file = new File(filename);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
+
+            if (!filename.contains(".ucp")) {
+                JOptionPane.showMessageDialog(null, "Invalid file type.\n", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
 
@@ -476,10 +483,15 @@ public class Project {
 
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
+
         } catch (SAXException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Invalid file type.\n", "Error", 1);
+            return false;
         } catch (IOException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "No file selected.\n", "Error", 1);
+            return false;
+
         }
+        return true;
     }
 }
