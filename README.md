@@ -1,13 +1,8 @@
 # Term-Project
-Added Dynamic Tree should work alright shouldn't need a combobox class anymore in your project but keep it up here just in case
 
 Stuff to do:
-6)UML Explorer/Dia Tool
-7)Checkstyle violation charts
-8)Source Code(probably email/USB to him)
-9)Role and Responsibilities of each member in the team
-10)Self-reflection by team  (R1, R2, R3)
-			- release planning issues, team-oriented issues, skills acquisition 
-			- obstacles faced and strategies for resolution
-			- lessons learned
-			- any other information you may wish to add
+	1)Add way to deal with Actors
+	2)Fix GUI so Labels aren't intersecting the boxes
+	3)Make GUI consistent throughout all of program (Warning messages, Glossary addition box, etc)
+	4)Add way to export project to html for presentation
+Probably more stuff, but that's all I can think of right now that's big.
