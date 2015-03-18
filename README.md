@@ -1,6 +1,7 @@
 # Term-Project
 
 Stuff to do:
+
 	1)Add way to deal with Actors
 	
 	2)Fix GUI so Labels aren't intersecting the boxes
