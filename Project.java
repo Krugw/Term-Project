@@ -38,6 +38,11 @@ public class Project {
      * An array list of glossary items. 
      */
     private ArrayList<Glossary> glossary;
+    
+    /**
+     * An array list of Actor items
+     */
+     private ArrayList<Actor> actors;
 
     /*****************************************************************
      Builds an ArrayList of UseCase objects.
