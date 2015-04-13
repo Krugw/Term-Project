@@ -1,3 +1,4 @@
+
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
@@ -5,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
+import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 import javax.swing.JScrollPane;
@@ -13,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.border.LineBorder;
+
 import java.awt.Color;
 import java.net.URL;
 
@@ -21,11 +25,11 @@ import java.net.URL;
  accepting and creating instances of UseCase. In its current form
  it relies heavily on both Usecase.java and extends the default
  JDialog class.
- 
  @author Wesley Krug, Gabriel Steponovich,
  Michael Brecker, Halston Raddatz
  @version Winter 2015
  *****************************************************************/
+
 public class UseCaseEditor extends JDialog implements ActionListener {
 
     /**
@@ -128,56 +132,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      */
     public static final int USE_CASE_HEIGHT = 700;
 
-    /**
-     * Scrollpane.
-     */
-    private JScrollPane scrollPane1;
-    
-    /**
-     * Scrollpane.
-     */
-    private JScrollPane scrollPane2;
-    
-    /**
-     * Scrollpane.
-     */
-    private JScrollPane scrollPane3;
-    
-    /**
-     * Scrollpane.
-     */
-    private JScrollPane scrollPane4;
-    
-    /**
-     * Scrollpane.
-     */
-    private JScrollPane scrollPane5;
-    
-    /**
-     * Scrollpane.
-     */
-    private JScrollPane scrollPane6;
-    
-    /**
-     * Scrollpane.
-     */
-    private JScrollPane scrollPane7;
-    
-    /**
-     * Scrollpane.
-     */
-    private JScrollPane scrollPane8;
-    
-    /**
-     * Scrollpane.
-     */
-    private JScrollPane scrollPane9;
-    
-    /**
-     * Scrollpane.
-     */
-    private JScrollPane scrollPane10;
-        
+
     /*****************************************************************
      Uses .getText() to transfer current values of JTextPanes into their
      associated parameters within the UseCase object.
@@ -204,169 +159,105 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      it on click.
      *****************************************************************/
     public UseCaseEditor() {
+
+        setLocationRelativeTo(null);
         setTitle("Use Case Editor");
         setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
 
         JPanel textPanel = new JPanel();
+
+        /** Sets up the textFields with default values **/
         textPanel.setLayout(null);
+
         getContentPane().add(textPanel, BorderLayout.CENTER);
-                
-		URL boximage = GUI.class.getResource("/resources/bg2.png");
-		URL checkmark = GUI.class.getResource("/resources/checkmark.png");
-		URL xmark = GUI.class.getResource("/resources/xmark.png");
-		
+
         okButton = new JButton("Save");
+        
+		
+		URL boximage = GUI.class.getResource(
+                "/resources/bg2.png");
+		URL checkmark = GUI.class.getResource(
+                "/resources/checkmark.png");
+		URL xmark = GUI.class.getResource(
+                "/resources/xmark.png");
+		
         okButton.setIcon(new ImageIcon(checkmark));
         okButton.setOpaque(false);
-        okButton.setBounds(667, 517, 79, 50);
+        okButton.setBounds(343, 580, 120, 50);
         cancelButton = new JButton("Cancel");
         cancelButton.setIcon(new ImageIcon(xmark));
         cancelButton.setOpaque(false);
-        cancelButton.setBounds(667, 578, 79, 50);
+        cancelButton.setBounds(487, 580, 120, 50);
         textPanel.add(okButton);
         textPanel.add(cancelButton);
-        
-        JScrollPane scrollPane = new JScrollPane(); 
-        scrollPane.setOpaque(false);
-        scrollPane.getViewport().setOpaque(false);
-        
-        scrollPane3 = new JScrollPane();
-        scrollPane3.setOpaque(false);
-        scrollPane3.setBounds(112, 176, 526, 37);
-        textPanel.add(scrollPane3);
-         
-        primaryActorTxt = new JTextPane();
-        scrollPane3.setViewportView(primaryActorTxt);
-        primaryActorTxt.setForeground(Color.WHITE);
-        primaryActorTxt.setBorder(null);
-        primaryActorTxt.setOpaque(false);
-        
-        scrollPane1 = new JScrollPane();
-        scrollPane1.setOpaque(false);
-        scrollPane1.setBounds(407, 43, 237, 44);
-        textPanel.add(scrollPane1);
-        idTxt = new JTextPane();
-        scrollPane1.setViewportView(idTxt);
-        idTxt.setForeground(Color.WHITE);
-        idTxt.setBorder(null);
-        idTxt.setOpaque(false);
-        scrollPane.setBounds(112, 43, 275, 44);
-        textPanel.add(scrollPane);
         nameTxt = new JTextPane();
+        nameTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        nameTxt.setBounds(72, 11, 203, 52);
+        textPanel.add(nameTxt);
         nameTxt.setOpaque(false);
-        nameTxt.setBackground(Color.GRAY);
-        scrollPane.setViewportView(nameTxt);
-        nameTxt.setForeground(Color.WHITE);
-        nameTxt.setBorder(null);
-        
-        scrollPane2 = new JScrollPane();
-        scrollPane2.setOpaque(false);
-        scrollPane2.setBounds(112, 124, 528, 29);
-        textPanel.add(scrollPane2);
+        idTxt = new JTextPane();
+        idTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        idTxt.setBounds(295, 11, 374, 52);
+        textPanel.add(idTxt);
+        idTxt.setOpaque(false);
         descriptionTxt = new JTextPane();
-        scrollPane2.setViewportView(descriptionTxt);
-        descriptionTxt.setForeground(Color.WHITE);
-        descriptionTxt.setBorder(null);
+        descriptionTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        descriptionTxt.setBounds(295, 67, 374, 52);
+        textPanel.add(descriptionTxt);
         descriptionTxt.setOpaque(false);
-        scrollPane4 = new JScrollPane();
-        scrollPane4.setOpaque(false);
-        scrollPane4.setBounds(112, 233, 527, 37);
-        textPanel.add(scrollPane4);
-        
+        primaryActorTxt = new JTextPane();
+        primaryActorTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        primaryActorTxt.setBounds(295, 122, 374, 52);
+        textPanel.add(primaryActorTxt);
+        primaryActorTxt.setOpaque(false);
         supportingActorTxt = new JTextPane();
-        scrollPane4.setViewportView(supportingActorTxt);
-        supportingActorTxt.setForeground(Color.WHITE);
-        supportingActorTxt.setBorder(null);
+        supportingActorTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        supportingActorTxt.setBounds(295, 178, 374, 52);
+        textPanel.add(supportingActorTxt);
         supportingActorTxt.setOpaque(false);
-        scrollPane5 = new JScrollPane();
-        scrollPane5.setOpaque(false);
-        scrollPane5.setBounds(111, 295, 528, 29);
-        textPanel.add(scrollPane5);
-        
         triggersTxt = new JTextPane();
-        scrollPane5.setViewportView(triggersTxt);
-        triggersTxt.setForeground(Color.WHITE);
+        triggersTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        triggersTxt.setBounds(295, 235, 374, 52);
+        textPanel.add(triggersTxt);
         triggersTxt.setOpaque(false);
-        scrollPane6 = new JScrollPane();
-        scrollPane6.setOpaque(false);
-        scrollPane6.setBounds(112, 347, 527, 37);
-        textPanel.add(scrollPane6);
-         
         preconditionsTxt = new JTextPane();
-        scrollPane6.setViewportView(preconditionsTxt);
-        preconditionsTxt.setForeground(Color.WHITE);
-        preconditionsTxt.setBorder(null);
+        preconditionsTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        preconditionsTxt.setBounds(295, 292, 374, 52);
+        textPanel.add(preconditionsTxt);
         preconditionsTxt.setOpaque(false);
-        scrollPane7 = new JScrollPane();
-        scrollPane7.setOpaque(false);
-        scrollPane7.setBounds(112, 405, 527, 37);
-        textPanel.add(scrollPane7);
-      
         primaryFlowTxt = new JTextPane();
-        scrollPane7.setViewportView(primaryFlowTxt);
-        primaryFlowTxt.setForeground(Color.WHITE);
-        primaryFlowTxt.setBorder(null);
+        primaryFlowTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        primaryFlowTxt.setBounds(295, 350, 374, 52);
+        textPanel.add(primaryFlowTxt);
         primaryFlowTxt.setOpaque(false);
-        
-        scrollPane8 = new JScrollPane();
-        scrollPane8.setOpaque(false);
-        scrollPane8.setBounds(112, 462, 529, 37);
-        textPanel.add(scrollPane8);        
-        
         alternateFlowTxt = new JTextPane();
-        scrollPane8.setViewportView(alternateFlowTxt);
-        alternateFlowTxt.setForeground(Color.WHITE);
-        alternateFlowTxt.setBorder(null);
+        alternateFlowTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        alternateFlowTxt.setBounds(295, 408, 374, 52);
+        textPanel.add(alternateFlowTxt);
         alternateFlowTxt.setOpaque(false);
-        scrollPane9 = new JScrollPane();
-        scrollPane9.setOpaque(false);
-        scrollPane9.setBounds(112, 519, 526, 37);
-        textPanel.add(scrollPane9);
-        
         minimalGuaranteeTxt = new JTextPane();
-        scrollPane9.setViewportView(minimalGuaranteeTxt);
-        minimalGuaranteeTxt.setForeground(Color.WHITE);
-        minimalGuaranteeTxt.setBorder(null);
+        minimalGuaranteeTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        minimalGuaranteeTxt.setBounds(295, 465, 374, 52);
+        textPanel.add(minimalGuaranteeTxt);
         minimalGuaranteeTxt.setOpaque(false);
-        scrollPane10 = new JScrollPane();
-        scrollPane10.setOpaque(false);
-        scrollPane10.setBounds(112, 578, 529, 37);
-        textPanel.add(scrollPane10);
-        
         successGuaranteeTxt = new JTextPane();
-        scrollPane10.setViewportView(successGuaranteeTxt);
-        successGuaranteeTxt.setForeground(Color.WHITE);
-        successGuaranteeTxt.setBorder(null);
+        successGuaranteeTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
+        successGuaranteeTxt.setBounds(295, 522, 374, 52);
+        textPanel.add(successGuaranteeTxt);
         successGuaranteeTxt.setOpaque(false);
         JLabel label = new JLabel("Name: ");
         label.setIcon(new ImageIcon(boximage));
         label.setBounds(0, 1, 784, 650);
         textPanel.add(label);
-        
         JPanel buttonPanel = new JPanel();
+        //buttonPanel.add(okButton);
+        //buttonPanel.add(cancelButton);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         okButton.addActionListener(this);
         cancelButton.addActionListener(this);
-        
-        setUpScrollPanes();
+
         setSize(USE_CASE_WIDTH, USE_CASE_HEIGHT);
         setVisible(true);
-    }
-    
-    /**
-     * Sets up the scrollpanes.
-     */
-    public final void setUpScrollPanes() {
-        scrollPane1.getViewport().setOpaque(false);
-        scrollPane2.getViewport().setOpaque(false);
-        scrollPane3.getViewport().setOpaque(false);
-        scrollPane4.getViewport().setOpaque(false);
-        scrollPane5.getViewport().setOpaque(false);
-        scrollPane6.getViewport().setOpaque(false);
-        scrollPane7.getViewport().setOpaque(false);
-        scrollPane8.getViewport().setOpaque(false);
-        scrollPane9.getViewport().setOpaque(false);
-        scrollPane10.getViewport().setOpaque(false);
     }
 
     /*****************************************************************
@@ -388,7 +279,6 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         minimalGuaranteeTxt.setText(usecase.getMinimalGuaruntees());
         successGuaranteeTxt.setText(usecase.getSuccessGuarantees());
     }
-    
     /**************************************************************
      Adds ActionListener to okButton.
      @param listener the ActionListener to be added to the given button.
