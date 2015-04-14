@@ -148,20 +148,14 @@ public class GUI extends JFrame implements ActionListener {
 	
     private JLabel labelt;
     private JScrollPane DESCRIPTIONSCROLL;
-    private JScrollPane scrollPane_1;
-    private JScrollPane scrollPane_2;
-    private JScrollPane scrollPane_3;
-    private JScrollPane scrollPane_4;
-    private JScrollPane scrollPane_5;
-    private JScrollPane scrollPane_6;
-    private JScrollPane scrollPane_7;
-    private JScrollPane scrollPane_8;
-    private JButton Edit;
-    private JButton Save;
-    private JButton btnNewButton;
-    private JButton button;
-    private JButton button_1;
-    private JButton button_2;
+    private JScrollPane PrimActors;
+    private JScrollPane SupActors;
+    private JScrollPane PrimFlow;
+    private JScrollPane AltFlow;
+    private JScrollPane TriggerScroll;
+    private JScrollPane PreconditionsScroll;
+    private JScrollPane SuccessScroll;
+    private JScrollPane MinimalScroll;
 	
 	/**
 	 * main method, creates the instance of GUI.
@@ -325,7 +319,6 @@ public class GUI extends JFrame implements ActionListener {
 		
 				
 		panel = new JPanel();
-		panel.setVisible(true);
 		initialize2();
 	}
 	
@@ -333,70 +326,60 @@ public class GUI extends JFrame implements ActionListener {
 	 * 
 	 */
 	private void initialize2() {
-		
-        JLabel space = new JLabel();
-        space.setBounds(25, 16, 0, 0);
-        JLabel space2 = new JLabel();
-
-        space.setBounds(68, 16, 0, 0);
 
         panel.setLayout(null);
         
-        scrollPane_4 = new JScrollPane();
-        scrollPane_4.setOpaque(false);
-        scrollPane_4.setBorder(null);
-        scrollPane_4.setBounds(833, 133, 342, 213);
-        panel.add(scrollPane_4);
+        AltFlow = new JScrollPane();
+        AltFlow.setOpaque(false);
+        AltFlow.setBorder(null);
+        AltFlow.setBounds(833, 133, 342, 213);
+        panel.add(AltFlow);
         alternativeFlowInput = new JTextPane();
-        scrollPane_4.setViewportView(alternativeFlowInput);
+        AltFlow.setViewportView(alternativeFlowInput);
         alternativeFlowInput.setForeground(Color.WHITE);
         alternativeFlowInput.setBorder(null);
         alternativeFlowInput.setOpaque(false);
         alternativeFlowInput.setText("alternativeFlow");
         alternativeFlowInput.setEditable(false);
         
-        scrollPane_3 = new JScrollPane();
-        scrollPane_3.setOpaque(false);
-        scrollPane_3.setBorder(null);
-        scrollPane_3.setBounds(490, 133, 316, 213);
-        panel.add(scrollPane_3);
+        PrimFlow = new JScrollPane();
+        PrimFlow.setOpaque(false);
+        PrimFlow.setBorder(null);
+        PrimFlow.setBounds(490, 133, 316, 213);
+        panel.add(PrimFlow);
         primaryFlowInput = new JTextPane();
-        scrollPane_3.setViewportView(primaryFlowInput);
+        PrimFlow.setViewportView(primaryFlowInput);
         primaryFlowInput.setForeground(Color.WHITE);
         primaryFlowInput.setBorder(null);
         primaryFlowInput.setOpaque(false);
         primaryFlowInput.setText("primaryFlow");
         primaryFlowInput.setEditable(false);
         
-        scrollPane_2 = new JScrollPane();
-        scrollPane_2.setOpaque(false);
-        scrollPane_2.setBorder(null);
-        scrollPane_2.setBounds(255, 133, 202, 213);
-        panel.add(scrollPane_2);
+        SupActors = new JScrollPane();
+        SupActors.setOpaque(false);
+        SupActors.setBorder(null);
+        SupActors.setBounds(255, 133, 202, 213);
+        panel.add(SupActors);
         supActorsInput = new JTextPane();
-        scrollPane_2.setViewportView(supActorsInput);
+        SupActors.setViewportView(supActorsInput);
         supActorsInput.setForeground(Color.WHITE);
         supActorsInput.setBorder(null);
         supActorsInput.setOpaque(false);
         supActorsInput.setText("Supporting Actors");
         supActorsInput.setEditable(false);
         
-        scrollPane_1 = new JScrollPane();
-        scrollPane_1.setOpaque(false);
-        scrollPane_1.setBorder(null);
-        scrollPane_1.setBounds(23, 133, 202, 213);
-        panel.add(scrollPane_1);
+        PrimActors = new JScrollPane();
+        PrimActors.setOpaque(false);
+        PrimActors.setBorder(null);
+        PrimActors.setBounds(23, 133, 202, 213);
+        panel.add(PrimActors);
         primActorsInput = new JTextPane();
-        scrollPane_1.setViewportView(primActorsInput);
+        PrimActors.setViewportView(primActorsInput);
         primActorsInput.setForeground(Color.WHITE);
         primActorsInput.setBorder(null);
         primActorsInput.setOpaque(false);
         primActorsInput.setText("prim_actors");
         primActorsInput.setEditable(false);
-
-        // Create centered project and load button
-        panel.add(space);
-        panel.add(space2);
         
         DESCRIPTIONSCROLL = new JScrollPane();
         DESCRIPTIONSCROLL.setOpaque(false);
@@ -412,13 +395,13 @@ public class GUI extends JFrame implements ActionListener {
         descriptionInput.setEditable(false);
         descriptionInput.setText("description");
         
-        scrollPane_6 = new JScrollPane();
-        scrollPane_6.setOpaque(false);
-        scrollPane_6.setBorder(null);
-        scrollPane_6.setBounds(329, 432, 262, 207);
-        panel.add(scrollPane_6);
+        PreconditionsScroll = new JScrollPane();
+        PreconditionsScroll.setOpaque(false);
+        PreconditionsScroll.setBorder(null);
+        PreconditionsScroll.setBounds(329, 432, 262, 207);
+        panel.add(PreconditionsScroll);
         preconditionsInput = new JTextPane();
-        scrollPane_6.setViewportView(preconditionsInput);
+        PreconditionsScroll.setViewportView(preconditionsInput);
         preconditionsInput.setForeground(Color.WHITE);
         preconditionsInput.setBorder(null);
         preconditionsInput.setOpaque(false);
@@ -438,41 +421,41 @@ public class GUI extends JFrame implements ActionListener {
         idInput.setText("Id");
         idInput.setEditable(false);
         
-        scrollPane_5 = new JScrollPane();
-        scrollPane_5.setOpaque(false);
-        scrollPane_5.setBorder(null);
-        scrollPane_5.setBounds(23, 426, 268, 213);
-        panel.add(scrollPane_5);
+        TriggerScroll = new JScrollPane();
+        TriggerScroll.setOpaque(false);
+        TriggerScroll.setBorder(null);
+        TriggerScroll.setBounds(23, 426, 268, 213);
+        panel.add(TriggerScroll);
         triggersInput = new JTextPane();
-        scrollPane_5.setViewportView(triggersInput);
+        TriggerScroll.setViewportView(triggersInput);
         triggersInput.setForeground(Color.WHITE);
         triggersInput.setOpaque(false);
         triggersInput.setText("triggers");
         triggersInput.setText("triggers");
         triggersInput.setEditable(false);
 
-        scrollPane_7 = new JScrollPane();
-        scrollPane_7.setOpaque(false);
-        scrollPane_7.setBorder(null);
-        scrollPane_7.setBounds(617, 432, 277, 207);
-        panel.add(scrollPane_7);
+        SuccessScroll = new JScrollPane();
+        SuccessScroll.setOpaque(false);
+        SuccessScroll.setBorder(null);
+        SuccessScroll.setBounds(617, 432, 277, 207);
+        panel.add(SuccessScroll);
         successInput = new JTextPane();
-        scrollPane_7.setViewportView(successInput);
+        SuccessScroll.setViewportView(successInput);
         successInput.setForeground(Color.WHITE);
         successInput.setBorder(null);
         successInput.setOpaque(false);
         successInput.setText("Success");
         successInput.setEditable(false);
         
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(24, 46, 316, 44);
-        panel.add(scrollPane);
-                scrollPane.setBorder(null);
-                scrollPane.setOpaque(false);
+        JScrollPane NameScroll = new JScrollPane();
+        NameScroll.setBounds(24, 46, 316, 44);
+        panel.add(NameScroll);
+                NameScroll.setBorder(null);
+                NameScroll.setOpaque(false);
                 
                         //new input text holders
                         nameInput = new JTextPane();
-                        scrollPane.setViewportView(nameInput);
+                        NameScroll.setViewportView(nameInput);
                         nameInput.setForeground(Color.WHITE);
                         nameInput.setOpaque(false);
                         
@@ -481,30 +464,30 @@ public class GUI extends JFrame implements ActionListener {
                                 
                                         //disable text input in main menu
                                         nameInput.setEditable(false);
-                scrollPane.getViewport().setOpaque(false);
+                NameScroll.getViewport().setOpaque(false);
                 IDSCROLL.getViewport().setOpaque(false);
                 DESCRIPTIONSCROLL.getViewport().setOpaque(false);
-                scrollPane_1.getViewport().setOpaque(false);
-                scrollPane_2.getViewport().setOpaque(false);
-                scrollPane_3.getViewport().setOpaque(false);
-                scrollPane_4.getViewport().setOpaque(false);
-                scrollPane_5.getViewport().setOpaque(false);
-                scrollPane_6.getViewport().setOpaque(false);
-                scrollPane_7.getViewport().setOpaque(false);
+                PrimActors.getViewport().setOpaque(false);
+                SupActors.getViewport().setOpaque(false);
+                PrimFlow.getViewport().setOpaque(false);
+                AltFlow.getViewport().setOpaque(false);
+                TriggerScroll.getViewport().setOpaque(false);
+                PreconditionsScroll.getViewport().setOpaque(false);
+                SuccessScroll.getViewport().setOpaque(false);
 
       
         
-        scrollPane_8 = new JScrollPane();
-        scrollPane_8.setOpaque(false);
-        scrollPane_8.setBorder(null);
-        scrollPane_8.setBounds(910, 432, 276, 207);
-        panel.add(scrollPane_8);
+        MinimalScroll = new JScrollPane();
+        MinimalScroll.setOpaque(false);
+        MinimalScroll.setBorder(null);
+        MinimalScroll.setBounds(910, 432, 276, 207);
+        panel.add(MinimalScroll);
         
-        scrollPane_8.getViewport().setOpaque(false);
+        MinimalScroll.getViewport().setOpaque(false);
 
 
         minimalInput = new JTextPane();
-        scrollPane_8.setViewportView(minimalInput);
+        MinimalScroll.setViewportView(minimalInput);
         minimalInput.setForeground(Color.WHITE);
         minimalInput.setBorder(null);
         minimalInput.setOpaque(false);
@@ -521,134 +504,6 @@ public class GUI extends JFrame implements ActionListener {
                 "/resources/editmode.png");
         labelt.setIcon(new ImageIcon(editmode));
         labelt.setBounds(0, -34, 1366, 766);
-        
-        Edit = new JButton("save");
-        Edit.setVisible(false);
-        Edit.setIcon(new ImageIcon(GUI.class.getResource("/resources/editmode.png")));
-        Edit.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		
-        		 minimalInput.setEditable(false);
-         	      descriptionInput.setEditable(false);
-       	      nameInput.setEditable(false);
-       	      idInput.setEditable(false);
-       	      primaryFlowInput.setEditable(false);
-       	      triggersInput.setEditable(false);
-       	      preconditionsInput.setEditable(false);
-       	      supActorsInput.setEditable(false);
-       	      primActorsInput.setEditable(false);
-       	      alternativeFlowInput.setEditable(false);
-       	      successInput.setEditable(false);
-       	      
-           		UseCase uc = new UseCase();
-                   uc.setName(nameInput.getText());
-                   uc.setID(idInput.getText());
-                   uc.setDescription(descriptionInput.getText());
-                   uc.setPrimaryActors(primActorsInput.getText());
-                   uc.setSupportingActors(supActorsInput.getText());
-                   uc.setTriggers(triggersInput.getText());
-                   uc.setPreconditions(preconditionsInput.getText());
-                   uc.setPrimaryflow(primaryFlowInput.getText());
-                   uc.setAlternativeflow(alternativeFlowInput.getText());
-                   uc.setMinimalGuarantees(minimalInput.getText());
-                   uc.setSuccessGuarantees(successInput.getText());
-   				save(uc);
-   				
-   				button_2.setVisible(false);
-   				button_1.setVisible(false);
-   				btnNewButton.setVisible(false);
-   			    button.setVisible(false);
-   	
-   				
-   				Edit.setVisible(false);
-   				Save.setVisible(true);
-        	      
-        		
-        	}
-        });
-        Edit.setBounds(3, 680, 1190, 17);
-        panel.add(Edit);
-
-                Save = new JButton("View");
-                Save.setIcon(new ImageIcon(GUI.class.getResource("/resources/viewmode.png")));
-                Save.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		
-                		
-              	      minimalInput.setEditable(true);
-              	      descriptionInput.setEditable(true);
-            	      nameInput.setEditable(true);
-            	      idInput.setEditable(true);
-            	      primaryFlowInput.setEditable(true);
-            	      triggersInput.setEditable(true);
-            	      preconditionsInput.setEditable(true);
-            	      supActorsInput.setEditable(true);
-            	      primActorsInput.setEditable(true);
-            	      alternativeFlowInput.setEditable(true);
-            	      successInput.setEditable(true);
-            	      
-            	  	Edit.setVisible(true);
-       				Save.setVisible(false);
-       				
-       				button_2.setVisible(true);
-       				button_1.setVisible(true);
-       				btnNewButton.setVisible(true);
-       			    button.setVisible(true);
-                		
-                		
-                
-                		
-                	}
-                });
-                Save.setBounds(3, 680, 1190, 17);
-                panel.add(Save);
-                
-                btnNewButton = new JButton("");
-                btnNewButton.setVisible(false);
-                btnNewButton.setIcon(new ImageIcon(GUI.class.getResource("/resources/addactor.png")));
-                btnNewButton.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		
-                		dialog = new CreateDialog("");
-                	}
-                });
-                btnNewButton.setBounds(73, 357, 89, 23);
-                panel.add(btnNewButton);
-                
-                button = new JButton("");
-                button.setVisible(false);
-                button.setIcon(new ImageIcon(GUI.class.getResource("/resources/addactor.png")));
-                button.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		
-                		dialog = new CreateDialog("");
-                	}
-                });
-                button.setBounds(312, 357, 89, 23);
-                panel.add(button);
-                
-                button_1 = new JButton("");
-                button_1.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		
-                		dialog = new CreateDialog("");
-                	}
-                });
-                button_1.setVisible(false);
-                button_1.setIcon(new ImageIcon(GUI.class.getResource("/resources/addstep.png")));
-                button_1.setBounds(605, 357, 89, 23);
-                panel.add(button_1);
-                
-                button_2 = new JButton("");
-                button_2.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		dialog = new CreateDialog("");
-                	}
-                });
-                button_2.setVisible(false);
-                button_2.setIcon(new ImageIcon(GUI.class.getResource("/resources/addstep.png")));
-                button_2.setBounds(970, 357, 89, 23);
-                panel.add(button_2);
         
                 label = new JLabel("");
                 label.setBounds(new Rectangle(0, 0, 1366, 766));
@@ -805,7 +660,11 @@ public class GUI extends JFrame implements ActionListener {
 				
 					if(term.equals(dTree.selectedTerm())){
 						Glossary g = currentProject.getGlossaryItem(term);
-						JOptionPane.showMessageDialog(frame, g.getWord() + ": " + g.getDefinition());
+					//	JOptionPane.showMessageDialog(frame, g.getWord() + ": " + g.getDefinition());
+						
+						GlossaryDefine glossary2 = new GlossaryDefine(g.getWord(), g.getDefinition());
+						glossary2.setVisible(true);
+						//glossUtility();
 					}
 				}
 			
