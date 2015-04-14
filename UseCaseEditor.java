@@ -1,4 +1,3 @@
-
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
@@ -6,7 +5,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 import javax.swing.JScrollPane;
@@ -15,21 +13,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 import java.net.URL;
+import java.awt.Window.Type;
 
 /*****************************************************************
  UseCaseEditor creates a manages a custom JDialog window for use in
  accepting and creating instances of UseCase. In its current form
  it relies heavily on both Usecase.java and extends the default
  JDialog class.
+ 
  @author Wesley Krug, Gabriel Steponovich,
  Michael Brecker, Halston Raddatz
  @version Winter 2015
  *****************************************************************/
-
 public class UseCaseEditor extends JDialog implements ActionListener {
 
     /**
@@ -110,12 +108,12 @@ public class UseCaseEditor extends JDialog implements ActionListener {
     /**
      * Width of the useCaseEditor JPanel.
      */
-    public static final int EDITOR_WIDTH = 400;
+    public static final int EDITOR_WIDTH = 1190;
 
     /**
      * Heigth of the useCaseEditor JPanel.
      */
-    public static final int EDITOR_HEIGHT = 200;
+    public static final int EDITOR_HEIGHT = 719;
 
     /**
      * The Layout for the TextPanels.
@@ -125,14 +123,67 @@ public class UseCaseEditor extends JDialog implements ActionListener {
     /**
      * Width of the usecase.
      */
-    public static final int USE_CASE_WIDTH = 800;
+    public static final int USE_CASE_WIDTH = 1190;
 
     /**
      * Heigh of the usecase.
      */
-    public static final int USE_CASE_HEIGHT = 700;
+    public static final int USE_CASE_HEIGHT = 719;
 
-
+    /**
+     * Scrollpane.
+     */
+    private JScrollPane scrollPane1;
+    
+    /**
+     * Scrollpane.
+     */
+    private JScrollPane scrollPane2;
+    
+    /**
+     * Scrollpane.
+     */
+    private JScrollPane scrollPane3;
+    
+    /**
+     * Scrollpane.
+     */
+    private JScrollPane scrollPane4;
+    
+    /**
+     * Scrollpane.
+     */
+    private JScrollPane scrollPane5;
+    
+    /**
+     * Scrollpane.
+     */
+    private JScrollPane scrollPane6;
+    
+    /**
+     * Scrollpane.
+     */
+    private JScrollPane scrollPane7;
+    
+    /**
+     * Scrollpane.
+     */
+    private JScrollPane scrollPane8;
+    
+    /**
+     * Scrollpane.
+     */
+    private JScrollPane scrollPane9;
+    
+    /**
+     * Scrollpane.
+     */
+    private JScrollPane scrollPane10;
+    private JButton addactor1;
+    private JButton addactor2;
+    private JButton addstep1;
+    private JButton addstep2;
+        
     /*****************************************************************
      Uses .getText() to transfer current values of JTextPanes into their
      associated parameters within the UseCase object.
@@ -159,105 +210,282 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      it on click.
      *****************************************************************/
     public UseCaseEditor() {
-
-        setLocationRelativeTo(null);
-        setTitle("Use Case Editor");
-        setSize(EDITOR_WIDTH, EDITOR_HEIGHT);
+    	setModal(true);
+    	setResizable(false);
+        setTitle("EDITING");
+        setSize(1200, 730);
 
         JPanel textPanel = new JPanel();
-
-        /** Sets up the textFields with default values **/
         textPanel.setLayout(null);
-
         getContentPane().add(textPanel, BorderLayout.CENTER);
-
-        okButton = new JButton("Save");
-        
+                
+		URL boximage = GUI.class.getResource("/resources/editmode.png");
+		URL checkmark = GUI.class.getResource("/resources/checkmark.png");
+		URL xmark = GUI.class.getResource("/resources/xmark.png");
 		
-		URL boximage = GUI.class.getResource(
-                "/resources/bg2.png");
-		URL checkmark = GUI.class.getResource(
-                "/resources/checkmark.png");
-		URL xmark = GUI.class.getResource(
-                "/resources/xmark.png");
-		
-        okButton.setIcon(new ImageIcon(checkmark));
+        okButton = new JButton("");
+        okButton.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/saveusecase.png")));
         okButton.setOpaque(false);
-        okButton.setBounds(343, 580, 120, 50);
-        cancelButton = new JButton("Cancel");
-        cancelButton.setIcon(new ImageIcon(xmark));
+        okButton.setBounds(476, 657, 110, 23);
+        cancelButton = new JButton("");
+        cancelButton.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/cancel2.png")));
         cancelButton.setOpaque(false);
-        cancelButton.setBounds(487, 580, 120, 50);
+        cancelButton.setBounds(607, 657, 110, 23);
+        
+        addstep1 = new JButton("");
+        addstep1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("This is the first add step button");
+        	}
+        });
+        addstep1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addstep.png")));
+        addstep1.setBounds(495, 367, 89, 23);
+        textPanel.add(addstep1);
+        
+        addactor2 = new JButton("");
+        addactor2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("This is the second add actor button");
+        	}
+        });
+        addactor2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addactor.png")));
+        addactor2.setBounds(253, 367, 89, 23);
+        textPanel.add(addactor2);
+        
+        addactor1 = new JButton("");
+        addactor1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addactor.png")));
+        addactor1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("This is the first add actor button");
+        		
+        	}
+        });
+        addactor1.setBounds(20, 367, 89, 23);
+        textPanel.add(addactor1);
         textPanel.add(okButton);
         textPanel.add(cancelButton);
-        nameTxt = new JTextPane();
-        nameTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        nameTxt.setBounds(72, 11, 203, 52);
-        textPanel.add(nameTxt);
-        nameTxt.setOpaque(false);
-        idTxt = new JTextPane();
-        idTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        idTxt.setBounds(295, 11, 374, 52);
-        textPanel.add(idTxt);
-        idTxt.setOpaque(false);
-        descriptionTxt = new JTextPane();
-        descriptionTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        descriptionTxt.setBounds(295, 67, 374, 52);
-        textPanel.add(descriptionTxt);
-        descriptionTxt.setOpaque(false);
+        
+        JScrollPane scrollPane = new JScrollPane(); 
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+        
+        scrollPane3 = new JScrollPane();
+        scrollPane3.setOpaque(false);
+        scrollPane3.setBounds(10, 149, 207, 207);
+        scrollPane3.setBorder(null);
+        textPanel.add(scrollPane3);
+        
         primaryActorTxt = new JTextPane();
-        primaryActorTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        primaryActorTxt.setBounds(295, 122, 374, 52);
-        textPanel.add(primaryActorTxt);
+        scrollPane3.setViewportView(primaryActorTxt);
+        primaryActorTxt.setForeground(Color.WHITE);
+        primaryActorTxt.setBorder(null);
         primaryActorTxt.setOpaque(false);
+        
+        scrollPane1 = new JScrollPane();
+        scrollPane1.setOpaque(false);
+        scrollPane1.setBounds(348, 60, 318, 40);
+        textPanel.add(scrollPane1);
+        idTxt = new JTextPane();
+        scrollPane1.setViewportView(idTxt);
+        idTxt.setForeground(Color.WHITE);
+        idTxt.setBorder(null);
+        idTxt.setOpaque(false);
+        scrollPane.setBounds(10, 56, 318, 44);
+        textPanel.add(scrollPane);
+        nameTxt = new JTextPane();
+        scrollPane.setViewportView(nameTxt);
+        nameTxt.setOpaque(false);
+        nameTxt.setBackground(Color.GRAY);
+        nameTxt.setForeground(Color.WHITE);
+        nameTxt.setBorder(null);
+        
+        scrollPane2 = new JScrollPane();
+        scrollPane2.setOpaque(false);
+        scrollPane2.setBounds(687, 60, 477, 40);
+        textPanel.add(scrollPane2);
+        descriptionTxt = new JTextPane();
+        scrollPane2.setViewportView(descriptionTxt);
+        descriptionTxt.setForeground(Color.WHITE);
+        descriptionTxt.setBorder(null);
+        descriptionTxt.setOpaque(false);
+        scrollPane4 = new JScrollPane();
+        scrollPane4.setOpaque(false);
+        scrollPane4.setBounds(243, 149, 213, 207);
+        textPanel.add(scrollPane4);
+        
         supportingActorTxt = new JTextPane();
-        supportingActorTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        supportingActorTxt.setBounds(295, 178, 374, 52);
-        textPanel.add(supportingActorTxt);
+        scrollPane4.setViewportView(supportingActorTxt);
+        supportingActorTxt.setForeground(Color.WHITE);
+        supportingActorTxt.setBorder(null);
         supportingActorTxt.setOpaque(false);
+        scrollPane5 = new JScrollPane();
+        scrollPane5.setOpaque(false);
+        scrollPane5.setBounds(10, 440, 268, 198);
+        textPanel.add(scrollPane5);
+        
         triggersTxt = new JTextPane();
-        triggersTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        triggersTxt.setBounds(295, 235, 374, 52);
-        textPanel.add(triggersTxt);
+        scrollPane5.setViewportView(triggersTxt);
+        triggersTxt.setForeground(Color.WHITE);
         triggersTxt.setOpaque(false);
+        scrollPane6 = new JScrollPane();
+        scrollPane6.setOpaque(false);
+        scrollPane6.setBounds(316, 440, 268, 198);
+        textPanel.add(scrollPane6);
+        
         preconditionsTxt = new JTextPane();
-        preconditionsTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        preconditionsTxt.setBounds(295, 292, 374, 52);
-        textPanel.add(preconditionsTxt);
+        scrollPane6.setViewportView(preconditionsTxt);
+        preconditionsTxt.setForeground(Color.WHITE);
+        preconditionsTxt.setBorder(null);
         preconditionsTxt.setOpaque(false);
-        primaryFlowTxt = new JTextPane();
-        primaryFlowTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        primaryFlowTxt.setBounds(295, 350, 374, 52);
-        textPanel.add(primaryFlowTxt);
-        primaryFlowTxt.setOpaque(false);
+        scrollPane7 = new JScrollPane();
+        scrollPane7.setOpaque(false);
+        scrollPane7.setBounds(476, 150, 318, 206);
+        textPanel.add(scrollPane7);
+        
+          primaryFlowTxt = new JTextPane();
+          scrollPane7.setViewportView(primaryFlowTxt);
+          primaryFlowTxt.setForeground(Color.WHITE);
+          primaryFlowTxt.setBorder(null);
+          primaryFlowTxt.setOpaque(false);
+        
+        scrollPane8 = new JScrollPane();
+        scrollPane8.setOpaque(false);
+        scrollPane8.setBounds(818, 149, 346, 207);
+        textPanel.add(scrollPane8);        
+        
         alternateFlowTxt = new JTextPane();
-        alternateFlowTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        alternateFlowTxt.setBounds(295, 408, 374, 52);
-        textPanel.add(alternateFlowTxt);
+        scrollPane8.setViewportView(alternateFlowTxt);
+        alternateFlowTxt.setForeground(Color.WHITE);
+        alternateFlowTxt.setBorder(null);
         alternateFlowTxt.setOpaque(false);
+        scrollPane9 = new JScrollPane();
+        scrollPane9.setOpaque(false);
+        scrollPane9.setBounds(896, 440, 268, 198);
+        textPanel.add(scrollPane9);
+        
         minimalGuaranteeTxt = new JTextPane();
-        minimalGuaranteeTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        minimalGuaranteeTxt.setBounds(295, 465, 374, 52);
-        textPanel.add(minimalGuaranteeTxt);
+        scrollPane9.setViewportView(minimalGuaranteeTxt);
+        minimalGuaranteeTxt.setForeground(Color.WHITE);
+        minimalGuaranteeTxt.setBorder(null);
         minimalGuaranteeTxt.setOpaque(false);
+        scrollPane10 = new JScrollPane();
+        scrollPane10.setOpaque(false);
+        scrollPane10.setBounds(607, 440, 262, 198);
+        textPanel.add(scrollPane10);
+        
         successGuaranteeTxt = new JTextPane();
-        successGuaranteeTxt.setBorder(new LineBorder(new Color(0, 0, 0)));
-        successGuaranteeTxt.setBounds(295, 522, 374, 52);
-        textPanel.add(successGuaranteeTxt);
+        scrollPane10.setViewportView(successGuaranteeTxt);
+        successGuaranteeTxt.setForeground(Color.WHITE);
+        successGuaranteeTxt.setBorder(null);
         successGuaranteeTxt.setOpaque(false);
-        JLabel label = new JLabel("Name: ");
-        label.setIcon(new ImageIcon(boximage));
-        label.setBounds(0, 1, 784, 650);
-        textPanel.add(label);
-        JPanel buttonPanel = new JPanel();
-        //buttonPanel.add(okButton);
-        //buttonPanel.add(cancelButton);
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        
+        addstep2 = new JButton("");
+        addstep2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("This is the second add step button");
+        	}
+        });
+        addstep2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addstep.png")));
+        addstep2.setBounds(853, 367, 89, 23);
+        textPanel.add(addstep2);
+        
+        JButton deleteactor1 = new JButton("");
+        deleteactor1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("This is the first remove actor button");
+        	}
+        });
+        deleteactor1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/delactor.png")));
+        deleteactor1.setBounds(128, 367, 89, 23);
+        textPanel.add(deleteactor1);
         okButton.addActionListener(this);
         cancelButton.addActionListener(this);
-
+        
+        scrollPane.setBorder(null);
+        scrollPane1.setBorder(null);
+        scrollPane2.setBorder(null);
+        scrollPane3.setBorder(null);
+        scrollPane4.setBorder(null);
+        scrollPane5.setBorder(null);
+        scrollPane6.setBorder(null);
+        scrollPane7.setBorder(null);
+        scrollPane8.setBorder(null);
+        scrollPane9.setBorder(null);;
+        scrollPane10.setBorder(null);
+        
+        JButton deleteactor2 = new JButton("");
+        deleteactor2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		System.out.println("This is the second delete actor button");
+        	}
+        });
+        deleteactor2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/delactor.png")));
+        deleteactor2.setBounds(367, 367, 89, 23);
+        textPanel.add(deleteactor2);
+        
+        JButton deletestep1 = new JButton("");
+        deletestep1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("This is the first remove step button");
+        	}
+        });
+        deletestep1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/delstep.png")));
+        deletestep1.setBounds(591, 367, 89, 23);
+        textPanel.add(deletestep1);
+        
+        JButton modify1 = new JButton("");
+        modify1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("This is the first modify step button");
+        	}
+        });
+        modify1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/Modify.png")));
+        modify1.setBounds(687, 367, 89, 23);
+        textPanel.add(modify1);
+        
+        JButton deletestep2 = new JButton("");
+        deletestep2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("This is the second delete step button");
+        	}
+        });
+        deletestep2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/delstep.png")));
+        deletestep2.setBounds(952, 367, 89, 23);
+        textPanel.add(deletestep2);
+        
+        JButton modify2 = new JButton("");
+        modify2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("This is the second modify step button");
+        	}
+        });
+        modify2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/Modify.png")));
+        modify2.setBounds(1051, 367, 89, 23);
+        textPanel.add(modify2);
+        JLabel label = new JLabel("");
+        label.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/ID.png")));
+        label.setBounds(-11, -101, 1469, 919);
+        textPanel.add(label);
+        
+        setUpScrollPanes();
         setSize(USE_CASE_WIDTH, USE_CASE_HEIGHT);
         setVisible(true);
+    }
+    
+    /**
+     * Sets up the scrollpanes.
+     */
+    public final void setUpScrollPanes() {
+        scrollPane1.getViewport().setOpaque(false);
+        scrollPane2.getViewport().setOpaque(false);
+        scrollPane3.getViewport().setOpaque(false);
+        scrollPane4.getViewport().setOpaque(false);
+        scrollPane5.getViewport().setOpaque(false);
+        scrollPane6.getViewport().setOpaque(false);
+        scrollPane7.getViewport().setOpaque(false);
+        scrollPane8.getViewport().setOpaque(false);
+        scrollPane9.getViewport().setOpaque(false);
+        scrollPane10.getViewport().setOpaque(false);
     }
 
     /*****************************************************************
@@ -279,6 +507,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         minimalGuaranteeTxt.setText(usecase.getMinimalGuaruntees());
         successGuaranteeTxt.setText(usecase.getSuccessGuarantees());
     }
+    
     /**************************************************************
      Adds ActionListener to okButton.
      @param listener the ActionListener to be added to the given button.
