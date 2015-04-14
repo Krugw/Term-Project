@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.ImageIcon;
+import java.awt.Color;
 
 /**
  * This class creates a GUI for the user to interact with in 
@@ -38,16 +40,6 @@ public class GlossaryWord extends JDialog implements ActionListener {
 	 * Creates a panel for buttons.
 	 */
 	private JPanel buttonPanel;
-	
-	/**
-	 * Term label.
-	 */
-	private JLabel term;
-	
-	/**
-	 * Definition label.
-	 */
-	private JLabel definition;
 	
 	/**
 	 * Term text field.
@@ -83,32 +75,55 @@ public class GlossaryWord extends JDialog implements ActionListener {
         setSize(500,250);
         
         panel = new JPanel();
-        panel.setLayout(new GridLayout(6, 2));
+        panel.setBounds(0, 0, 484, 211);
         
         buttonPanel = new JPanel();
+        buttonPanel.setBounds(0, 201, 484, 10);
+        panel.setLayout(null);
+        JScrollPane sp = new JScrollPane();
+        sp.setBackground(Color.BLACK);
+        sp.setOpaque(false);
+        sp.setForeground(Color.BLACK);
+        sp.setViewportBorder(null);
+        sp.setBounds(107, 100, 259, 66);
         
-        term = new JLabel("Term: ");
-        panel.add(term);
-        word = new JTextField(30);
-        panel.add(word);
-        
-        definition = new JLabel("Definition: ");
-        panel.add(definition);
-        def = new JTextPane();
-        JScrollPane sp = new JScrollPane(def);
+        sp.getViewport().setOpaque(false);
         panel.add(sp);
-        getContentPane().add(panel, BorderLayout.NORTH);
         
-        oK = new JButton("Add Term");
-        cancel = new JButton("Cancel");
-        panel.add(oK);
+        sp.setBorder(null);
+        def = new JTextPane();
+        sp.setViewportView(def);
+        def.setDisabledTextColor(Color.WHITE);
+        def.setBorder(null);
+        def.setOpaque(false);
+        word = new JTextField(30);
+        word.setBorder(null);
+        word.setOpaque(false);
+        word.setBounds(116, 27, 246, 36);
+        panel.add(word);
+        cancel = new JButton("");
+        cancel.setIcon(new ImageIcon(GlossaryWord.class.getResource("/resources/cancel.png")));
+        cancel.setBounds(241, 177, 80, 23);
         panel.add(cancel);
-        buttonPanel.add(oK);
-        buttonPanel.add(cancel);
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        cancel.addActionListener(this);
+        getContentPane().setLayout(null);
+        getContentPane().add(panel);
+        
+        
+        oK = new JButton("");
+        oK.setIcon(new ImageIcon(GlossaryWord.class.getResource("/resources/ok.png")));
+        oK.setBounds(151, 177, 80, 23);
+        panel.add(oK);
+        
+        JLabel lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(GlossaryWord.class.getResource("/resources/glossayword.png")));
+        lblNewLabel.setBounds(0, 0, 484, 211);
+        panel.add(lblNewLabel);
+        //buttonPanel.add(oK);
+        //buttonPanel.add(cancel);
+        getContentPane().add(buttonPanel);
         
         oK.addActionListener(this);
-        cancel.addActionListener(this);
         
         glossaryTerm = new Glossary();
         
@@ -177,5 +192,4 @@ public class GlossaryWord extends JDialog implements ActionListener {
 		word.setText(glossary.getWord());
 		def.setText(glossary.getDefinition());
 	}
-
 }
