@@ -1,5 +1,3 @@
-package usecase;
-
 import java.io.File;
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilderFactory;
