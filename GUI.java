@@ -740,6 +740,7 @@ public class GUI extends JFrame implements ActionListener {
 				if (!ids.isEmpty()) {
 					currentUseCase = currentProject.getUsecase(ids.get(0));
 				}
+				if(e.getSource() == load)
 				terms = currentProject.getTerms();
 				createtree();
 				display();
