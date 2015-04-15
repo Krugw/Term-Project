@@ -210,7 +210,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      it on click.
      *****************************************************************/
     public UseCaseEditor() {
-    	setModal(true);
+    	setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     	setResizable(false);
         setTitle("EDITING");
         setSize(1200, 730);
