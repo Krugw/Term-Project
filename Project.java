@@ -1,5 +1,6 @@
-import java.io.File;
+package usecase;
 
+import java.io.File;
 import javax.swing.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -11,12 +12,9 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.OutputKeys;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Vector;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -43,10 +41,6 @@ public class Project {
      */
     private ArrayList<Glossary> glossary;
     
-    /**
-     * An array list of Actor items
-     */
-     private ArrayList<Actor> actors;
 
     /*****************************************************************
      Builds an ArrayList of UseCase objects.
@@ -54,7 +48,6 @@ public class Project {
     public Project() {
         useCases = new ArrayList<UseCase>();
         glossary = new ArrayList<Glossary>();
-        actors = new ArrayList<Actor>();
     }
 
     /*****************************************************************
@@ -72,21 +65,7 @@ public class Project {
         }
         useCases.add(uc);
     }
-    /**\
-     * Add a actor item to the actors array list.
-     *
-     * @param a is the glossary item to add.
-     */
-    public final void addActor(final Actor a) {
-        for (Actor actor : actors) {
-            if (actor.getName().equals(a.getName())) {
-                actors.remove(actor);
-                actors.add(a);
-                return;
-            }
-        }
-        actors.add(a);
-    }
+
     /**\
      * Add a glossary item to the glossary array list.
      *
@@ -131,12 +110,16 @@ public class Project {
         }
         return terms;
     }
+    
+    public final ArrayList<Glossary> getWords() {
+    	return glossary;
+    }
 
-    /** Not implemented yet.
-     public boolean deleteGlossaryItem(Glossary g) {
-     return glossary.remove(g);
+     /*Not implemented yet.*/
+     public boolean removeWord(Glossary g) {
+    	 return glossary.remove(g);
      }
-     **/
+     
 
     /*****************************************************************
      Returns the UseCase with the requested ID.
@@ -151,21 +134,7 @@ public class Project {
         }
         return null;
     }
-    public Actor fromString(String actor){
-    	ArrayList<String> items = new ArrayList<String>(Arrays.asList(actor.split("\\s*,\\s*")));
-    	Actor nActor;
-    	if(items.size()>=2){
-    	nActor = new Actor(items.get(0),items.get(1));
-    	}else if(items.size()>=1){
-    		nActor = new Actor(items.get(0),"");
-    	}else{
-    		nActor = new Actor("???","");
-    	}
-    	for(int i=2; i <items.size(); i++){
-    		nActor.addUsecase(getUsecase(items.get(i)));
-    	}
-    	return nActor;
-    }
+
     /*****************************************************************
      Handles functionality associated with removing a UseCase object
      from the array.
@@ -188,9 +157,6 @@ public class Project {
 
         }
         return ids;
-    }
-    public final ArrayList<Actor> getActors() {
-        return actors;
     }
 
 
@@ -256,7 +222,7 @@ public class Project {
                 Element pActors = doc.createElement("primary-actors");
                 if (!uc.getPrimaryActors().isEmpty()) {
                     pActors.appendChild(doc.createTextNode(
-                            uc.getPrimString()));
+                            uc.getPrimaryActors()));
                 } else {
                     pActors.appendChild(doc.createTextNode(" "));
                 }
@@ -265,7 +231,7 @@ public class Project {
                 Element sActors = doc.createElement("supporting-actors");
                 if (!uc.getSupportingActors().isEmpty()) {
                     sActors.appendChild(doc.createTextNode(
-                            uc.getSupString()));
+                            uc.getSupportingActors()));
                 } else {
                     sActors.appendChild(doc.createTextNode(" "));
                 }
@@ -325,14 +291,6 @@ public class Project {
                 }
                 usecase.appendChild((sucGuarantee));
             }
-            Element Actors = doc.createElement("actors");
-            rootElement.appendChild(Actors);
-            for (Actor actor : actors) {
-                Element Actor = doc.createElement("actor");
-                Actors.appendChild((Actor));
-                Actor.appendChild(doc.createTextNode(actor.toString()));
-            }
-            
             Element dictionary = doc.createElement("dictionary");
             rootElement.appendChild(dictionary);
             for (Glossary gloss : glossary) {
@@ -438,7 +396,7 @@ public class Project {
                     Element pactNmElmnt
                             = (Element) pactNmElmntLst.item(0);
                     NodeList pactNm = pactNmElmnt.getChildNodes();
-                    u.setPrimaryActor(String.valueOf(
+                    u.setPrimaryActors(String.valueOf(
                             pactNm.item(0).getNodeValue()));
                     //Grab Supporting-Actors and set it to u.supportingActors
                     NodeList sActNmElmntLst =
@@ -447,7 +405,7 @@ public class Project {
                             (Element) sActNmElmntLst.item(0);
                     NodeList sActNm =
                             sActNmElmnt.getChildNodes();
-                    u.setSupportingActor(String.valueOf(
+                    u.setSupportingActors(String.valueOf(
                             sActNm.item(0).getNodeValue()));
                     //Grab Trigger and set it to u.Trigger
                     NodeList trigNmElmntLst =
@@ -507,16 +465,6 @@ public class Project {
                 this.addUsecase(u);
             }
 
-            NodeList nodeList3 = doc.getElementsByTagName("actor");
-            actors = new ArrayList<Actor>();
-            for (int i = 0; i < nodeList3.getLength(); i++) {
-            	Node fstNode = nodeList3.item(i);
-            	Element element = (Element) fstNode;
-            	NodeList actnd = element.getChildNodes();
-                String temp = (String.valueOf(actnd.item(0
-                ).getNodeValue()));
-            	this.addActor(fromString(temp));
-            }
             NodeList nodeList2 = doc.getElementsByTagName("term");
             for (int i = 0; i < nodeList2.getLength(); i++) {
                 Glossary gloss = new Glossary();
@@ -553,17 +501,4 @@ public class Project {
         }
         return true;
     }
-	public void setActors(ArrayList<Actor> actors2) {
-		// TODO Auto-generated method stub
-		actors = actors2;
-		
-	}
-
-	public void deleteActor(Actor a) {
-		// TODO Auto-generated method stub
-		actors.remove(a);
-		for(UseCase uc: useCases){
-			uc.removeActor(a.getName());
-		}
-	}
 }
