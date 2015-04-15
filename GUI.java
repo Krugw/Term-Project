@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -67,7 +68,7 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * add a usecase to project.
 	 */
-	private JMenuItem addUseCase,addWord;
+	private JMenuItem addUseCase,addWord,addActorItem,delActorItem;
 	/**
 	 * menu items for editing saving and removing.
 	 */
@@ -127,18 +128,22 @@ public class GUI extends JFrame implements ActionListener {
 	 */
 	
 	private Vector<String> terms;
+
+    private ArrayList<String> pAct = new ArrayList<String>();
 	
 	private String file;
 
 	/**
 	 * For getting project name.
 	 */
-	private CreateDialog dialog;
+	  private CreateDialog dialog;
+	  private CreateActorDialog dialog2;
+	  private AddActor DeleteActor;
 	/**
 	 * For displaying Usecases.
 	 */
 	private DynamicTree dTree;
-	private DefaultMutableTreeNode project,treePA,treeSA,treeUC,treeG;
+	private DefaultMutableTreeNode project,treePA,treeUC,treeG;
 	/**
 	 * For loading files.
 	 */
@@ -187,13 +192,12 @@ public class GUI extends JFrame implements ActionListener {
 	performs minimal operations for functionality of UseCase program
 	*****************************************************************/
 	public final void uceUtility() {
-		uCE.addSaveListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
-				UseCase uc = uCE.getUC();
-				save(uc);
-			}
-		});
-	}
+    	if(!uCE.getflag()){
+            currentProject.setActors(uCE.getActors());
+            System.out.println("no");
+            save(uCE.getUC());
+    	}
+    }
 	
 	public final void glossUtility() {
 		glossary.addSaveListener(new ActionListener() {
@@ -219,14 +223,14 @@ public class GUI extends JFrame implements ActionListener {
 		exitItem = new JMenuItem("Exit");
 		saveItem = new JMenuItem("Save");
 		saveAs = new JMenuItem("Save As");
-		File sourceimage = new File("src/icon.png");
-		Image image = null;
-        try {
-        	image = ImageIO.read(sourceimage);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//File sourceimage = new File("src/icon.png");
+		//Image image = null;
+        //try {
+        //	image = ImageIO.read(sourceimage);
+		//} catch (IOException e) {
+			// TO Auto-generated catch block
+		//	e.printStackTrace();
+		//}
         
 		fileMenu.add(loadItem);
 		fileMenu.add(newProject);
@@ -243,11 +247,15 @@ public class GUI extends JFrame implements ActionListener {
 		/** action menu */
 		actionMenu = new JMenu("Action");
 		addUseCase = new JMenuItem("New Usecase");
+		addActorItem = new JMenuItem("New Actor");
+        delActorItem = new JMenuItem("Delete Actor");
 		addWord = new JMenuItem("Add Word to Glossary");
 		removeUseCase = new JMenuItem("Remove Usecase");
 		editUseCase = new JMenuItem("Edit");
 		helpUseCase = new JMenuItem("Help");
 
+		addActorItem.addActionListener(this);
+        delActorItem.addActionListener(this);
 		addUseCase.addActionListener(this);
 		addWord.addActionListener(this);
 		removeUseCase.addActionListener(this);
@@ -256,6 +264,8 @@ public class GUI extends JFrame implements ActionListener {
 
 		actionMenu.add(addUseCase);
 		actionMenu.add(addWord);
+		actionMenu.add(addActorItem);
+        actionMenu.add(delActorItem);
 		actionMenu.add(removeUseCase);
 		actionMenu.add(editUseCase);
 		actionMenu.add(helpUseCase);
@@ -266,7 +276,7 @@ public class GUI extends JFrame implements ActionListener {
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("UseCase Editor - Lite");
-		frame.setIconImage(image);
+		//frame.setIconImage(image);
 
 		
 		ids = new Vector<String>();
@@ -582,8 +592,8 @@ public class GUI extends JFrame implements ActionListener {
 			primaryFlowInput.setText(currentUseCase.getPrimaryflow());
 			preconditionsInput.setText(currentUseCase.getPreconditions());
 			triggersInput.setText(currentUseCase.getTriggers());
-			primActorsInput.setText(currentUseCase.getPrimaryActors());
-			supActorsInput.setText(currentUseCase.getSupportingActors());
+			primActorsInput.setText(currentUseCase.getPrimString());
+            supActorsInput.setText(currentUseCase.getSupString());
 			descriptionInput.setText(currentUseCase.getDescription());
 			idInput.setText(currentUseCase.getID());
 			nameInput.setText(currentUseCase.getName());
@@ -597,9 +607,9 @@ public class GUI extends JFrame implements ActionListener {
 	 **************************************************************/
 	public final void actionPerformed(final ActionEvent e) {
 		if (e.getSource() == addUseCase) {
-			uCE = new UseCaseEditor();
-			uCE.setVisible(true);
-			uceUtility();
+			uCE = new UseCaseEditor(currentProject.getActors());
+            uCE.setVisible(true);
+            uceUtility();
 		}
 		
 		if(e.getSource() == addWord){
@@ -631,7 +641,16 @@ public class GUI extends JFrame implements ActionListener {
 				display();
 			}
 		}
-		
+        if(e.getSource() == addActorItem){
+        	dialog2 = new CreateActorDialog();
+            addActor(dialog2.getActorName(),dialog2.getActorDescription());
+            display();
+        }
+        if(e.getSource() == delActorItem){
+        	DeleteActor = new AddActor(currentProject.getActors());
+        	deleteActor(DeleteActor.getdeleteActor());
+            display();
+        }
 		if (e.getSource() == saveItem) {
 			if (currentUseCase != null) {
 				save(currentUseCase);
@@ -660,11 +679,11 @@ public class GUI extends JFrame implements ActionListener {
 				
 					if(term.equals(dTree.selectedTerm())){
 						Glossary g = currentProject.getGlossaryItem(term);
-					//	JOptionPane.showMessageDialog(frame, g.getWord() + ": " + g.getDefinition());
+						JOptionPane.showMessageDialog(frame, g.getWord() + ": " + g.getDefinition());
 						
 						GlossaryDefine glossary2 = new GlossaryDefine(g.getWord(), g.getDefinition());
 						glossary2.setVisible(true);
-						//glossUtility();
+						glossUtility();
 					}
 				}
 			
@@ -675,19 +694,18 @@ public class GUI extends JFrame implements ActionListener {
 		}
 
 		if (e.getSource() == edit || e.getSource() == editUseCase) {
-			uCE = new UseCaseEditor();
-			if (currentUseCase != null) {
-				uCE.setUC(currentUseCase);
-			} else {
-				UseCase uc = new UseCase();
-				uCE.setUC(uc);
-			}
-			uCE.setVisible(true);
-			uceUtility();
-		}
-		if (e.getSource() == exitItem) {
-			frame.dispose();
-		}
+			uCE = new UseCaseEditor(currentProject.getActors());
+            if (currentUseCase != null) {
+            	pAct.clear();
+            	pAct.addAll(currentUseCase.getPrimaryActors());
+                uCE.setUC(currentUseCase,currentProject.getActors());
+            } else {
+                UseCase uc = new UseCase();
+                uCE.setUC(uc,currentProject.getActors());
+            }
+            uCE.setVisible(true);
+            uceUtility();
+        }
 		if (e.getSource() == removeUseCase || e.getSource() == delete) {
 			if (currentProject.removeUsecase(currentUseCase)) {
 				ids = currentProject.getIDs();
@@ -724,40 +742,53 @@ public class GUI extends JFrame implements ActionListener {
 
 		}
 	}
-
+    public void addActor(String n, String d){
+    	if(n != ""){
+    	Actor actor = new Actor(n,d);
+    	currentProject.addActor(actor);
+    	}
+    }
+    public void deleteActor(Actor a){
+    	currentProject.deleteActor(a);
+    }
 	/**************************************************************
 	 Controls dynamic updates of the tree, in order to display
 	 the correct (and current) values therein.
 	 **************************************************************/
 	public final void updatedtree() {
-		HashMap<String,DefaultMutableTreeNode> PAD = new HashMap<String,DefaultMutableTreeNode>();
-		HashMap<String,DefaultMutableTreeNode> SAD = new HashMap<String,DefaultMutableTreeNode>();
-		HashMap<String,DefaultMutableTreeNode> GD = new HashMap<String,DefaultMutableTreeNode>();
-		dTree.clear();
-		project = dTree.addObject((DefaultMutableTreeNode)null, currentProject.getProjectName(),true);
-		treeUC = dTree.addObject(project, "UseCases",true);
-		treePA = dTree.addObject(project, "Primary Actors",true);
-		treeSA = dTree.addObject(project, "Secondary Actors",true);
-		treeG = dTree.addObject(project, "Glossary",true);
-		
+		HashMap<String, DefaultMutableTreeNode> pad = new HashMap<
+                String, DefaultMutableTreeNode>();
+        HashMap<String, DefaultMutableTreeNode> GD = new HashMap<
+                String, DefaultMutableTreeNode>();
+        dTree.clear();
+        project = dTree.addObject((DefaultMutableTreeNode
+                ) null, currentProject.getProjectName(), true);
+        treeUC = dTree.addObject(project, "UseCases", true);
+        treePA = dTree.addObject(project, "Actors", true);
+        treeG = dTree.addObject(project, "Glossary", true);
+		for(Actor a: currentProject.getActors()){
+    		pad.put(a.getName(), dTree.addObject(treePA,
+            a.getName()));
+		}
 		if (!ids.isEmpty()) {
-			System.out.println(treePA.toString());
 			for (int i = 0; i < ids.size(); i++) {
-				String id = ids.get(i);
-				UseCase UC = currentProject.getUsecase(id);
-				if(!SAD.containsKey(UC.getSupportingActors())){
-					SAD.put(UC.getSupportingActors(),dTree.addObject(treeSA, UC.getSupportingActors()));
-					dTree.addObject(SAD.get(UC.getSupportingActors()), UC);
-				}else{
-					dTree.addObject(SAD.get(UC.getSupportingActors()), UC);
-				}
-				if(!PAD.containsKey(UC.getPrimaryActors())){
-					PAD.put(UC.getPrimaryActors(), dTree.addObject(treePA, UC.getPrimaryActors()));
-					dTree.addObject(PAD.get(UC.getPrimaryActors()), UC);
-				}else{
-					dTree.addObject(PAD.get(UC.getPrimaryActors()), UC);
-				}
-				dTree.addObject(treeUC, UC);
+                String id = ids.get(i);
+                UseCase uc = currentProject.getUsecase(id);
+                ArrayList<String> SA = uc.getSupportingActors();
+                for(String sa: SA){
+                	if (pad.containsKey(sa)) {
+                		dTree.addObject(pad.get(sa), uc);
+                	}
+                }
+                ArrayList<String> PA = uc.getPrimaryActors();
+                for(String pa: PA){
+                if (pad.containsKey(pa)) {
+                	if(!SA.contains(pa)){
+                    dTree.addObject(pad.get(pa), uc);
+                	}
+                }
+                }
+                dTree.addObject(treeUC, uc);
 			}
 		}
 		
