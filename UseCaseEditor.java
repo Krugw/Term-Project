@@ -6,17 +6,21 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import java.awt.BorderLayout;
+import java.awt.List;
 
 import javax.swing.JScrollPane;
 
+import java.awt.Dialog.ModalExclusionType;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 
 import java.awt.Color;
+import java.lang.reflect.Array;
 import java.net.URL;
-import java.awt.Window.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /*****************************************************************
  UseCaseEditor creates a manages a custom JDialog window for use in
@@ -34,7 +38,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      * Serial Version of our program.
      **/
     private static final long serialVersionUID = 1L;
-
+    
     /**
      * JTextPane for nameTxt field of the usecase to be created.
      */
@@ -103,8 +107,9 @@ public class UseCaseEditor extends JDialog implements ActionListener {
     /**
      * The new usecase to be created.
      */
-    private UseCase uc = new UseCase();
-
+    private UseCase uc = new UseCase(),uco = new UseCase();
+    
+    private ArrayList<Actor> Actors = new ArrayList<Actor>(), Actorso = new ArrayList<Actor>();
     /**
      * Width of the useCaseEditor JPanel.
      */
@@ -129,6 +134,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      * Heigh of the usecase.
      */
     public static final int USE_CASE_HEIGHT = 719;
+    public AddActor ActorDialog;
 
     /**
      * Scrollpane.
@@ -179,22 +185,24 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      * Scrollpane.
      */
     private JScrollPane scrollPane10;
+    private ArrayList<Actor> proActors;
+    private ArrayList<String> pA = new ArrayList<String>(),sA= new ArrayList<String>();
+    private Boolean Flag = true, cancelFlag = true;
     private JButton addactor1;
     private JButton addactor2;
     private JButton addstep1;
     private JButton addstep2;
-        
+    
     /*****************************************************************
      Uses .getText() to transfer current values of JTextPanes into their
      associated parameters within the UseCase object.
      @return UseCase The usecase to returned.
      *****************************************************************/
     public final UseCase getUC() {
+    	if(!cancelFlag){
         uc.setName(nameTxt.getText());
         uc.setID(idTxt.getText());
         uc.setDescription(descriptionTxt.getText());
-        uc.setPrimaryActors(primaryActorTxt.getText());
-        uc.setSupportingActors(supportingActorTxt.getText());
         uc.setTriggers(triggersTxt.getText());
         uc.setPreconditions(preconditionsTxt.getText());
         uc.setPrimaryflow(primaryFlowTxt.getText());
@@ -202,15 +210,45 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         uc.setMinimalGuarantees(minimalGuaranteeTxt.getText());
         uc.setSuccessGuarantees(successGuaranteeTxt.getText());
         return uc;
+    	}else{
+    		System.out.println(uco.getPrimString());
+    		uco.setPrimaryActor(pA);
+    		uco.setSupportingActor(sA);
+    		System.out.println(uco.getPrimString());
+    		return uco;
+    	}
     }
-    
+    public final ArrayList<Actor> getActors(){
+    	for(String s: uc.getPrimaryActors()){
+    		for(Actor A: Actors){
+    			if(A.getName().equals(s))
+    				A.addUsecase(uc);
+    		}
+    	}
+    	for(String s: uc.getSupportingActors()){
+    		for(Actor A: Actors){
+    			if(A.getName().equals(s))
+    				A.addUsecase(uc);
+    		}
+    	}
+    	return Actors;
+    }
+    public final void addActorUC(Actor A){
+    	uc.addPrimaryActor(A.getName());
+    	A.addUsecase(uc);
+    }
+    public final void removeActorUC(Actor A){
+    	A.removeUseCase(uc);
+    }
     /*****************************************************************
      Instantiates a custom dialog box and adds applicable jTextFields,
      jButtons, and JComboBoxes. Sets box to modal as well as centering
      it on click.
      *****************************************************************/
-    public UseCaseEditor() {
-    	setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+    public UseCaseEditor(final ArrayList<Actor> pActors) {
+        setVisible(false);
+    	setModalityType(ModalityType.APPLICATION_MODAL);
+        proActors = pActors;
     	setResizable(false);
         setTitle("EDITING");
         setSize(1200, 730);
@@ -243,23 +281,14 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         textPanel.add(addstep1);
         
         addactor2 = new JButton("");
-        addactor2.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		System.out.println("This is the second add actor button");
-        	}
-        });
+        addactor2.addActionListener(this);
         addactor2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addactor.png")));
         addactor2.setBounds(253, 367, 89, 23);
         textPanel.add(addactor2);
         
         addactor1 = new JButton("");
         addactor1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addactor.png")));
-        addactor1.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		System.out.println("This is the first add actor button");
-        		
-        	}
-        });
+        addactor1.addActionListener(this);
         addactor1.setBounds(20, 367, 89, 23);
         textPanel.add(addactor1);
         textPanel.add(okButton);
@@ -278,6 +307,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         primaryActorTxt = new JTextPane();
         scrollPane3.setViewportView(primaryActorTxt);
         primaryActorTxt.setForeground(Color.WHITE);
+        primaryActorTxt.setEditable(false);
         primaryActorTxt.setBorder(null);
         primaryActorTxt.setOpaque(false);
         
@@ -316,6 +346,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         supportingActorTxt = new JTextPane();
         scrollPane4.setViewportView(supportingActorTxt);
         supportingActorTxt.setForeground(Color.WHITE);
+        supportingActorTxt.setEditable(false);
         supportingActorTxt.setBorder(null);
         supportingActorTxt.setOpaque(false);
         scrollPane5 = new JScrollPane();
@@ -469,7 +500,6 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         
         setUpScrollPanes();
         setSize(USE_CASE_WIDTH, USE_CASE_HEIGHT);
-        setVisible(true);
     }
     
     /**
@@ -494,43 +524,43 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      within the currently accessed UseCase object.
      @param usecase - The current UseCase object being accessed
      *****************************************************************/
-    public final void setUC(final UseCase usecase) {
-        nameTxt.setText(usecase.getName());
-        idTxt.setText(usecase.getID());
-        descriptionTxt.setText(usecase.getDescription());
-        primaryActorTxt.setText(usecase.getPrimaryActors());
-        supportingActorTxt.setText(usecase.getSupportingActors());
-        triggersTxt.setText(usecase.getTriggers());
-        preconditionsTxt.setText(usecase.getPreconditions());
-        primaryFlowTxt.setText(usecase.getPrimaryflow());
-        alternateFlowTxt.setText(usecase.getAlternativeflow());
-        minimalGuaranteeTxt.setText(usecase.getMinimalGuaruntees());
-        successGuaranteeTxt.setText(usecase.getSuccessGuarantees());
+    public final void setUC(UseCase usecase, ArrayList<Actor> actors) {
+    	Actors = actors;
+    	uc = new UseCase();
+    	uc = usecase;
+    	pA.addAll(usecase.getPrimaryActors());
+    	sA.addAll(usecase.getSupportingActors());
+        display();
     }
-    
-    /**************************************************************
-     Adds ActionListener to okButton.
-     @param listener the ActionListener to be added to the given button.
-     **************************************************************/
-    public final void addSaveListener(final ActionListener listener) {
-
-        okButton.addActionListener(listener);
+    public Boolean getflag(){
+    	return cancelFlag;
     }
-
+    public final void display(){
+    	nameTxt.setText(uc.getName());
+        idTxt.setText(uc.getID());
+        descriptionTxt.setText(uc.getDescription());
+        primaryActorTxt.setText(uc.getPrimString());
+        supportingActorTxt.setText(uc.getSupString());
+        triggersTxt.setText(uc.getTriggers());
+        preconditionsTxt.setText(uc.getPreconditions());
+        primaryFlowTxt.setText(uc.getPrimaryflow());
+        alternateFlowTxt.setText(uc.getAlternativeflow());
+        minimalGuaranteeTxt.setText(uc.getMinimalGuaruntees());
+        successGuaranteeTxt.setText(uc.getSuccessGuarantees());
+    }
     /**************************************************************
      Manages the action listeners that are currently connected to
      GUI objects.
      @param e the event
      **************************************************************/
     public final void actionPerformed(final ActionEvent e) {
-
+    	
         if (e.getSource() == okButton) {
-
+        	cancelFlag = false;
             /**prevents user from attempting to save with no title **/
             if (!idTxt.getText().equals("")) {
                 try {
-
-                    dispose();
+                	dispose();
 
                 } catch (Exception e1) {
                     e1.printStackTrace();
@@ -541,11 +571,21 @@ public class UseCaseEditor extends JDialog implements ActionListener {
                         JOptionPane.INFORMATION_MESSAGE);
             }
         }
-
+        if(e.getSource() == addactor1){
+        	Flag = true;
+        	ActorDialog = new AddActor(proActors, uc.getPrimaryActors());
+        	uc.setPrimaryActor(ActorDialog.getucActorlist());
+        	display();
+        }
+        if(e.getSource() == addactor2){
+        	Flag = false;
+        	ActorDialog = new AddActor(proActors, uc.getSupportingActors());
+        	uc.setSupportingActor(ActorDialog.getucActorlist());
+        	display();
+        }
         /** Sets close status to 1 and exits the pop-up box **/
         if (e.getSource() == cancelButton) {
-            dispose();
+        	dispose();
         }
-
     }
 }
