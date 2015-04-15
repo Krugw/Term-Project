@@ -42,6 +42,7 @@ public class CreateActorDialog implements ActionListener {
      * Creates a text field to write desired file name.
      ***************************************************/
     private JTextField actorName,actorDescription;
+    private JLabel lblNewLabel;
 
     public CreateActorDialog() {
 
@@ -59,16 +60,20 @@ public class CreateActorDialog implements ActionListener {
          * Creates JPanel within JDialog box, adds applicable JButtons for
          * user operation and fields for user input.
          *****************************************************************/
-        okButton = new JButton("OK");
-        okButton.setBounds(62, 116, 80, 23);
-        cancelButton = new JButton("Cancel");
-        cancelButton.setBounds(147, 116, 81, 23);
+        okButton = new JButton("");
+        okButton.setIcon(new ImageIcon(CreateActorDialog.class.getResource("/resources/ok.png")));
+        okButton.setBounds(163, 147, 80, 23);
+        cancelButton = new JButton("");
+        cancelButton.setIcon(new ImageIcon(CreateActorDialog.class.getResource("/resources/cancel.png")));
+        cancelButton.setBounds(253, 147, 81, 23);
         actorName = new JTextField(textfieldSize);
+        actorName.setBorder(null);
+        actorName.setBounds(106, 28, 263, 32);
         actorName.setOpaque(false);
-        actorName.setBounds(49, 27, 196, 38);
         actorDescription = new JTextField(textfieldSize);
+        actorDescription.setBorder(null);
+        actorDescription.setBounds(106, 92, 263, 44);
         actorDescription.setOpaque(false);
-        actorDescription.setBounds(49, 67, 196, 38);
 
         panel = new JPanel();
         panel.setBackground(Color.GRAY);
@@ -84,6 +89,11 @@ public class CreateActorDialog implements ActionListener {
          **************************************************************/
         actorName.setVisible(true);
         box.getContentPane().add(panel);
+        
+        lblNewLabel = new JLabel("");
+        lblNewLabel.setIcon(new ImageIcon(CreateActorDialog.class.getResource("/resources/AddActorPage.png")));
+        lblNewLabel.setBounds(0, -16, 468, 203);
+        panel.add(lblNewLabel);
         /*label = new JLabel("File Name:");
         URL boximage = GUI.class.getResource(
                 "/resources/filebox.png");
@@ -96,7 +106,7 @@ public class CreateActorDialog implements ActionListener {
         okButton.addActionListener(this);
         cancelButton.addActionListener(this);
 
-        box.setSize(boxLength, boxWidth);
+        box.setSize(484, 209);
         box.setVisible(true);
 
     }
