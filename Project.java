@@ -39,14 +39,14 @@ public class Project {
     private String projectName = "Project";
 
     /**
-     * An array list of glossary items. 
+     * An array list of glossary items.
      */
     private ArrayList<Glossary> glossary;
-    
+
     /**
      * An array list of Actor items
      */
-     private ArrayList<Actor> actors;
+    private ArrayList<Actor> actors;
 
     /*****************************************************************
      Builds an ArrayList of UseCase objects.
@@ -152,19 +152,19 @@ public class Project {
         return null;
     }
     public Actor fromString(String actor){
-    	ArrayList<String> items = new ArrayList<String>(Arrays.asList(actor.split("\\s*,\\s*")));
-    	Actor nActor;
-    	if(items.size()>=2){
-    	nActor = new Actor(items.get(0),items.get(1));
-    	}else if(items.size()>=1){
-    		nActor = new Actor(items.get(0),"");
-    	}else{
-    		nActor = new Actor("???","");
-    	}
-    	for(int i=2; i <items.size(); i++){
-    		nActor.addUsecase(getUsecase(items.get(i)));
-    	}
-    	return nActor;
+        ArrayList<String> items = new ArrayList<String>(Arrays.asList(actor.split("\\s*,\\s*")));
+        Actor nActor;
+        if(items.size()>=2){
+            nActor = new Actor(items.get(0),items.get(1));
+        }else if(items.size()>=1){
+            nActor = new Actor(items.get(0),"");
+        }else{
+            nActor = new Actor("???","");
+        }
+        for(int i=2; i <items.size(); i++){
+            nActor.addUsecase(getUsecase(items.get(i)));
+        }
+        return nActor;
     }
     /*****************************************************************
      Handles functionality associated with removing a UseCase object
@@ -291,8 +291,21 @@ public class Project {
 
                 Element pFlow = doc.createElement("primary-flow");
                 if (!uc.getPrimaryflow().isEmpty()) {
-                    pFlow.appendChild(doc.createTextNode(
-                            uc.getPrimaryflow()));
+                    for (int i = 0; i < uc.getPrimaryflow().size(); i++) {
+                        Element pFlowStep = doc.createElement("Step");
+                        Element pFlowStepTitle = doc.createElement("Title");
+
+                        pFlowStepTitle.appendChild(doc.createTextNode(
+                                uc.getPrimaryflow().get(i).getText()));
+                        pFlowStep.appendChild(pFlowStepTitle);
+
+                        Element pFlowStepNumAltSteps = doc.createElement("NumAltSteps");
+                            pFlowStepNumAltSteps.appendChild(doc.createTextNode(
+                                    String.valueOf(uc.getPrimaryflow().get(i).getNumAltFlows())));
+                        pFlowStep.appendChild(pFlowStepNumAltSteps);
+
+                        pFlow.appendChild(pFlowStep);
+                    }
                 } else {
                     pFlow.appendChild(doc.createTextNode(" "));
                 }
@@ -300,8 +313,28 @@ public class Project {
 
                 Element altFlow = doc.createElement("alternate-flow");
                 if (!uc.getAlternativeflow().isEmpty()) {
-                    altFlow.appendChild(doc.createTextNode(
-                            uc.getAlternativeflow()));
+                    for (int i = 0; i < uc.getAlternativeflow().size(); i++) {
+                        Element altStep = doc.createElement("Step");
+                        Element altStepTitle = doc.createElement("Title");
+
+                        altStepTitle.appendChild(doc.createTextNode(
+                                uc.getAlternativeflow().get(i).getText()));
+                        altStep.appendChild(altStepTitle);
+
+                        Element altStepParent = doc.createElement("Parent Step");
+                        altStepParent.appendChild(doc.createTextNode(
+                                uc.getAlternativeflow().get(i).getParentFlowStep().toString()));
+                        altStep.appendChild(altStepParent);
+
+                        Element altStepActions = doc.createElement("Actions");
+                        for (int j = 0; j < uc.getAlternativeflow().get(i).getActions().size(); j++) {
+                            altStepActions.appendChild(doc.createTextNode(
+                                    uc.getAlternativeflow().get(i).getActions().get(j)));
+                        }
+                        altStep.appendChild(altStepActions);
+
+                        altFlow.appendChild(altStep);
+                    }
                 } else {
                     altFlow.appendChild(doc.createTextNode(" "));
                 }
@@ -324,47 +357,48 @@ public class Project {
                     sucGuarantee.appendChild(doc.createTextNode(" "));
                 }
                 usecase.appendChild((sucGuarantee));
-            }
-            Element Actors = doc.createElement("actors");
-            rootElement.appendChild(Actors);
-            for (Actor actor : actors) {
-                Element Actor = doc.createElement("actor");
-                Actors.appendChild((Actor));
-                Actor.appendChild(doc.createTextNode(actor.toString()));
-            }
-            
-            Element dictionary = doc.createElement("dictionary");
-            rootElement.appendChild(dictionary);
-            for (Glossary gloss : glossary) {
-                Element term = doc.createElement("term");
-                dictionary.appendChild((term));
-                Element word = doc.createElement("word");
-                if (!gloss.getWord().isEmpty()) {
-                    word.appendChild(doc.createTextNode(gloss.getWord()));
-                } else {
-                    word.appendChild(doc.createTextNode(" "));
-                }
-                term.appendChild((word));
 
-                Element def = doc.createElement("definition");
-                if (!gloss.getDefinition().isEmpty()) {
-                    def.appendChild(doc.createTextNode(gloss.getDefinition()));
-                } else {
-                    def.appendChild(doc.createTextNode(" "));
+                Element Actors = doc.createElement("actors");
+                rootElement.appendChild(Actors);
+                for (Actor actor : actors) {
+                    Element Actor = doc.createElement("actor");
+                    Actors.appendChild((Actor));
+                    Actor.appendChild(doc.createTextNode(actor.toString()));
                 }
-                term.appendChild((def));
-            }
 
-            TransformerFactory transformerFactory =
-                    TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty(
-                    "{http://xml.apache.org/xslt}indent-amount", "2");
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(
-                    new File(directory + "\\" + this.getProjectName() + ".ucp"));
-            transformer.transform(source, result);
+                Element dictionary = doc.createElement("dictionary");
+                rootElement.appendChild(dictionary);
+                for (Glossary gloss : glossary) {
+                    Element term = doc.createElement("term");
+                    dictionary.appendChild((term));
+                    Element word = doc.createElement("word");
+                    if (!gloss.getWord().isEmpty()) {
+                        word.appendChild(doc.createTextNode(gloss.getWord()));
+                    } else {
+                        word.appendChild(doc.createTextNode(" "));
+                    }
+                    term.appendChild((word));
+
+                    Element def = doc.createElement("definition");
+                    if (!gloss.getDefinition().isEmpty()) {
+                        def.appendChild(doc.createTextNode(gloss.getDefinition()));
+                    } else {
+                        def.appendChild(doc.createTextNode(" "));
+                    }
+                    term.appendChild((def));
+                }
+
+                TransformerFactory transformerFactory =
+                        TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty(
+                        "{http://xml.apache.org/xslt}indent-amount", "2");
+                DOMSource source = new DOMSource(doc);
+                StreamResult result = new StreamResult(
+                        new File(directory + "\\" + this.getProjectName() + ".ucp"));
+                transformer.transform(source, result);
+            }
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (TransformerConfigurationException e) {
@@ -374,13 +408,14 @@ public class Project {
         }
     }
 
-    @Override
-    public final String toString() {
-        return "Project{"
-                + "UseCases=" + useCases
-                + ", ProjectName='" + projectName
-                + '\'' + '}';
-    }
+
+        @Override
+        public final String toString () {
+            return "Project{"
+                    + "UseCases=" + useCases
+                    + ", ProjectName='" + projectName
+                    + '\'' + '}';
+        }
     /*****************************************************************
      Handles load functionality for program to allow operator
      to load their UseCase from a past use. Uses XML as primary fileType.
@@ -467,24 +502,57 @@ public class Project {
                             preCNmElmnt.getChildNodes();
                     u.setPreconditions(String.valueOf(
                             preCNm.item(0).getNodeValue()));
+
                     //Grab Primary Flow and set it to u.primaryFlow
                     NodeList pFlowNmElmntLst =
                             element.getElementsByTagName("primary-flow");
                     Element pFlowNmElmnt =
                             (Element) pFlowNmElmntLst.item(0);
-                    NodeList pFlowNm =
+                    NodeList pFlowStepsList =
                             pFlowNmElmnt.getChildNodes();
-                    u.setPrimaryflow(String.valueOf(
-                            pFlowNm.item(0).getNodeValue()));
+                    Vector<PrimaryFlowStep> tempPFlow = new Vector<PrimaryFlowStep>(1,1);
+                    for (int j = 0; j < pFlowStepsList.getLength(); j++) {
+                        Element pFlowStep = (Element) pFlowStepsList.item(j);
+                        NodeList pFlowStepTitleList = pFlowStep.getElementsByTagName("Title");
+                        Element pFlowStepTitle = (Element) pFlowStepTitleList.item(0);
+                        PrimaryFlowStep temp = new PrimaryFlowStep(pFlowStepTitle.getNodeValue());
+                        NodeList pFlowStepNumList = pFlowStep.getElementsByTagName("NunAltSteps");
+                        Element pFlowStepNum = (Element) pFlowStepNumList.item(0);
+                        temp.setNumAltFlows(Integer.parseInt(pFlowStepNum.getNodeValue()));
+
+                        tempPFlow.add(temp);
+                    }
+                    u.setPrimaryflow(tempPFlow);
+
+
                     //Grab Alternate Flow and set it to u.alternateFlow
                     NodeList aFlowNmElmntLst =
                             element.getElementsByTagName("alternate-flow");
                     Element aFlowNmElmnt =
                             (Element) aFlowNmElmntLst.item(0);
-                    NodeList aFlowNm =
+                    NodeList aFlowStepList =
                             aFlowNmElmnt.getChildNodes();
-                    u.setAlternativeflow(String.valueOf(
-                            aFlowNm.item(0).getNodeValue()));
+                    Vector<AlternateFlowStep> tempAFlow = new Vector<AlternateFlowStep>(1,1);
+                    for (int j = 0; j < aFlowStepList.getLength(); j++) {
+                        Element aFlowStep = (Element) aFlowStepList.item(j);
+                        NodeList aFlowStepTitleList = aFlowStep.getElementsByTagName("Title");
+                        Element aFlowStepTitle = (Element) aFlowStepTitleList.item(0);
+                        AlternateFlowStep temp = new AlternateFlowStep(aFlowStepTitle.getNodeValue());
+
+                        NodeList aFlowStepParentList = aFlowStep.getElementsByTagName("Parent Step");
+                        Element aFlowStepParent = (Element) aFlowStepParentList.item(0);
+                        PrimaryFlowStep temp1 = new PrimaryFlowStep(aFlowStepParent.getNodeValue());
+                        temp.setParentFlowStep(u.getPrimaryflow().get(u.getPrimaryflow().indexOf(temp1)));
+
+                        NodeList aFlowActionList = aFlowStep.getElementsByTagName("Action");
+                        for (int k = 0; k < aFlowActionList.getLength(); k++) {
+                            Element aFlowAction = (Element) aFlowActionList.item(k);
+                            temp.addAction(aFlowAction.getNodeValue());
+                        }
+                        tempAFlow.add(temp);
+                    }
+                    u.setAlternativeflow(tempAFlow);
+
                     //Grab Minimal Guarantee and set it to u.minimalGuarantee
                     NodeList mingNmElmntLst =
                             element.getElementsByTagName("minimal-guarantee");
@@ -510,12 +578,12 @@ public class Project {
             NodeList nodeList3 = doc.getElementsByTagName("actor");
             actors = new ArrayList<Actor>();
             for (int i = 0; i < nodeList3.getLength(); i++) {
-            	Node fstNode = nodeList3.item(i);
-            	Element element = (Element) fstNode;
-            	NodeList actnd = element.getChildNodes();
+                Node fstNode = nodeList3.item(i);
+                Element element = (Element) fstNode;
+                NodeList actnd = element.getChildNodes();
                 String temp = (String.valueOf(actnd.item(0
                 ).getNodeValue()));
-            	this.addActor(fromString(temp));
+                this.addActor(fromString(temp));
             }
             NodeList nodeList2 = doc.getElementsByTagName("term");
             for (int i = 0; i < nodeList2.getLength(); i++) {
@@ -553,17 +621,17 @@ public class Project {
         }
         return true;
     }
-	public void setActors(ArrayList<Actor> actors2) {
-		// TODO Auto-generated method stub
-		actors = actors2;
-		
-	}
+    public void setActors(ArrayList<Actor> actors2) {
+        // TODO Auto-generated method stub
+        actors = actors2;
 
-	public void deleteActor(Actor a) {
-		// TODO Auto-generated method stub
-		actors.remove(a);
-		for(UseCase uc: useCases){
-			uc.removeActor(a.getName());
-		}
-	}
+    }
+
+    public void deleteActor(Actor a) {
+        // TODO Auto-generated method stub
+        actors.remove(a);
+        for(UseCase uc: useCases){
+            uc.removeActor(a.getName());
+        }
+    }
 }
