@@ -1,8 +1,11 @@
+package usecase;
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.UIManager;
@@ -12,13 +15,13 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-/********************************************************************
+/**
  * This class creates the functionality for the tree inside the GUI.
  * 
  * @author Wesley Krug, Gabriel Steponovich,
  * Michael Brecker, Halston Raddatz
  * @version Winter 2015
- ********************************************************************/
+ */
 class DynamicTree extends JPanel {
   /**
   * Serializable.
@@ -45,11 +48,17 @@ class DynamicTree extends JPanel {
    */
   private Toolkit toolkit = Toolkit.getDefaultToolkit();
 
+ 
+  private PopClickListener popUp;
+  private JPopupMenu popMenu;
+
+ 
+  
   /**
    * Constructor for the tree. It sets up what the tree will
    * look like in the GUI.
    */
-  public DynamicTree() {
+  public DynamicTree(JPopupMenu popMenu) {
     super(new GridLayout(1, 0));
 
     rootNode = new DefaultMutableTreeNode("Root Node");
@@ -61,10 +70,23 @@ class DynamicTree extends JPanel {
         TreeSelectionModel.SINGLE_TREE_SELECTION);
     tree.setShowsRootHandles(true);
     tree.setBackground(Color.WHITE);
+    this.popMenu = popMenu;
+    popUp = new PopClickListener(this.popMenu);
+    popUp.addListener(tree);
     JScrollPane scrollPane = new JScrollPane(tree);
     add(scrollPane);
+    
+  
+    
   }
   
+  public TreePath getPathForLocation(int x, int y) {
+	  return tree.getPathForLocation(x, y);
+  }
+  
+  public void setSelectionPath(TreePath path) {
+	  tree.setSelectionPath(path);
+  }
   /**
    * This finds which usecase selected in the tree.
    * 
@@ -184,5 +206,6 @@ class DynamicTree extends JPanel {
     node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
     System.out.println(node);
 	return node;
-}
+  }
+
 }
