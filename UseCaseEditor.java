@@ -528,6 +528,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
     	Actors = actors;
     	uc = new UseCase();
     	uc = usecase;
+    	uco = uc;
     	pA.addAll(usecase.getPrimaryActors());
     	sA.addAll(usecase.getSupportingActors());
         display();
@@ -547,6 +548,10 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         alternateFlowTxt.setText(uc.getAlternativeflow());
         minimalGuaranteeTxt.setText(uc.getMinimalGuaruntees());
         successGuaranteeTxt.setText(uc.getSuccessGuarantees());
+    }
+    public final void displayactors(){
+        primaryActorTxt.setText(uc.getPrimString());
+        supportingActorTxt.setText(uc.getSupString());
     }
     /**************************************************************
      Manages the action listeners that are currently connected to
@@ -575,13 +580,13 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         	Flag = true;
         	ActorDialog = new AddActor(proActors, uc.getPrimaryActors());
         	uc.setPrimaryActor(ActorDialog.getucActorlist());
-        	display();
+        	displayactors();
         }
         if(e.getSource() == addactor2){
         	Flag = false;
         	ActorDialog = new AddActor(proActors, uc.getSupportingActors());
         	uc.setSupportingActor(ActorDialog.getucActorlist());
-        	display();
+        	displayactors();
         }
         /** Sets close status to 1 and exits the pop-up box **/
         if (e.getSource() == cancelButton) {
