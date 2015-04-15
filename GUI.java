@@ -68,7 +68,7 @@ public class GUI extends JFrame implements ActionListener {
 	/**
 	 * add a usecase to project.
 	 */
-	private JMenuItem addUseCase,addWord,addActorItem,delActorItem;
+	private JMenuItem addUseCase,addWord,addActorItem,delActorItem,ucToHtml;
 	/**
 	 * menu items for editing saving and removing.
 	 */
@@ -220,6 +220,7 @@ public class GUI extends JFrame implements ActionListener {
 		fileMenu = new JMenu("File");
 		loadItem = new JMenuItem("Load");
 		newProject = new JMenuItem("New Project");
+		ucToHtml = new JMenuItem("UseCase to Html");
 		exitItem = new JMenuItem("Exit");
 		saveItem = new JMenuItem("Save");
 		saveAs = new JMenuItem("Save As");
@@ -235,9 +236,11 @@ public class GUI extends JFrame implements ActionListener {
 		fileMenu.add(loadItem);
 		fileMenu.add(newProject);
 		fileMenu.add(saveItem);
+		fileMenu.add(ucToHtml);
 		fileMenu.add(saveAs);
 		fileMenu.add(exitItem);
 
+		ucToHtml.addActionListener(this);
 		saveItem.addActionListener(this);
 		saveAs.addActionListener(this);
 		newProject.addActionListener(this);
@@ -656,7 +659,9 @@ public class GUI extends JFrame implements ActionListener {
 				save(currentUseCase);
 			}
 		}
-		
+		if(e.getSource() == ucToHtml){
+            html amp = new html(currentUseCase);
+		}
 		//try-catch block to avoid null pointer exception when pressing open
 		//with nothing selected...probably should come up with a better fix
 		try {
