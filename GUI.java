@@ -195,8 +195,8 @@ public class GUI extends JFrame implements ActionListener {
     	if(!uCE.getflag()){
             currentProject.setActors(uCE.getActors());
             System.out.println("no");
-            save(uCE.getUC());
     	}
+            save(uCE.getUC());
     }
 	
 	public final void glossUtility() {
