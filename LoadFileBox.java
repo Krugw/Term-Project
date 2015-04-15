@@ -43,8 +43,11 @@ public class LoadFileBox implements ActionListener {
         int result = fileChooser.showOpenDialog(popUp);
 
         if (result == JFileChooser.APPROVE_OPTION) {
-
+            if (!fileChooser.getSelectedFile().getAbsolutePath().contains(".ucp")) {
+                JOptionPane.showMessageDialog(null, "Invalid file type.\n", "Error", JOptionPane.ERROR_MESSAGE);
+            }else{
             selectedFile = fileChooser.getSelectedFile().getAbsolutePath();
+            }
         }
 
         JPanel messagePane = new JPanel();
