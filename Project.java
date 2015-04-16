@@ -292,14 +292,14 @@ public class Project {
                 Element pFlow = doc.createElement("primary-flow");
                 if (!uc.getPrimaryflow().isEmpty()) {
                     for (int i = 0; i < uc.getPrimaryflow().size(); i++) {
-                        Element pFlowStep = doc.createElement("Step");
-                        Element pFlowStepTitle = doc.createElement("Title");
+                        Element pFlowStep = doc.createElement("pstep");
+                        Element pFlowStepTitle = doc.createElement("ptitle");
 
                         pFlowStepTitle.appendChild(doc.createTextNode(
                                 uc.getPrimaryflow().get(i).getText()));
                         pFlowStep.appendChild(pFlowStepTitle);
 
-                        Element pFlowStepNumAltSteps = doc.createElement("NumAltSteps");
+                        Element pFlowStepNumAltSteps = doc.createElement("numaltsteps");
                             pFlowStepNumAltSteps.appendChild(doc.createTextNode(
                                     String.valueOf(uc.getPrimaryflow().get(i).getNumAltFlows())));
                         pFlowStep.appendChild(pFlowStepNumAltSteps);
@@ -314,22 +314,24 @@ public class Project {
                 Element altFlow = doc.createElement("alternate-flow");
                 if (!uc.getAlternativeflow().isEmpty()) {
                     for (int i = 0; i < uc.getAlternativeflow().size(); i++) {
-                        Element altStep = doc.createElement("Step");
-                        Element altStepTitle = doc.createElement("Title");
+                        Element altStep = doc.createElement("astep");
+                        Element altStepTitle = doc.createElement("atitle");
 
                         altStepTitle.appendChild(doc.createTextNode(
                                 uc.getAlternativeflow().get(i).getText()));
                         altStep.appendChild(altStepTitle);
 
-                        Element altStepParent = doc.createElement("Parent Step");
+                        Element altStepParent = doc.createElement("parent-step");
                         altStepParent.appendChild(doc.createTextNode(
                                 uc.getAlternativeflow().get(i).getParentFlowStep().toString()));
                         altStep.appendChild(altStepParent);
 
-                        Element altStepActions = doc.createElement("Actions");
+                        Element altStepActions = doc.createElement("actions");
                         for (int j = 0; j < uc.getAlternativeflow().get(i).getActions().size(); j++) {
-                            altStepActions.appendChild(doc.createTextNode(
+                            Element altStepAct = doc.createElement("action");
+                            altStepAct.appendChild(doc.createTextNode(
                                     uc.getAlternativeflow().get(i).getActions().get(j)));
+                            altStepActions.appendChild(altStepAct);
                         }
                         altStep.appendChild(altStepActions);
 
@@ -504,52 +506,70 @@ public class Project {
                             preCNm.item(0).getNodeValue()));
 
                     //Grab Primary Flow and set it to u.primaryFlow
-                    NodeList pFlowNmElmntLst =
-                            element.getElementsByTagName("primary-flow");
-                    Element pFlowNmElmnt =
-                            (Element) pFlowNmElmntLst.item(0);
-                    NodeList pFlowStepsList =
-                            pFlowNmElmnt.getChildNodes();
-                    Vector<PrimaryFlowStep> tempPFlow = new Vector<PrimaryFlowStep>(1,1);
-                    for (int j = 0; j < pFlowStepsList.getLength(); j++) {
-                        Element pFlowStep = (Element) pFlowStepsList.item(j);
-                        NodeList pFlowStepTitleList = pFlowStep.getElementsByTagName("Title");
-                        Element pFlowStepTitle = (Element) pFlowStepTitleList.item(0);
-                        PrimaryFlowStep temp = new PrimaryFlowStep(pFlowStepTitle.getNodeValue());
-                        NodeList pFlowStepNumList = pFlowStep.getElementsByTagName("NunAltSteps");
-                        Element pFlowStepNum = (Element) pFlowStepNumList.item(0);
-                        temp.setNumAltFlows(Integer.parseInt(pFlowStepNum.getNodeValue()));
 
-                        tempPFlow.add(temp);
+                    Vector<PrimaryFlowStep> tempPFlow = new Vector<PrimaryFlowStep>(1,1);
+
+                    NodeList pFlowNmElmntLst =
+                            element.getElementsByTagName("pstep");
+                    for (int j = 0; j < pFlowNmElmntLst.getLength(); j++) {
+                        PrimaryFlowStep tempPStep = new PrimaryFlowStep();
+                        Node fstNode2 = pFlowNmElmntLst.item(j);
+                        if (fstNode2.getNodeType() == Node.ELEMENT_NODE) {
+                            Element element1 = (Element) fstNode2;
+
+                            NodeList wordNmElmLst = element1.getElementsByTagName(
+                                    "ptitle");
+                            Element wordNmElmnt = (Element) wordNmElmLst.item(0);
+                            NodeList wordNm = wordNmElmnt.getChildNodes();
+                            tempPStep.setText(String.valueOf(wordNm.item(0
+                            ).getNodeValue()));
+                            NodeList defNmElmtLst = element1.getElementsByTagName(
+                                    "numaltsteps");
+                            Element defNmElmnt = (Element) defNmElmtLst.item(0);
+                            NodeList defNm = defNmElmnt.getChildNodes();
+                            tempPStep.setNumAltFlows(Integer.parseInt(String.valueOf(defNm.item(0
+                            ).getNodeValue())));
+                        }
+                        tempPFlow.add(tempPStep);
                     }
                     u.setPrimaryflow(tempPFlow);
 
-
                     //Grab Alternate Flow and set it to u.alternateFlow
-                    NodeList aFlowNmElmntLst =
-                            element.getElementsByTagName("alternate-flow");
-                    Element aFlowNmElmnt =
-                            (Element) aFlowNmElmntLst.item(0);
-                    NodeList aFlowStepList =
-                            aFlowNmElmnt.getChildNodes();
                     Vector<AlternateFlowStep> tempAFlow = new Vector<AlternateFlowStep>(1,1);
-                    for (int j = 0; j < aFlowStepList.getLength(); j++) {
-                        Element aFlowStep = (Element) aFlowStepList.item(j);
-                        NodeList aFlowStepTitleList = aFlowStep.getElementsByTagName("Title");
-                        Element aFlowStepTitle = (Element) aFlowStepTitleList.item(0);
-                        AlternateFlowStep temp = new AlternateFlowStep(aFlowStepTitle.getNodeValue());
 
-                        NodeList aFlowStepParentList = aFlowStep.getElementsByTagName("Parent Step");
-                        Element aFlowStepParent = (Element) aFlowStepParentList.item(0);
-                        PrimaryFlowStep temp1 = new PrimaryFlowStep(aFlowStepParent.getNodeValue());
-                        temp.setParentFlowStep(u.getPrimaryflow().get(u.getPrimaryflow().indexOf(temp1)));
+                    NodeList aFlowNmElmntLst =
+                            element.getElementsByTagName("astep");
+                    for (int j = 0; j < aFlowNmElmntLst.getLength(); j++) {
+                        AlternateFlowStep tempAStep = new AlternateFlowStep();
+                        Node fstNode2 = aFlowNmElmntLst.item(j);
+                        if (fstNode2.getNodeType() == Node.ELEMENT_NODE) {
+                            Element element1 = (Element) fstNode2;
 
-                        NodeList aFlowActionList = aFlowStep.getElementsByTagName("Action");
-                        for (int k = 0; k < aFlowActionList.getLength(); k++) {
-                            Element aFlowAction = (Element) aFlowActionList.item(k);
-                            temp.addAction(aFlowAction.getNodeValue());
+                            NodeList wordNmElmLst = element1.getElementsByTagName(
+                                    "atitle");
+                            Element wordNmElmnt = (Element) wordNmElmLst.item(0);
+                            NodeList wordNm = wordNmElmnt.getChildNodes();
+                            tempAStep.setText(String.valueOf(wordNm.item(0
+                            ).getNodeValue()));
+                            NodeList defNmElmtLst = element1.getElementsByTagName(
+                                    "parent-step");
+                            Element defNmElmnt = (Element) defNmElmtLst.item(0);
+                            NodeList defNm = defNmElmnt.getChildNodes();
+                            for (int k = 0; k < u.getPrimaryflow().size(); k++) {
+                                if (u.getPrimaryflow().get(k).getText().equals(defNm.item(0)
+                                .getNodeValue())) {
+                                    tempAStep.setParentFlowStep(u.getPrimaryflow().get(k));
+                                }
+                            }
+                            NodeList actionsList = element1.getElementsByTagName(
+                                    "actions");
+                            Element actions = (Element) actionsList.item(0);
+                            NodeList actionVect = actions.getElementsByTagName("action");
+                            for (int k = 0; k < actionVect.getLength(); k++) {
+                                tempAStep.addAction(actionVect.item(k).getFirstChild().getNodeValue());
+                            }
                         }
-                        tempAFlow.add(temp);
+                        tempAFlow.add(tempAStep);
                     }
                     u.setAlternativeflow(tempAFlow);
 
