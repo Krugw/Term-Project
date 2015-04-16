@@ -82,9 +82,9 @@ public class AddAltFlowHub extends JDialog implements ActionListener {
         save = new JButton("Save");
         panel.add(add);
         panel.add(cancel);
-        buttonPanel.add(add);
+        //buttonPanel.add(add);
         buttonPanel.add(edit);
-        buttonPanel.add(cancel);
+        //buttonPanel.add(cancel);
         buttonPanel.add(save);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         add.addActionListener(this);
@@ -183,7 +183,6 @@ public class AddAltFlowHub extends JDialog implements ActionListener {
         return flag;
     }
 }
-
 
 
 
