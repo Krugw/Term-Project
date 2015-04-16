@@ -1,0 +1,126 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
+
+
+/**
+ * Created by HP on 4/12/2015.
+ */
+public class RemoveAltFlowStepBox extends JDialog implements ActionListener {
+
+    /**
+     * This class creates a GUI for the user to interact with in
+     * order to type in a new term and its definition to add
+     * to their usecase project.
+     *
+     * @author Wesley Krug, Gabriel Steponovich,
+     *         Michael Brecker, Halston Raddatz
+     * @version Winter 2015
+     */
+
+    /**
+     * serial Version.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * OK button.
+     */
+    private JButton oK;
+
+    /**
+     * Cancel button.
+     */
+    private JButton cancel;
+
+    private JComboBox<AlternateFlowStep> comboBox;
+
+    /**
+     * Creates a Vector for the Usecase' Primary Flow Steps
+     */
+    private Vector<AlternateFlowStep> aFlowSteps;
+
+    private AlternateFlowStep flowStep;
+
+    /**
+     * Constructor to set up GUI for user interaction.
+     */
+    public RemoveAltFlowStepBox(Vector<AlternateFlowStep> aFlow) {
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        setLocationRelativeTo(null);
+        setTitle("Remove Primary Flow Step");
+        setSize(300, 200);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(2, 1));
+
+        JPanel buttonPanel = new JPanel();
+        JLabel description = new JLabel("Select a Step to Remove: ");
+        panel.add(description);
+
+        aFlowSteps = new Vector<AlternateFlowStep>(aFlow);
+
+        createBox(true);
+        panel.add(comboBox, BorderLayout.NORTH);
+        getContentPane().add(panel, BorderLayout.NORTH);
+
+        oK = new JButton("Remove");
+        cancel = new JButton("Close");
+        panel.add(oK);
+        panel.add(cancel);
+        buttonPanel.add(oK);
+        buttonPanel.add(cancel);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        oK.addActionListener(this);
+        cancel.addActionListener(this);
+
+        setVisible(true);
+    }
+
+    public void createBox(boolean flag) {
+        MyComboBoxAlt myBox = new MyComboBoxAlt(aFlowSteps);
+
+        if (flag) {
+            comboBox = new JComboBox<AlternateFlowStep>(myBox);
+        }
+        comboBox.setModel(myBox);
+    }
+    /**
+     * The action performed method for created a new term in the
+     * glossary.
+     *
+     * @param e is an ActionEvent
+     */
+    public final void actionPerformed(final ActionEvent e) {
+        if (e.getSource() == oK) {
+            try {
+                for (int i = 0; i < aFlowSteps.size(); i++) {
+                    if (aFlowSteps.get(i) == comboBox.getSelectedItem()) {
+                        flowStep = aFlowSteps.get(i);
+                        aFlowSteps.remove(flowStep);
+                        flowStep.getParentFlowStep().decrementNumAltFlows();
+                        createBox(false);
+                        JOptionPane.showMessageDialog(null, "Step Successfully removed.", "Removal Success", JOptionPane.PLAIN_MESSAGE);
+                        i = aFlowSteps.size();
+                    }
+                }
+            }
+
+            catch(Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+        /** exits the pop-up box **/
+        if (e.getSource() == cancel) {
+            dispose();
+        }
+    }
+
+    public Vector<AlternateFlowStep> getaFlowSteps() {
+        return aFlowSteps;
+    }
+}
