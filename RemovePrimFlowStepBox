@@ -57,29 +57,33 @@ public class RemovePrimFlowStepBox extends JDialog implements ActionListener {
             setModalityType(ModalityType.APPLICATION_MODAL);
             setLocationRelativeTo(null);
             setTitle("Remove Primary Flow Step");
-            setSize(300, 200);
+            setSize(474, 177);
 
             JPanel panel = new JPanel();
+            panel.setBounds(103, 51, 268, 45);
             panel.setLayout(new GridLayout(2, 1));
-
-            JPanel buttonPanel = new JPanel();
-            JLabel description = new JLabel("Select a Step to Remove: ");
-            panel.add(description);
 
             pFlowSteps = new Vector<PrimaryFlowStep>(pFlow);
 
             createBox(true);
+            getContentPane().setLayout(null);
             panel.add(comboBox, BorderLayout.NORTH);
-            getContentPane().add(panel, BorderLayout.NORTH);
-
-            oK = new JButton("Remove");
-            cancel = new JButton("Close");
-            panel.add(oK);
-            panel.add(cancel);
-            buttonPanel.add(oK);
-            buttonPanel.add(cancel);
-            getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-            oK.addActionListener(this);
+            getContentPane().add(panel);
+            cancel = new JButton("");
+            cancel.setIcon(new ImageIcon(RemovePrimFlowStepBox.class.getResource("/resources/cancel.png")));
+            cancel.setBounds(245, 107, 83, 23);
+            getContentPane().add(cancel);
+            
+                        oK = new JButton("");
+                        oK.setIcon(new ImageIcon(RemovePrimFlowStepBox.class.getResource("/resources/ok.png")));
+                        oK.setBounds(152, 107, 83, 23);
+                        getContentPane().add(oK);
+                        
+                        JLabel lblNewLabel = new JLabel("");
+                        lblNewLabel.setIcon(new ImageIcon(RemovePrimFlowStepBox.class.getResource("/resources/RSTEP.png")));
+                        lblNewLabel.setBounds(0, 0, 458, 138);
+                        getContentPane().add(lblNewLabel);
+                        oK.addActionListener(this);
             cancel.addActionListener(this);
 
             setVisible(true);
