@@ -1,0 +1,146 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Vector;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
+
+
+/**
+ * Created by HP on 4/12/2015.
+ */
+public class RemovePrimFlowStepBox extends JDialog implements ActionListener {
+
+        /**
+         * This class creates a GUI for the user to interact with in
+         * order to type in a new term and its definition to add
+         * to their usecase project.
+         *
+         * @author Wesley Krug, Gabriel Steponovich,
+         *         Michael Brecker, Halston Raddatz
+         * @version Winter 2015
+         */
+
+        /**
+         * serial Version.
+         */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * OK button.
+         */
+        private JButton oK;
+
+        /**
+         * Cancel button.
+         */
+        private JButton cancel;
+
+        private JComboBox<PrimaryFlowStep> comboBox;
+
+        private char num;
+
+        /**
+         * Creates a Vector for the Usecase' Primary Flow Steps
+         */
+        private Vector<PrimaryFlowStep> pFlowSteps;
+
+    private PrimaryFlowStep flowStep;
+
+        /**
+         * Constructor to set up GUI for user interaction.
+         */
+        public RemovePrimFlowStepBox(Vector<PrimaryFlowStep> pFlow) {
+            setModalityType(ModalityType.APPLICATION_MODAL);
+            setLocationRelativeTo(null);
+            setTitle("Remove Primary Flow Step");
+            setSize(300, 200);
+
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridLayout(2, 1));
+
+            JPanel buttonPanel = new JPanel();
+            JLabel description = new JLabel("Select a Step to Remove: ");
+            panel.add(description);
+
+            pFlowSteps = new Vector<PrimaryFlowStep>(pFlow);
+
+            createBox(true);
+            panel.add(comboBox, BorderLayout.NORTH);
+            getContentPane().add(panel, BorderLayout.NORTH);
+
+            oK = new JButton("Remove");
+            cancel = new JButton("Close");
+            panel.add(oK);
+            panel.add(cancel);
+            buttonPanel.add(oK);
+            buttonPanel.add(cancel);
+            getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+            oK.addActionListener(this);
+            cancel.addActionListener(this);
+
+            setVisible(true);
+        }
+
+        public void createBox(boolean flag) {
+            for (int i = 0; i < pFlowSteps.size(); i++) {
+                char num = pFlowSteps.get(i).getText().charAt(0);
+                if(Integer.parseInt((String.valueOf(num))) != i+1){
+                    String temp = pFlowSteps.get(i).getText().substring(1);
+                    temp = String.valueOf(i+1).concat(temp);
+                    pFlowSteps.get(i).setText(temp);
+                }
+            }
+
+            MyComboBoxModel myBox = new MyComboBoxModel(pFlowSteps);
+
+            if (flag) {
+                comboBox = new JComboBox<PrimaryFlowStep>(myBox);
+            }
+            comboBox.setModel(myBox);
+        }
+
+    /**
+         * The action performed method for created a new term in the
+         * glossary.
+         *
+         * @param e is an ActionEvent
+         */
+        public final void actionPerformed(final ActionEvent e) {
+            if (e.getSource() == oK) {
+                try {
+                    for (int i = 0; i < pFlowSteps.size(); i++) {
+                        if (pFlowSteps.get(i) == comboBox.getSelectedItem()) {
+                            flowStep = pFlowSteps.get(i);
+                            pFlowSteps.remove(flowStep);
+                            createBox(false);
+                            JOptionPane.showMessageDialog(null, "Step Successfully removed.", "Removal Success", JOptionPane.PLAIN_MESSAGE);
+                            i = pFlowSteps.size();
+                        }
+                    }
+                    num = flowStep.getText().charAt(0);
+                }
+
+                catch(Exception e1) {
+
+                    e1.printStackTrace();
+                }
+            }
+            /** exits the pop-up box **/
+            if (e.getSource() == cancel) {
+                dispose();
+            }
+        }
+
+        public Vector<PrimaryFlowStep> getpFlowSteps() {
+            return pFlowSteps;
+        }
+
+    public char getNum() {
+        return num;
+    }
+
+}
