@@ -1,0 +1,201 @@
+    import java.awt.BorderLayout;
+    import java.awt.GridLayout;
+    import java.awt.event.ActionEvent;
+    import java.awt.event.ActionListener;
+
+    import javax.swing.JButton;
+    import javax.swing.JDialog;
+    import javax.swing.JLabel;
+    import javax.swing.JOptionPane;
+    import javax.swing.JPanel;
+    import javax.swing.JScrollPane;
+    import javax.swing.JTextField;
+    import javax.swing.JTextPane;
+
+    /**
+     * This class creates a GUI for the user to interact with in
+     * order to type in a new term and its definition to add
+     * to their usecase project.
+     *
+     * @author Wesley Krug, Gabriel Steponovich,
+     *         Michael Brecker, Halston Raddatz
+     * @version Winter 2015
+     */
+    public class AddFlowStepGUI extends JDialog implements ActionListener {
+
+        /**
+         * serial Version.
+         */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         * Creates a panel text boxes.
+         */
+        private JPanel panel;
+
+        /**
+         * Creates a panel for buttons.
+         */
+        private JPanel buttonPanel;
+
+        /**
+         * Description label.
+         */
+        private JLabel description;
+
+        /**
+         * Level label.
+         */
+        private JLabel level;
+
+        /**
+         * Description text field.
+         */
+        private JTextField descTxt;
+
+        /**
+         * Level text field.
+         */
+        private JTextPane lvlTxt;
+
+        /**
+         * OK button.
+         */
+        private JButton oK;
+
+        /**
+         * Cancel button.
+         */
+        private JButton cancel;
+
+        /**
+         * Same Level Button
+         */
+        private JButton sameLevel;
+
+        /**
+         * Next Level Button
+         */
+        private JButton nextLevel;
+
+        /**
+         * Previous Level Button
+         */
+        private JButton prevLevel;
+
+        /**
+         * Creates an object for a flow step.
+         */
+        private PrimaryFlowStep flowStep;
+
+        /**
+         * Constructor to set up GUI for user interaction.
+         */
+        public AddFlowStepGUI() {
+            setLocationRelativeTo(null);
+            setTitle("New Flow Step");
+            setSize(500, 250);
+
+            panel = new JPanel();
+            panel.setLayout(new GridLayout(6, 2));
+
+            buttonPanel = new JPanel();
+
+            description = new JLabel("Description: ");
+            panel.add(description);
+            descTxt = new JTextField(30);
+            panel.add(descTxt);
+
+            level = new JLabel("Level: ");
+            panel.add(level);
+            lvlTxt = new JTextPane();
+            JScrollPane sp = new JScrollPane(lvlTxt);
+            panel.add(sp);
+            getContentPane().add(panel, BorderLayout.NORTH);
+
+            oK = new JButton("Add Step");
+            cancel = new JButton("Cancel");
+            panel.add(oK);
+            panel.add(cancel);
+            buttonPanel.add(oK);
+            buttonPanel.add(cancel);
+            getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+            oK.addActionListener(this);
+            cancel.addActionListener(this);
+
+            flowStep = new PrimaryFlowStep();
+
+            setVisible(true);
+        }
+
+        /**
+         * Adds an Action Listener to save the Setp when ok is pressed.
+         *
+         * @param listener is an ActionListener
+         */
+        public final void addSaveListener(final ActionListener listener) {
+
+            oK.addActionListener(listener);
+        }
+
+        /**
+         * The action performed method for created a new term in the
+         * glossary.
+         *
+         * @param e is an ActionEvent
+         */
+        public final void actionPerformed(final ActionEvent e) {
+            /** exits the pop-up box **/
+            if (e.getSource() == cancel) {
+                dispose();
+            }
+
+            if (e.getSource() == oK) {
+                if (!descTxt.getText().equals("")) {
+                    try {
+
+                        dispose();
+
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "No description entered.\n", "ID ERROR",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+
+            }
+
+        }
+
+        /**
+         * Gets a Flow Step.
+         *
+         * @return the object of a Step
+         */
+        public final PrimaryFlowStep getFlowStep() {
+            flowStep.setText(descTxt.getText());
+
+            return flowStep;
+        }
+
+        /**
+         * Sets a Glossary item.
+         *
+         * @param glossary is a Glossary class object
+         */
+        public final void setGlossaryTerm(final Glossary glossary) {
+            flowStep.setText(descTxt.getText());
+            flowStep.setText(lvlTxt.getText());
+        }
+
+        public static void main(String[] args) {
+            new AddFlowStepGUI();
+        }
+
+    }
+
+
