@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class AddAltFlowHub extends JDialog implements ActionListener {
 
@@ -62,35 +63,37 @@ public class AddAltFlowHub extends JDialog implements ActionListener {
         altFlowStep = new AlternateFlowStep(altFlow);
         setLocationRelativeTo(null);
         setTitle("Add Alternate Flow Hub");
-        setSize(400, 300);
-
-        JPanel panel = new JPanel();
-        //JScrollPane pane = new JScrollPane();
-        //pane.setViewportView(panel);
-        //pane.setLayout(new ScrollPaneLayout());
-        JPanel buttonPanel = new JPanel();
-        JLabel title = new JLabel(altFlowStep.getText());
-        panel.add(title);
+        setSize(394, 364);
         textPane = new JTextPane();
+        textPane.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+        textPane.setBounds(10, 57, 364, 188);
         textPane.setEditable(false);
-        getContentPane().add(panel, BorderLayout.NORTH);
+        getContentPane().setLayout(null);
         getContentPane().add(textPane);
-
-        add = new JButton("Add Step");
-        cancel = new JButton("Cancel");
-        edit = new JButton("Edit Step");
-        save = new JButton("Save");
-        panel.add(add);
-        panel.add(cancel);
-        //buttonPanel.add(add);
-        buttonPanel.add(edit);
-        //buttonPanel.add(cancel);
-        buttonPanel.add(save);
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-        add.addActionListener(this);
-        cancel.addActionListener(this);
-        edit.addActionListener(this);
+        edit = new JButton("");
+        edit.setIcon(new ImageIcon(AddAltFlowHub.class.getResource("/resources/Modify.png")));
+        edit.setBounds(101, 287, 83, 23);
+        save = new JButton("");
+        save.setIcon(new ImageIcon(AddAltFlowHub.class.getResource("/resources/ok.png")));
+        save.setBounds(240, 256, 83, 23);
+        
+                add = new JButton("");
+                add.setIcon(new ImageIcon(AddAltFlowHub.class.getResource("/resources/addstep.png")));
+                add.setBounds(74, 256, 83, 23);
+                getContentPane().add(add);
+                getContentPane().add(edit);
+                getContentPane().add(save);
+                JLabel title = new JLabel(altFlowStep.getText());
+                title.setBounds(162, 30, 212, 23);
+                getContentPane().add(title);
+                cancel = new JButton("");
+                cancel.setIcon(new ImageIcon(AddAltFlowHub.class.getResource("/resources/cancel.png")));
+                cancel.setBounds(207, 287, 83, 23);
+                getContentPane().add(cancel);
+                cancel.addActionListener(this);
+                add.addActionListener(this);
         save.addActionListener(this);
+        edit.addActionListener(this);
         setVisible(true);
     }
 
@@ -116,24 +119,24 @@ public class AddAltFlowHub extends JDialog implements ActionListener {
 
                 addBox.setLocationRelativeTo(null);
 
-                addBox.setLayout(new GridLayout(3, 1));
+                addBox.getContentPane().setLayout(new GridLayout(3, 1));
 
                 JPanel buttonPanel = new JPanel();
                 JButton oKButton;
                 JButton cancel;
                 JLabel description = new JLabel("Description: ");
-                addBox.add(description, BorderLayout.NORTH);
+                addBox.getContentPane().add(description, BorderLayout.NORTH);
                 final JTextField descTxt = new JTextField(60);
-                addBox.add(descTxt, BorderLayout.CENTER);
+                addBox.getContentPane().add(descTxt, BorderLayout.CENTER);
 
 
                 oKButton = new JButton("Add Step");
                 cancel = new JButton("Save");
-                addBox.add(oKButton);
-                addBox.add(cancel);
+                addBox.getContentPane().add(oKButton);
+                addBox.getContentPane().add(cancel);
                 buttonPanel.add(oKButton);
                 buttonPanel.add(cancel);
-                addBox.add(buttonPanel, BorderLayout.SOUTH);
+                addBox.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
                 oKButton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
