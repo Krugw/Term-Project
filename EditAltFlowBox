@@ -1,0 +1,151 @@
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+/**
+ * This class creates a GUI for the user to interact with in
+ * order to type in a new term and its definition to add
+ * to their usecase project.
+ *
+ * @author Wesley Krug, Gabriel Steponovich,
+ *         Michael Brecker, Halston Raddatz
+ * @version Winter 2015
+ */
+public class EditAltFlowBox extends JDialog implements ActionListener {
+
+    /**
+     * serial Version.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Description text field.
+     */
+    private JTextField descTxt;
+
+    /**
+     * OK button.
+     */
+    private JButton oK;
+
+    /**
+     * Cancel button.
+     */
+    private JButton cancel;
+
+    /**
+     * Creates an object for a flow step.
+     */
+    private AlternateFlowStep flowStep;
+
+    private Vector<JTextField> actionEditFields;
+
+    /**
+     * Constructor to set up GUI for user interaction.
+     */
+    public EditAltFlowBox(AlternateFlowStep aFlowStep) {
+        flowStep = aFlowStep;
+        flowStep = initialize();
+    }
+
+    public AlternateFlowStep initialize(){
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        setLocationRelativeTo(null);
+        setTitle("Edit Alternate Flow Step");
+        setSize(400, 200);
+
+            /*
+          Creates a panel text boxes.
+         */
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(6, 2));
+
+            /*
+          Creates a panel for buttons.
+         */
+        JPanel buttonPanel = new JPanel();
+
+            /*
+          Description label.
+         */
+        JLabel description = new JLabel("Description: ");
+
+        panel.add(description);
+
+        descTxt = new JTextField(flowStep.getText().substring(4), 60);
+        panel.add(descTxt);
+
+        getContentPane().add(panel, BorderLayout.NORTH);
+
+        actionEditFields = new Vector<JTextField>(1,1);
+        for (int i = 0; i < flowStep.getActions().size(); i++) {
+            actionEditFields.add(new JTextField(flowStep.getActions().get(i).substring(4)));
+            panel.add(actionEditFields.get(i));
+        }
+
+        oK = new JButton("Save");
+        cancel = new JButton("Cancel");
+        panel.add(oK);
+        panel.add(cancel);
+        buttonPanel.add(oK);
+        buttonPanel.add(cancel);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+
+        oK.addActionListener(this);
+        cancel.addActionListener(this);
+
+        setVisible(true);
+        return flowStep;
+    }
+
+    /**
+     * The action performed method for created a new term in the
+     * glossary.
+     *
+     * @param e is an ActionEvent
+     */
+    public final void actionPerformed(final ActionEvent e) {
+        /** exits the pop-up box **/
+        if (e.getSource() == cancel) {
+            dispose();
+        }
+
+        if (e.getSource() == oK) {
+            if (!descTxt.getText().equals("")) {
+                try {
+                    String temp = flowStep.getText().substring(0,4);
+                    flowStep.setText(temp.concat(descTxt.getText()));
+                    for (int i = 0; i < flowStep.getActions().size(); i++) {
+                        if (!flowStep.getActions().get(i).equals(actionEditFields.get(i).getText())) {
+                            flowStep.getActions().set(i, String.valueOf(flowStep.getText().substring(0,3))
+                                    .concat(String.valueOf(i+1)
+                                    .concat(actionEditFields.get(i).getText())));
+                        }
+                    }
+                    dispose();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+
+            }
+
+        }
+    }
+
+    /**
+     * Gets a Flow Step.
+     *
+     * @return the object of a Step
+     */
+    public final AlternateFlowStep getFlowStep() {
+        return flowStep;
+    }
+}
