@@ -1,0 +1,94 @@
+import java.util.Vector;
+
+public class AlternateFlowStep {
+    private String text;
+    private PrimaryFlowStep parentFlowStep;
+    private Vector<String> actions;
+
+    public AlternateFlowStep(String text, PrimaryFlowStep parentFlowStep) {
+        this.parentFlowStep = parentFlowStep;
+        setTextAddPrefix(text);
+        this.actions = new Vector<String>(1,1);
+    }
+
+    public AlternateFlowStep(PrimaryFlowStep parentFlowStep) {
+        this.parentFlowStep = parentFlowStep;
+        setTextAddPrefix("");
+        this.actions = new Vector<String>(1,1);
+    }
+
+    public AlternateFlowStep(String text) {
+        this.text = text;
+    }
+
+    public AlternateFlowStep() {
+        actions = new Vector<String>(1,1);
+    }
+
+    public AlternateFlowStep(String text, PrimaryFlowStep parentFlowStep, Vector<String> actions) {
+
+        this.text = text;
+        this.parentFlowStep = parentFlowStep;
+        this.actions = actions;
+    }
+
+    public AlternateFlowStep(AlternateFlowStep altStep) {
+        this.text = altStep.getText();
+        this.parentFlowStep = altStep.getParentFlowStep();
+        this.actions = new Vector<String>(altStep.getActions());
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setTextAddPrefix(String text) {
+        char num = parentFlowStep.toString().charAt(0);
+        char letter = 97;
+        for (int i = 0; i < parentFlowStep.getNumAltFlows(); i++) {
+            letter++;
+        }
+        this.text = (String.valueOf(num).concat(String.valueOf(letter).concat(". ")).concat(text));
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String toTextBox(){
+        String temp = "";
+
+        for (String action : actions) {
+            temp = temp.concat("    " + action + "\n");
+        }
+        return temp;
+    }
+
+    public PrimaryFlowStep getParentFlowStep() {
+        return parentFlowStep;
+    }
+
+    public void setParentFlowStep(PrimaryFlowStep parentFlowStep) {
+        this.parentFlowStep = parentFlowStep;
+    }
+
+    @Override
+    public String toString() {
+        return text;
+
+    }
+
+    public Vector<String> getActions() {
+        return actions;
+    }
+
+    public void addAction(String action) {
+        actions.add(action);
+    }
+
+    public void addActionWithPrefix(String action) {
+        this.actions.add(String.valueOf(text.substring(0,3)).concat(String.valueOf(actions.size()+1) + " ").concat(action));
+    }
+}
+
+
