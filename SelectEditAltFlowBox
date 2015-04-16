@@ -51,6 +51,8 @@ public class SelectEditAltFlowBox extends JDialog implements ActionListener {
 
     private EditAltFlowBox EditBox;
 
+    boolean flag = false;
+
 
     /**
      * Constructor to set up GUI for user interaction.
@@ -108,6 +110,7 @@ public class SelectEditAltFlowBox extends JDialog implements ActionListener {
      */
     public final void actionPerformed(final ActionEvent e) {
         if (e.getSource() == oK) {
+            flag = true;
             try {
                 int pos = 0;
                 for (int i = 0; i < aFlowSteps.size(); i++) {
@@ -120,8 +123,10 @@ public class SelectEditAltFlowBox extends JDialog implements ActionListener {
                         pos = i;
                     }
                 }
+
                 flowStep = EditBox.getFlowStep();
                 aFlowSteps.set(pos, flowStep);
+
                 createBox(false);
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -129,6 +134,7 @@ public class SelectEditAltFlowBox extends JDialog implements ActionListener {
         }
         /** exits the pop-up box **/
         if (e.getSource() == cancel) {
+            flag = false;
             dispose();
         }
     }
