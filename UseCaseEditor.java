@@ -380,6 +380,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         textPanel.add(scrollPane7);
 
         primaryFlowTxt = new JTextPane();
+        primaryFlowTxt.setEditable(false);
         scrollPane7.setViewportView(primaryFlowTxt);
         primaryFlowTxt.setForeground(Color.WHITE);
         primaryFlowTxt.setBorder(null);
@@ -391,6 +392,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         textPanel.add(scrollPane8);
 
         alternateFlowTxt = new JTextPane();
+        alternateFlowTxt.setEditable(false);
         scrollPane8.setViewportView(alternateFlowTxt);
         alternateFlowTxt.setForeground(Color.WHITE);
         alternateFlowTxt.setBorder(null);
