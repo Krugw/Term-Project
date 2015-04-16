@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  * This class creates a GUI for the user to interact with in
@@ -60,19 +61,19 @@ public class EditAltFlowBox extends JDialog implements ActionListener {
         setModalityType(ModalityType.APPLICATION_MODAL);
         setLocationRelativeTo(null);
         setTitle("Edit Alternate Flow Step");
-        setSize(400, 200);
+        setSize(400, 250);
 
             /*
           Creates a panel text boxes.
          */
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6, 2));
+        panel.setLayout(new GridLayout(12, 12));
 
             /*
           Creates a panel for buttons.
          */
         JPanel buttonPanel = new JPanel();
-
+        panel.setSize(400,200);
             /*
           Description label.
          */
@@ -81,15 +82,17 @@ public class EditAltFlowBox extends JDialog implements ActionListener {
         panel.add(description);
 
         descTxt = new JTextField(flowStep.getText().substring(4), 60);
-        panel.add(descTxt);
+        panel.add(descTxt, BorderLayout.AFTER_LAST_LINE);
 
-        getContentPane().add(panel, BorderLayout.NORTH);
-
+        getContentPane().add(new JLabel());
         actionEditFields = new Vector<JTextField>(1,1);
         for (int i = 0; i < flowStep.getActions().size(); i++) {
+            panel.add(new JLabel("Action: "));
             actionEditFields.add(new JTextField(flowStep.getActions().get(i).substring(4)));
-            panel.add(actionEditFields.get(i));
+            panel.add(actionEditFields.get(i), BorderLayout.AFTER_LAST_LINE);
         }
+
+        getContentPane().add(panel, BorderLayout.NORTH);
 
         oK = new JButton("Save");
         cancel = new JButton("Cancel");
