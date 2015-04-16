@@ -1,8 +1,6 @@
 
-import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
-
 
 /*****************************************************************
  MyComboBoxModel creates and manages a ComboBox to be used by other
@@ -13,17 +11,17 @@ import javax.swing.DefaultComboBoxModel;
  Michael Brecker, Halston Raddatz
  @version Winter 2015
  *****************************************************************/
-public class MyComboBoxModel extends DefaultComboBoxModel<PrimaryFlowStep> {
+public class MyComboBoxAlt extends DefaultComboBoxModel<AlternateFlowStep> {
     /**
      * version id
      */
     private static final long serialVersionUID = 1L;
 
     /**
-     * @param pFlowSteps
+     * @param aFlowSteps
      */
-    public MyComboBoxModel(final Vector<PrimaryFlowStep> pFlowSteps) {
-        super(pFlowSteps);
+    public MyComboBoxAlt(final Vector<AlternateFlowStep> aFlowSteps) {
+        super(aFlowSteps);
     }
 
     /*****************************************************************
@@ -31,7 +29,7 @@ public class MyComboBoxModel extends DefaultComboBoxModel<PrimaryFlowStep> {
      @return selectedUSeCase
      *****************************************************************/
     @Override
-    public final PrimaryFlowStep getSelectedItem() {
-        return (PrimaryFlowStep) super.getSelectedItem();
+    public final AlternateFlowStep getSelectedItem() {
+        return (AlternateFlowStep) super.getSelectedItem();
     }
 }
