@@ -1,0 +1,154 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+
+import javax.swing.*;
+
+public class SelectParentStepBox extends JDialog implements ActionListener {
+
+    /**
+     * This class creates a GUI for the user to interact with in
+     * order to type in a new term and its definition to add
+     * to their usecase project.
+     *
+     * @author Wesley Krug, Gabriel Steponovich,
+     *         Michael Brecker, Halston Raddatz
+     * @version Winter 2015
+     */
+
+    /**
+     * serial Version.
+     */
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * OK button.
+     */
+    private JButton oK;
+
+    /**
+     * Cancel button.
+     */
+    private JButton cancel;
+
+
+    private JComboBox<PrimaryFlowStep> comboBox;
+
+    /**
+     * Creates a Vector for the Usecase' Primary Flow Steps
+     */
+    private Vector<PrimaryFlowStep> pFlowSteps;
+
+    /**
+     * Creates an object for a flow step.
+     */
+    private PrimaryFlowStep parentFlowStep;
+
+    private AlternateFlowStep altFlowStep;
+
+    private JTextField titleTxt;
+
+    private boolean flag = false;
+
+    /**
+     * Constructor to set up GUI for user interaction.
+     */
+    public SelectParentStepBox(Vector<PrimaryFlowStep> pFlow) {
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        setLocationRelativeTo(null);
+        setTitle("Select Parent Primary Flow Step");
+        setSize(400, 250);
+
+        titleTxt = new JTextField("", 50);
+        titleTxt.setForeground(Color.BLACK);
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(6, 3));
+
+        JPanel buttonPanel = new JPanel();
+        JLabel description = new JLabel("Select a Step to deviate from: ");
+        panel.add(description);
+
+        pFlowSteps = new Vector<PrimaryFlowStep>(pFlow);
+
+        createBox(true);
+        panel.add(comboBox, BorderLayout.NORTH);
+        panel.add(new JLabel(""));
+        panel.add(new JLabel("Enter Description of Deviation:"));
+        panel.add(titleTxt, BorderLayout.SOUTH);
+        getContentPane().add(panel, BorderLayout.NORTH);
+
+
+        oK = new JButton("Select");
+        cancel = new JButton("Cancel");
+        panel.add(oK);
+        panel.add(cancel);
+        buttonPanel.add(oK);
+        buttonPanel.add(cancel);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        oK.addActionListener(this);
+        cancel.addActionListener(this);
+
+        parentFlowStep = new PrimaryFlowStep();
+
+        setVisible(true);
+    }
+
+
+    public void createBox(boolean flag) {
+        MyComboBoxModel myBox = new MyComboBoxModel(pFlowSteps);
+        if (flag) {
+            comboBox = new JComboBox<PrimaryFlowStep>(myBox);
+        }
+        comboBox.setModel(myBox);
+    }
+    /**
+     * The action performed method for created a new term in the
+     * glossary.
+     *
+     * @param e is an ActionEvent
+     */
+    public final void actionPerformed(final ActionEvent e) {
+        if (e.getSource() == oK) {
+            try {
+                for (int i = 0; i < pFlowSteps.size(); i++) {
+                    if (pFlowSteps.get(i) == (comboBox.getSelectedItem())) {
+                        parentFlowStep = pFlowSteps.get(i);
+                        altFlowStep = new AlternateFlowStep(titleTxt.getText(), pFlowSteps.get(i));
+                        pFlowSteps.get(i).incrementNumAltFlows();
+                        i = pFlowSteps.size()+1;
+                    }
+                }
+
+                AddAltFlowHub addAltFlowHub = new AddAltFlowHub(altFlowStep);
+                addAltFlowHub.setModalityType(ModalityType.APPLICATION_MODAL);
+                altFlowStep = addAltFlowHub.getAltFlowStep();
+                flag = addAltFlowHub.getFlag();
+                dispose();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+        /** exits the pop-up box **/
+        if (e.getSource() == cancel) {
+            for (int i = 0; i < pFlowSteps.size(); i++) {
+                if (pFlowSteps.get(i) == (comboBox.getSelectedItem())) {
+                    parentFlowStep = pFlowSteps.get(i);
+                }
+            }
+            parentFlowStep.decrementNumAltFlows();
+            flag = false;
+            dispose();
+        }
+    }
+
+    public AlternateFlowStep getaFlowStep() {
+        return altFlowStep;
+    }
+
+    public boolean getFlag() {
+        return flag;
+    }
+}
+
+
