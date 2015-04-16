@@ -59,29 +59,33 @@ public class SelectEditPrimFlowBox extends JDialog implements ActionListener {
         setModalityType(ModalityType.APPLICATION_MODAL);
         setLocationRelativeTo(null);
         setTitle("Edit Primary Flow");
-        setSize(400, 220);
+        setSize(474, 177);
 
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(6, 3));
-
-        JPanel buttonPanel = new JPanel();
-        JLabel description = new JLabel("Select a Step: ");
-        panel.add(description);
+        panel.setBounds(103, 51, 268, 45);
+        panel.setLayout(new GridLayout(2, 1));
 
         pFlowSteps = new Vector<PrimaryFlowStep>(pflow);
 
         createBox(true);
+        getContentPane().setLayout(null);
         panel.add(comboBox, BorderLayout.NORTH);
-        getContentPane().add(panel, BorderLayout.NORTH);
-
-        oK = new JButton("Edit");
-        cancel = new JButton("Close");
-        panel.add(oK);
-        panel.add(cancel);
-        buttonPanel.add(oK);
-        buttonPanel.add(cancel);
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
-        oK.addActionListener(this);
+        getContentPane().add(panel);
+        cancel = new JButton("");
+        cancel.setIcon(new ImageIcon(SelectEditPrimFlowBox.class.getResource("/resources/cancel.png")));
+        cancel.setBounds(256, 114, 83, 23);
+        getContentPane().add(cancel);
+        
+                oK = new JButton("");
+                oK.setIcon(new ImageIcon(SelectEditPrimFlowBox.class.getResource("/resources/ok.png")));
+                oK.setBounds(132, 114, 83, 23);
+                getContentPane().add(oK);
+                
+                JLabel lblNewLabel = new JLabel("New label");
+                lblNewLabel.setBounds(0, 0, 458, 139);
+                getContentPane().add(lblNewLabel);
+                lblNewLabel.setIcon(new ImageIcon(SelectEditPrimFlowBox.class.getResource("/resources/STEPMODIFY.png")));
+                oK.addActionListener(this);
         cancel.addActionListener(this);
 
         flowStep = new PrimaryFlowStep();
@@ -133,5 +137,4 @@ public class SelectEditPrimFlowBox extends JDialog implements ActionListener {
         }
     }
 }
-
 
