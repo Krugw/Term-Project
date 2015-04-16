@@ -288,14 +288,14 @@ public class UseCaseEditor extends JDialog implements ActionListener {
 
         addactor2 = new JButton("");
         addactor2.addActionListener(this);
-        addactor2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addactor.png")));
-        addactor2.setBounds(253, 367, 89, 23);
+        addactor2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/Modify.png")));
+        addactor2.setBounds(303, 367, 89, 23);
         textPanel.add(addactor2);
 
         addactor1 = new JButton("");
-        addactor1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addactor.png")));
+        addactor1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/Modify.png")));
         addactor1.addActionListener(this);
-        addactor1.setBounds(20, 367, 89, 23);
+        addactor1.setBounds(72, 367, 89, 23);
         textPanel.add(addactor1);
         textPanel.add(okButton);
         textPanel.add(cancelButton);
@@ -423,16 +423,6 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         addAltFlowStep.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addstep.png")));
         addAltFlowStep.setBounds(853, 367, 89, 23);
         textPanel.add(addAltFlowStep);
-
-        JButton deleteactor1 = new JButton("");
-        deleteactor1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("This is the first remove actor button");
-            }
-        });
-        deleteactor1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/delactor.png")));
-        deleteactor1.setBounds(128, 367, 89, 23);
-        textPanel.add(deleteactor1);
         okButton.addActionListener(this);
         cancelButton.addActionListener(this);
 
@@ -447,16 +437,6 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane8.setBorder(null);
         scrollPane9.setBorder(null);;
         scrollPane10.setBorder(null);
-
-        JButton deleteactor2 = new JButton("");
-        deleteactor2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                System.out.println("This is the second delete actor button");
-            }
-        });
-        deleteactor2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/delactor.png")));
-        deleteactor2.setBounds(367, 367, 89, 23);
-        textPanel.add(deleteactor2);
 
         removePrimFlowStep = new JButton("");
         removePrimFlowStep.addActionListener(this);
