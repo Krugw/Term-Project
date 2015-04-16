@@ -75,8 +75,8 @@ public class SelectParentStepBox extends JDialog implements ActionListener {
         
         
         
-        JLabel lblNewLabel = new JLabel("New Description");
-        lblNewLabel.setBounds(60, 34, 200, 50);
+        JLabel lblNewLabel = new JLabel("New Step:");
+        lblNewLabel.setBounds(195, 37, 200, 50);
         getContentPane().add(lblNewLabel);
         cancel = new JButton("");
         cancel.setIcon(new ImageIcon(SelectParentStepBox.class.getResource("/resources/cancel.png")));
