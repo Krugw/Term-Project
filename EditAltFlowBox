@@ -98,8 +98,8 @@ public class EditAltFlowBox extends JDialog implements ActionListener {
         cancel = new JButton("Cancel");
         panel.add(oK);
         panel.add(cancel);
-        buttonPanel.add(oK);
-        buttonPanel.add(cancel);
+        //buttonPanel.add(oK);
+        //buttonPanel.add(cancel);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
         oK.addActionListener(this);
