@@ -52,31 +52,30 @@ public class RemoveAltFlowStepBox extends JDialog implements ActionListener {
     public RemoveAltFlowStepBox(Vector<AlternateFlowStep> aFlow) {
         setModalityType(ModalityType.APPLICATION_MODAL);
         setLocationRelativeTo(null);
-        setTitle("Remove Primary Flow Step");
-        setSize(300, 200);
+        setTitle("Select Step to Remove");
+        setSize(431, 208);
 
         JPanel panel = new JPanel();
+        panel.setBounds(60, 48, 284, 46);
         panel.setLayout(new GridLayout(2, 1));
-
-        JPanel buttonPanel = new JPanel();
-        JLabel description = new JLabel("Select a Step to Remove: ");
-        panel.add(description);
 
         aFlowSteps = new Vector<AlternateFlowStep>(aFlow);
 
         createBox(true);
+        getContentPane().setLayout(null);
         panel.add(comboBox, BorderLayout.NORTH);
-        getContentPane().add(panel, BorderLayout.NORTH);
-
-        oK = new JButton("Remove");
-        cancel = new JButton("Close");
-        panel.add(oK);
-        panel.add(cancel);
-        buttonPanel.add(oK);
-        buttonPanel.add(cancel);
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        getContentPane().add(panel);
+        
+                oK = new JButton("");
+                oK.setIcon(new ImageIcon(RemoveAltFlowStepBox.class.getResource("/resources/ok.png")));
+                oK.setBounds(97, 105, 83, 23);
+                getContentPane().add(oK);
+                cancel = new JButton("");
+                cancel.setIcon(new ImageIcon(RemoveAltFlowStepBox.class.getResource("/resources/cancel.png")));
+                cancel.setBounds(223, 105, 83, 23);
+                getContentPane().add(cancel);
+                cancel.addActionListener(this);
         oK.addActionListener(this);
-        cancel.addActionListener(this);
 
         setVisible(true);
     }
