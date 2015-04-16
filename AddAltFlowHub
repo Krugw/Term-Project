@@ -38,6 +38,10 @@ public class AddAltFlowHub extends JDialog implements ActionListener {
     private JButton edit;
 
     /**
+     * Save Button
+     */
+    private JButton save;
+    /**
      * JTextpane textPane
      */
     private JTextPane textPane;
@@ -73,18 +77,20 @@ public class AddAltFlowHub extends JDialog implements ActionListener {
         getContentPane().add(textPane);
 
         add = new JButton("Add Step");
-        cancel = new JButton("Close");
+        cancel = new JButton("Cancel");
         edit = new JButton("Edit Step");
+        save = new JButton("Save");
         panel.add(add);
         panel.add(cancel);
         buttonPanel.add(add);
         buttonPanel.add(edit);
         buttonPanel.add(cancel);
+        buttonPanel.add(save);
         getContentPane().add(buttonPanel, BorderLayout.SOUTH);
         add.addActionListener(this);
         cancel.addActionListener(this);
         edit.addActionListener(this);
-
+        save.addActionListener(this);
         setVisible(true);
     }
 
@@ -153,8 +159,13 @@ public class AddAltFlowHub extends JDialog implements ActionListener {
         }
 
             if (e.getSource() == cancel) {
-                    dispose();
+                flag = false;
+                dispose();
             }
+        if(e.getSource() == save) {
+            flag = true;
+            dispose();
+        }
 
             if (e.getSource() == edit) {
                 try {
