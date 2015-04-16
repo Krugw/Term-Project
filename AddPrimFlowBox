@@ -1,0 +1,114 @@
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+import javax.swing.*;
+
+/**
+ * This class creates a GUI for the user to interact with in
+ * order to type in a new term and its definition to add
+ * to their usecase project.
+ *
+ * @author Wesley Krug, Gabriel Steponovich,
+ *         Michael Brecker, Halston Raddatz
+ * @version Winter 2015
+ */
+public class AddPrimFlowBox extends JDialog implements ActionListener {
+    /**
+      * serial Version.
+      */
+    private static final long serialVersionUID = 1L;
+
+    /**
+      * Description text field.
+      */
+    private JTextField descTxt;
+
+    /**
+      * OK button.
+      */
+    private JButton oK;
+
+    /**
+      * Cancel button.
+      */
+    private JButton cancel;
+
+    private Vector<PrimaryFlowStep> pFlowSteps;
+
+    /**
+      * Constructor to set up GUI for user interaction.
+      */
+    public AddPrimFlowBox(Vector<PrimaryFlowStep> pFlows) {
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        setLocationRelativeTo(null);
+        setTitle("New Primary Flow Step");
+        setSize(300, 150);
+
+        //JPanel panel = new JPanel();
+        this.setLayout(new GridLayout(3,1));
+        JPanel buttonPanel = new JPanel();
+
+        JLabel description = new JLabel("Description: ");
+        this.add(description);
+        descTxt = new JTextField(60);
+        this.add(descTxt);
+
+
+        oK = new JButton("Add Step");
+        cancel = new JButton("Close");
+        oK.addActionListener(this);
+        cancel.addActionListener(this);
+
+        this.add(oK);
+        this.add(cancel);
+        //this.add(buttonPanel, BorderLayout.SOUTH);
+
+
+
+        pFlowSteps = new Vector<PrimaryFlowStep>(pFlows);
+        setVisible(true);
+        //setModalityType(ModalityType.APPLICATION_MODAL);
+        this.setAlwaysOnTop(true);
+    }
+
+    public void addSaveListener(ActionListener e) {
+        oK.addActionListener(e);
+    }
+    /**
+     * The action performed method for created a new term in the
+     * glossary.
+     *
+     * @param e is an ActionEvent
+     */
+     public final void actionPerformed(final ActionEvent e) {
+        /** exits the pop-up box **/
+        if (e.getSource() == cancel) {
+            dispose();
+        }
+
+        if (e.getSource() == oK) {
+            if (!descTxt.getText().equals("")) {
+                try {
+                    PrimaryFlowStep temp = new PrimaryFlowStep(pFlowSteps.size()+1 + ". " + descTxt.getText());
+                    pFlowSteps.add(temp);
+                    JOptionPane.showMessageDialog(this, "Primary Flow Step has been added.", "Add Step Success", JOptionPane.INFORMATION_MESSAGE);
+                    dispose();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Please enter a description.", "Invalid Description", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+     }
+    /**
+      * Gets a Flow Step.
+      *
+      * @return the object of a Step
+      */
+    public final Vector<PrimaryFlowStep> getFlowSteps() {
+        return pFlowSteps;
+    }
+}
