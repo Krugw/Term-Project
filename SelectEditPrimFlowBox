@@ -1,0 +1,137 @@
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
+
+import javax.swing.*;
+
+/**
+ * Created by HP on 4/3/2015.
+ */
+public class SelectEditPrimFlowBox extends JDialog implements ActionListener {
+
+
+    /**
+     * This class creates a GUI for the user to interact with in
+     * order to type in a new term and its definition to add
+     * to their usecase project.
+     *
+     * @author Wesley Krug, Gabriel Steponovich,
+     *         Michael Brecker, Halston Raddatz
+     * @version Winter 2015
+     */
+
+        /**
+         * serial Version.
+         */
+     private static final long serialVersionUID = 1L;
+
+    /**
+      * OK button.
+      */
+     private JButton oK;
+
+    /**
+      * Cancel button.
+      */
+    private JButton cancel;
+
+
+    private JComboBox<PrimaryFlowStep> comboBox;
+
+    /**
+      * Creates a Vector for the Usecase' Primary Flow Steps
+      */
+    private Vector<PrimaryFlowStep> pFlowSteps;
+
+    /**
+      * Creates an object for a flow step.
+      */
+    private PrimaryFlowStep flowStep;
+
+    private EditPrimFlowBox EditBox;
+
+    /**
+      * Constructor to set up GUI for user interaction.
+      */
+    public SelectEditPrimFlowBox(Vector<PrimaryFlowStep> pflow) {
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        setLocationRelativeTo(null);
+        setTitle("Edit Primary Flow");
+        setSize(400, 220);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(6, 3));
+
+        JPanel buttonPanel = new JPanel();
+        JLabel description = new JLabel("Select a Step: ");
+        panel.add(description);
+
+        pFlowSteps = new Vector<PrimaryFlowStep>(pflow);
+
+        createBox(true);
+        panel.add(comboBox, BorderLayout.NORTH);
+        getContentPane().add(panel, BorderLayout.NORTH);
+
+        oK = new JButton("Edit");
+        cancel = new JButton("Close");
+        panel.add(oK);
+        panel.add(cancel);
+        buttonPanel.add(oK);
+        buttonPanel.add(cancel);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        oK.addActionListener(this);
+        cancel.addActionListener(this);
+
+        flowStep = new PrimaryFlowStep();
+        setVisible(true);
+    }
+
+    public void createBox(boolean flag) {
+        MyComboBoxModel myBox = new MyComboBoxModel(pFlowSteps);
+
+        if (flag) {
+            comboBox = new JComboBox<PrimaryFlowStep>(myBox);
+        }
+        comboBox.setModel(myBox);
+    }
+
+    public Vector<PrimaryFlowStep> getpFlowSteps() {
+        return pFlowSteps;
+    }
+
+    /**
+         * The action performed method for created a new term in the
+         * glossary.
+         *
+         * @param e is an ActionEvent
+         */
+    public final void actionPerformed(final ActionEvent e) {
+        if (e.getSource() == oK) {
+            try {
+                for (int i = 0; i < pFlowSteps.size(); i++) {
+
+                    if (pFlowSteps.get(i) == comboBox.getSelectedItem()) {
+                        flowStep = pFlowSteps.get(i);
+                        EditBox = new EditPrimFlowBox(flowStep, i);
+
+                        pFlowSteps.get(i).setText(EditBox.getFlowStep().getText());
+                        i = pFlowSteps.size();
+                    }
+                }
+                flowStep = EditBox.getFlowStep();
+                pFlowSteps.set(EditBox.getPosition(), flowStep);
+                createBox(false);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        }
+            /** exits the pop-up box **/
+        if (e.getSource() == cancel) {
+            dispose();
+        }
+    }
+}
+
+
