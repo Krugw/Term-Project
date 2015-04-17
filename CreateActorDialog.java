@@ -43,9 +43,9 @@ public class CreateActorDialog implements ActionListener {
      ***************************************************/
     private JTextField actorName,actorDescription;
     private JLabel lblNewLabel;
+    private String saveName = "",saveDes = "";
 
-    public CreateActorDialog() {
-
+    public CreateActorDialog(String name, String Description) {
         final int textfieldSize = 20;
         final int boxLength = 300;
         final int boxWidth = 200;
@@ -67,10 +67,12 @@ public class CreateActorDialog implements ActionListener {
         cancelButton.setIcon(new ImageIcon(CreateActorDialog.class.getResource("/resources/cancel.png")));
         cancelButton.setBounds(253, 147, 81, 23);
         actorName = new JTextField(textfieldSize);
+        actorName.setText(name);
         actorName.setBorder(null);
         actorName.setBounds(106, 28, 263, 32);
         actorName.setOpaque(false);
         actorDescription = new JTextField(textfieldSize);
+        actorDescription.setText(Description);
         actorDescription.setBorder(null);
         actorDescription.setBounds(106, 92, 263, 44);
         actorDescription.setOpaque(false);
@@ -113,8 +115,9 @@ public class CreateActorDialog implements ActionListener {
 	@Override
 	public final void actionPerformed(final ActionEvent e) {
         if (e.getSource() == okButton) {
-
             if (!actorName.getText().equals("")) {
+            	saveName = actorName.getText();
+            	saveDes = actorDescription.getText();
                 box.dispose();
             } else {
                 JOptionPane.showMessageDialog(null,
@@ -128,9 +131,9 @@ public class CreateActorDialog implements ActionListener {
         }
     }
 	 public final String getActorName() {
-	        return actorName.getText();
+	        return saveName;
 	    }
 	 public final String getActorDescription() {
-	        return actorDescription.getText();
+	        return saveDes;
 	    }
 }
