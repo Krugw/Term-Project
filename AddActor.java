@@ -1,4 +1,3 @@
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dialog.ModalExclusionType;
@@ -201,7 +200,7 @@ public class AddActor extends JDialog implements ActionListener {
     public Actor getdeleteActor(){
 		return delActor;
     }
-	@Override
+
 	public final void actionPerformed(final ActionEvent e) {
         if (e.getSource() == addButton) {
         	if(!ucActors.contains((String) ComboBox.getSelectedItem()) && ComboBox.getSelectedItem() != null && ((String) ComboBox.getSelectedItem()).length()>1)
