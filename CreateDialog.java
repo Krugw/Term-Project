@@ -80,10 +80,12 @@ public class CreateDialog implements ActionListener {
 		* Creates JPanel within JDialog box, adds applicable JButtons for
 		* user operation and fields for user input.
 		*****************************************************************/	
-		okButton = new JButton("OK");
-		okButton.setBounds(62, 116, 80, 23);
-		cancelButton = new JButton("Cancel");
-		cancelButton.setBounds(147, 116, 81, 23);
+		okButton = new JButton("");
+		okButton.setIcon(new ImageIcon(CreateDialog.class.getResource("/resources/ok.png")));
+		okButton.setBounds(62, 116, 83, 23);
+		cancelButton = new JButton("");
+		cancelButton.setIcon(new ImageIcon(CreateDialog.class.getResource("/resources/cancel.png")));
+		cancelButton.setBounds(147, 116, 83, 23);
 		fileNameTxt = new JTextField(textfieldSize);
 		fileNameTxt.setBorder(null);
 		fileNameTxt.setOpaque(false);
