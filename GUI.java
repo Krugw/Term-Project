@@ -715,7 +715,7 @@ panel.setLayout(null);
            			&& dTree.selectedTerm() != null
            			&& dTree.selectedTerm() != "UseCases"
            			) {
-            	dialog2 = new CreateActorDialog();
+            	dialog2 = new CreateActorDialog("","");
             	if(!dialog2.getActorName().equals("")) {
             		addActor(dialog2.getActorName(),dialog2.getActorDescription());
             		display();
@@ -730,13 +730,13 @@ panel.setLayout(null);
         }
         
         if(e.getSource() == addActorItem){
-        	dialog2 = new CreateActorDialog();
+        	dialog2 = new CreateActorDialog("","");
             addActor(dialog2.getActorName(),dialog2.getActorDescription());
             display();
         }
         
         if(e.getSource() == delActorItem){
-        	DeleteActor = new AddActor(currentProject.getActors());
+        	DeleteActor = new AddActor(currentProject.getActors(),false);
         	deleteActor(DeleteActor.getdeleteActor());
             display();
         }
@@ -775,7 +775,7 @@ panel.setLayout(null);
                 save(currentUseCase);
             }
         }
-        if(e.getSource() == editActorItem){
+        if(e.getSource() == editActor){
         	DeleteActor = new AddActor(currentProject.getActors(),true);
         	Actor a = DeleteActor.getdeleteActor();
         	dialog2 = new CreateActorDialog(a.getName(),a.getDescription());
@@ -866,7 +866,15 @@ panel.setLayout(null);
         			&& dTree.selectedTerm() != "Actor") {
         		if(currentProject.getActor(dTree.selectedTerm()) != null) {
         			Actor a = currentProject.getActor(dTree.selectedTerm());
-        			/********Edit actor stuff goes here**********/
+                	dialog2 = new CreateActorDialog(a.getName(),a.getDescription());
+                	if(!dialog2.getActorName().equals("")){
+                	changeActor(a.getName(),dialog2.getActorName());
+                    int i = currentProject.getActors().lastIndexOf(a);
+                    currentProject.getActors().get(i).setName(dialog2.getActorName());
+                    currentProject.getActors().get(i).setDescription(dialog2.getActorDescription());
+                	}
+                    
+                    display();
         		}
         		for (int i = 0; i < terms.size(); i++) {
         			if (dTree.selectedTerm().equals(terms.get(i))) {
