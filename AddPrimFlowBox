@@ -44,25 +44,31 @@ public class AddPrimFlowBox extends JDialog implements ActionListener {
         setModalityType(ModalityType.APPLICATION_MODAL);
         setLocationRelativeTo(null);
         setTitle("New Primary Flow Step");
-        setSize(300, 150);
-
-        //JPanel panel = new JPanel();
-        this.setLayout(new GridLayout(3,1));
+        setSize(474, 177);
         JPanel buttonPanel = new JPanel();
-
-        JLabel description = new JLabel("Description: ");
-        this.add(description);
+        getContentPane().setLayout(null);
         descTxt = new JTextField(60);
-        this.add(descTxt);
+        descTxt.setBorder(null);
+        descTxt.setBounds(102, 51, 270, 46);
+        getContentPane().add(descTxt);
 
 
-        oK = new JButton("Add Step");
-        cancel = new JButton("Close");
+        oK = new JButton("");
+        oK.setIcon(new ImageIcon(AddPrimFlowBox.class.getResource("/resources/ok.png")));
+        oK.setBounds(121, 115, 83, 23);
+        cancel = new JButton("");
+        cancel.setIcon(new ImageIcon(AddPrimFlowBox.class.getResource("/resources/cancel.png")));
+        cancel.setBounds(269, 115, 83, 23);
         oK.addActionListener(this);
         cancel.addActionListener(this);
 
-        this.add(oK);
-        this.add(cancel);
+        getContentPane().add(oK);
+        getContentPane().add(cancel);
+        
+                JLabel description = new JLabel("");
+                description.setIcon(new ImageIcon(AddPrimFlowBox.class.getResource("/resources/PrimaryFlow.png")));
+                description.setBounds(0, 0, 458, 138);
+                getContentPane().add(description);
         //this.add(buttonPanel, BorderLayout.SOUTH);
 
 
