@@ -775,7 +775,19 @@ panel.setLayout(null);
                 save(currentUseCase);
             }
         }
-        
+        if(e.getSource() == editActorItem){
+        	DeleteActor = new AddActor(currentProject.getActors(),true);
+        	Actor a = DeleteActor.getdeleteActor();
+        	dialog2 = new CreateActorDialog(a.getName(),a.getDescription());
+        	if(!dialog2.getActorName().equals("")){
+        	changeActor(a.getName(),dialog2.getActorName());
+            int i = currentProject.getActors().lastIndexOf(a);
+            currentProject.getActors().get(i).setName(dialog2.getActorName());
+            currentProject.getActors().get(i).setDescription(dialog2.getActorDescription());
+        	}
+            
+            display();
+        }
         if(e.getSource() == ucToHtml){
             html amp = new html(currentUseCase);
 		}
@@ -1009,6 +1021,27 @@ panel.setLayout(null);
 
         }
     }
+    public void changeActor(String a,String b){
+	 if (!ids.isEmpty()) {
+         for (int i = 0; i < ids.size(); i++) {
+             String id = ids.get(i);
+             UseCase uc = currentProject.getUsecase(id);
+             int j = 0;
+             for(String sa: uc.getSupportingActors()){
+                 if(sa.equals(a))
+                	 currentProject.getUsecase(id).getSupportingActors().set(j, b);
+                 j++;
+             }
+             j = 0;
+             for(String pa: uc.getPrimaryActors()){
+                 if (pa.equals(a)) {
+                	 currentProject.getUsecase(id).getPrimaryActors().set(j, b);
+                 }
+                 j++;
+             }
+         }
+     }
+}
     
     public void addActor(String n, String d){
     	if(n != ""){
