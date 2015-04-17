@@ -64,31 +64,26 @@ public class SelectEditAltFlowBox extends JDialog implements ActionListener {
         setSize(400, 220);
 
         JPanel panel = new JPanel();
-        panel.setBounds(23, 39, 335, 35);
-        panel.setLayout(new GridLayout(2, 1));
+        panel.setLayout(new GridLayout(6, 3));
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBounds(0, 171, 384, 10);
+        JLabel description = new JLabel("Select a Step: ");
+        panel.add(description);
 
         aFlowSteps = new Vector<AlternateFlowStep>(aFlow);
 
         createBox(true);
-        getContentPane().setLayout(null);
         panel.add(comboBox, BorderLayout.NORTH);
-        getContentPane().add(panel);
-        //buttonPanel.add(oK);
-        //buttonPanel.add(cancel);
-        getContentPane().add(buttonPanel);
-        cancel = new JButton("");
-        cancel.setIcon(new ImageIcon(SelectEditAltFlowBox.class.getResource("/resources/cancel.png")));
-        cancel.setBounds(195, 85, 83, 23);
-        getContentPane().add(cancel);
-        
-                oK = new JButton("");
-                oK.setIcon(new ImageIcon(SelectEditAltFlowBox.class.getResource("/resources/ok.png")));
-                oK.setBounds(81, 85, 83, 23);
-                getContentPane().add(oK);
-                oK.addActionListener(this);
+        getContentPane().add(panel, BorderLayout.NORTH);
+
+        oK = new JButton("Edit");
+        cancel = new JButton("Close");
+        panel.add(oK);
+        panel.add(cancel);
+        buttonPanel.add(oK);
+        buttonPanel.add(cancel);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        oK.addActionListener(this);
         cancel.addActionListener(this);
 
         setVisible(true);
@@ -144,4 +139,3 @@ public class SelectEditAltFlowBox extends JDialog implements ActionListener {
         }
     }
 }
-
