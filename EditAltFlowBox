@@ -10,6 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import javax.swing.ImageIcon;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 /**
  * This class creates a GUI for the user to interact with in
@@ -61,49 +64,46 @@ public class EditAltFlowBox extends JDialog implements ActionListener {
         setModalityType(ModalityType.APPLICATION_MODAL);
         setLocationRelativeTo(null);
         setTitle("Edit Alternate Flow Step");
-        setSize(400, 250);
-
-            /*
-          Creates a panel text boxes.
-         */
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(12, 12));
+        setSize(469, 255);
 
             /*
           Creates a panel for buttons.
          */
         JPanel buttonPanel = new JPanel();
-        panel.setSize(400,200);
+        buttonPanel.setBounds(0, 324, 553, 10);
             /*
           Description label.
          */
-        JLabel description = new JLabel("Description: ");
-
-        panel.add(description);
-
-        descTxt = new JTextField(flowStep.getText().substring(4), 60);
-        panel.add(descTxt, BorderLayout.AFTER_LAST_LINE);
-
-        getContentPane().add(new JLabel());
+        getContentPane().setLayout(null);
         actionEditFields = new Vector<JTextField>(1,1);
         for (int i = 0; i < flowStep.getActions().size(); i++) {
-            panel.add(new JLabel("Action: "));
-            actionEditFields.add(new JTextField(flowStep.getActions().get(i).substring(4)));
-            panel.add(actionEditFields.get(i), BorderLayout.AFTER_LAST_LINE);
+       //     panel.add(new JLabel("Action: "));
+       //     actionEditFields.add(new JTextField(flowStep.getActions().get(i).substring(4)));
+       //     panel.add(actionEditFields.get(i), BorderLayout.AFTER_LAST_LINE);
         }
-
-        getContentPane().add(panel, BorderLayout.NORTH);
-
-        oK = new JButton("Save");
-        cancel = new JButton("Cancel");
-        panel.add(oK);
-        panel.add(cancel);
-        buttonPanel.add(oK);
-        buttonPanel.add(cancel);
-        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        //buttonPanel.add(oK);
+        //buttonPanel.add(cancel);
+        getContentPane().add(buttonPanel);
+        
+                oK = new JButton("");
+                oK.setIcon(new ImageIcon(EditAltFlowBox.class.getResource("/resources/ok.png")));
+                oK.setBounds(102, 117, 83, 23);
+                getContentPane().add(oK);
+                cancel = new JButton("");
+                cancel.setIcon(new ImageIcon(EditAltFlowBox.class.getResource("/resources/cancel.png")));
+                cancel.setBounds(236, 117, 83, 23);
+                getContentPane().add(cancel);
+                
+                        descTxt = new JTextField(flowStep.getText().substring(4), 60);
+                        descTxt.setBorder(new LineBorder(Color.BLACK, 2));
+                        descTxt.setBounds(10, 67, 433, 39);
+                        getContentPane().add(descTxt);
+                        JLabel description = new JLabel("New Description");
+                        description.setBounds(10, 51, 553, 16);
+                        getContentPane().add(description);
+                cancel.addActionListener(this);
 
         oK.addActionListener(this);
-        cancel.addActionListener(this);
 
         setVisible(true);
         return flowStep;
