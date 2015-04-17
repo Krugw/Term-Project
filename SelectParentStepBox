@@ -58,42 +58,35 @@ public class SelectParentStepBox extends JDialog implements ActionListener {
         setModalityType(ModalityType.APPLICATION_MODAL);
         setLocationRelativeTo(null);
         setTitle("Select Parent Primary Flow Step");
-        setSize(474, 177);
+        setSize(400, 250);
+
+        titleTxt = new JTextField("", 50);
+        titleTxt.setForeground(Color.BLACK);
         JPanel panel = new JPanel();
-        panel.setBounds(50, 11, 384, 41);
-        panel.setLayout(new GridLayout(2, 1));
-        
-        
+        panel.setLayout(new GridLayout(6, 3));
+
+        JPanel buttonPanel = new JPanel();
+        JLabel description = new JLabel("Select a Step to deviate from: ");
+        panel.add(description);
 
         pFlowSteps = new Vector<PrimaryFlowStep>(pFlow);
 
         createBox(true);
-        getContentPane().setLayout(null);
         panel.add(comboBox, BorderLayout.NORTH);
         panel.add(new JLabel(""));
-        getContentPane().add(panel);
-        
-        
-        
-        JLabel lblNewLabel = new JLabel("New Step:");
-        lblNewLabel.setBounds(195, 37, 200, 50);
-        getContentPane().add(lblNewLabel);
-        cancel = new JButton("");
-        cancel.setIcon(new ImageIcon(SelectParentStepBox.class.getResource("/resources/cancel.png")));
-        cancel.setBounds(257, 108, 83, 23);
-        getContentPane().add(cancel);
-        
-        
-                oK = new JButton("");
-                oK.setIcon(new ImageIcon(SelectParentStepBox.class.getResource("/resources/ok.png")));
-                oK.setBounds(133, 108, 83, 23);
-                getContentPane().add(oK);
-                
-                        titleTxt = new JTextField("", 50);
-                        titleTxt.setBounds(50, 71, 384, 26);
-                        getContentPane().add(titleTxt);
-                        titleTxt.setForeground(Color.BLACK);
-                oK.addActionListener(this);
+        panel.add(new JLabel("Enter Description of Deviation:"));
+        panel.add(titleTxt, BorderLayout.SOUTH);
+        getContentPane().add(panel, BorderLayout.NORTH);
+
+
+        oK = new JButton("Select");
+        cancel = new JButton("Cancel");
+        panel.add(oK);
+        panel.add(cancel);
+        buttonPanel.add(oK);
+        buttonPanel.add(cancel);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+        oK.addActionListener(this);
         cancel.addActionListener(this);
 
         parentFlowStep = new PrimaryFlowStep();
@@ -157,4 +150,3 @@ public class SelectParentStepBox extends JDialog implements ActionListener {
         return flag;
     }
 }
-
