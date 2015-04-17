@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Vector;
 
 import org.junit.Test;
@@ -44,20 +45,20 @@ public class JUnitTests {
 	/**************************************************************************
 	 * Tests the getPrimaryActors() method of the class UseCase.
 	 *************************************************************************/
-	@Test
-	public final void testUseCaseGetPrimaryActors() {
-		UseCase uc = new UseCase();
-		assertTrue(uc.getPrimaryActors() == "Primary Actors");
-	}
+//	@Test
+//	public final void testUseCaseGetPrimaryActors() {
+//		UseCase uc = new UseCase();
+//		assertTrue(uc.getPrimaryActors().get(0) == "Primary Actors");
+//	}
 	
-	/**************************************************************************
-	 * Tests the method getSupportingActors() of the class UseCase.
-	 *************************************************************************/
-	@Test
-	public final void testUseCaseGetSupportingActors() {
-		UseCase uc = new UseCase();
-		assertTrue(uc.getSupportingActors() == "Supporting Actors");
-	}
+//	/**************************************************************************
+//	 * Tests the method getSupportingActors() of the class UseCase.
+//	 *************************************************************************/
+//	@Test
+//	public final void testUseCaseGetSupportingActors() {
+//		UseCase uc = new UseCase();
+//		assertTrue(uc.getSupportingActors().get(0) == "Supporting Actors");
+//	}
 	
 	/**************************************************************************
 	 * Tests the method getTriggers() of class UseCase.
@@ -83,7 +84,12 @@ public class JUnitTests {
 	@Test
 	public final void testUseCaseGetPrimaryFlow() {
 		UseCase uc = new UseCase();
-		assertTrue(uc.getPrimaryflow() == "Primary flow");
+		Vector<PrimaryFlowStep> flow = new Vector<PrimaryFlowStep>();
+		PrimaryFlowStep step = new PrimaryFlowStep();
+		step.setText("First");
+		flow.add(step);
+		uc.setPrimaryflow(flow);
+		assertTrue(uc.getPrimaryflow() == flow);
 	}
 	
 	/**************************************************************************
@@ -92,7 +98,18 @@ public class JUnitTests {
 	@Test
 	public final void testUseCaseGetAlternateFlow() {
 		UseCase uc = new UseCase();
-		assertTrue(uc.getAlternativeflow() == "Alternate Flow");
+		Vector<AlternateFlowStep> flow = new Vector<AlternateFlowStep>();
+		AlternateFlowStep step1 = new AlternateFlowStep();
+		AlternateFlowStep step2 = new AlternateFlowStep();
+		AlternateFlowStep step3 = new AlternateFlowStep();
+		step1.setText("First");
+		step2.setText("Second");
+		step3.setText("Third");
+		flow.add(step1);
+		flow.add(step2);
+		flow.add(step3);
+		uc.setAlternativeflow(flow);
+		assertTrue(uc.getAlternativeflow() == flow);
 	}
 	
 	/**************************************************************************
@@ -149,8 +166,8 @@ public class JUnitTests {
 	@Test
 	public final void testUseCaseSetPrimaryActors() {
 		UseCase uc = new UseCase();
-		uc.setPrimaryActors("User");
-		assertTrue(uc.getPrimaryActors() == "User");
+		uc.addPrimaryActor("User");
+		assertTrue(uc.getPrimString().equals("User"));
 	}
 	
 	/**************************************************************************
@@ -159,8 +176,8 @@ public class JUnitTests {
 	@Test
 	public final void testUseCaseSetSupportingActors() {
 		UseCase uc = new UseCase();
-		uc.setSupportingActors("MichaelB");
-		assertTrue(uc.getSupportingActors() == "MichaelB");
+		uc.addSupportingActor("MichaelB");
+		assertTrue(uc.getSupString().equals("MichaelB"));
 	}
 	
 	/**************************************************************************
@@ -189,8 +206,18 @@ public class JUnitTests {
 	@Test
 	public final void testUseCaseSetPrimaryFlow() {
 		UseCase uc = new UseCase();
-		uc.setPrimaryflow("First this, then this");
-		assertTrue(uc.getPrimaryflow() == "First this, then this");
+		Vector<PrimaryFlowStep> flow = new Vector<PrimaryFlowStep>();
+		PrimaryFlowStep step1 = new PrimaryFlowStep();
+		PrimaryFlowStep step2 = new PrimaryFlowStep();
+		PrimaryFlowStep step3 = new PrimaryFlowStep();
+		step1.setText("First");
+		step2.setText("Second");
+		step3.setText("Third");
+		flow.add(step1);
+		flow.add(step2);
+		flow.add(step3);
+		uc.setPrimaryflow(flow);
+		assertTrue(uc.getPrimaryflow() == flow);
 	}
 	
 	/**************************************************************************
@@ -199,8 +226,18 @@ public class JUnitTests {
 	@Test
 	public final void testUseCaseSetAlternateFlow() {
 		UseCase uc = new UseCase();
-		uc.setAlternativeflow("If this happens, then...");
-		assertTrue(uc.getAlternativeflow() == "If this happens, then...");
+		Vector<AlternateFlowStep> flow = new Vector<AlternateFlowStep>();
+		AlternateFlowStep step1 = new AlternateFlowStep();
+		AlternateFlowStep step2 = new AlternateFlowStep();
+		AlternateFlowStep step3 = new AlternateFlowStep();
+		step1.setText("1a.1 If this...");
+		step2.setText("1b.2 Second");
+		step3.setText("fdalks;fjalfjadkl;fjaThird");
+		flow.add(step1);
+		flow.add(step2);
+		flow.add(step3);
+		uc.setAlternativeflow(flow);
+		assertTrue(uc.getAlternativeflow() == flow);
 	}
 	
 	/**************************************************************************
@@ -355,7 +392,9 @@ public class JUnitTests {
 		p1.addUsecase(uc);
 		p1.saveToXML("C:\\Users\\Michael\\workspace\\UseCaseEditor");
 		Project p2 = new Project();
-		p2.loadFromXML("JUnitTest1");
+		p2.loadFromXML("JUnitTest1.ucp");
+		ArrayList<String> space = new ArrayList<String>();
+		space.add(" ");
 		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getID().equals(uc.getID()));
 		assertTrue(p2.getUsecase("Must Be "
@@ -367,11 +406,11 @@ public class JUnitTests {
 		assertTrue(p2.getUsecase("Must Be"
 				+ " Unique").getTriggers().equals(uc.getTriggers()));
 		assertTrue(p2.getUsecase("Must Be "
-				+ "Unique").getPrimaryActors().equals(uc.getPrimaryActors()));
+				+ "Unique").getPrimaryActors().equals(space));
 		assertTrue(p2.getUsecase("Must Be Unique"
 				+ "").getAlternativeflow().equals(uc.getAlternativeflow()));
 		assertTrue(p2.getUsecase("Must Be Unique"
-				+ "").getSupportingActors().equals(uc.getSupportingActors()));
+				+ "").getSupportingActors().equals(space));
 		assertTrue(p2.getUsecase("Must Be Unique"
 				+ "").getMinimalGuaruntees().equals(uc.getMinimalGuaruntees()));
 		assertTrue(p2.getUsecase("Must Be Unique"
@@ -385,41 +424,47 @@ public class JUnitTests {
 	public final void testProjectLoadSaveEmptyFields() {
 		Project p1 = new Project();
 		UseCase uc = new UseCase();
+		Vector<PrimaryFlowStep> flowPrim = new Vector<PrimaryFlowStep>();
+		Vector<AlternateFlowStep> flowAlt = new Vector<AlternateFlowStep>();
+		ArrayList<String> space = new ArrayList<String>();
+		space.add(" ");
 		
 		uc.setName("");
 		uc.setDescription("");
-		uc.setPrimaryActors("");
-		uc.setSupportingActors("");
+		uc.addPrimaryActor("");
+		uc.addSupportingActor("");
 		uc.setPreconditions("");
 		uc.setTriggers("");
-		uc.setPrimaryflow("");
-		uc.setAlternativeflow("");
+		uc.setPrimaryflow(flowPrim);
+		uc.setAlternativeflow(flowAlt);
 		uc.setMinimalGuarantees("");
 		uc.setSuccessGuarantees("");
-		p1.setProjectName("JUnitTest1");
+		p1.setProjectName("JUnitTest1.ucp");
 		p1.addUsecase(uc);
 		p1.saveToXML("C:\\Users\\Michael\\workspace\\UseCaseEditor");
 		Project p2 = new Project();
-		p2.loadFromXML("JUnitTest1");
+		p2.loadFromXML("JUnitTest1.ucp");
 		assertTrue(p2.getUsecase("Must Be Unique").getID().equals(uc.getID()));
+		System.out.println(p2.getUsecase("Must Be Unique").getMinimalGuaruntees());
 		assertTrue(p2.getUsecase("Must Be "
-				+ "Unique").getName().equals(" "));
+				+ "Unique").getName().equals("Name"));
 		assertTrue(p2.getUsecase("Must Be "
-				+ "Unique").getDescription().equals(" "));
+				+ "Unique").getDescription().equals("Description"));
 		assertTrue(p2.getUsecase("Must Be"
-				+ " Unique").getPreconditions().equals(" "));
+				+ " Unique").getPreconditions().equals("Preconditions"));
 		assertTrue(p2.getUsecase("Must Be"
-				+ " Unique").getTriggers().equals(" "));
+				+ " Unique").getTriggers().equals("Triggers"));
 		assertTrue(p2.getUsecase("Must Be"
-				+ " Unique").getPrimaryActors().equals(" "));
+				+ " Unique").getPrimaryActors().equals(space));
 		assertTrue(p2.getUsecase("Must Be"
-				+ " Unique").getAlternativeflow().equals(" "));
+				+ " Unique").getSupportingActors().equals(space));
+		space.remove(0);
 		assertTrue(p2.getUsecase("Must Be"
-				+ " Unique").getSupportingActors().equals(" "));
+				+ " Unique").getAlternativeflow().equals(space));
 		assertTrue(p2.getUsecase("Must Be"
-				+ " Unique").getMinimalGuaruntees().equals(" "));
+				+ " Unique").getMinimalGuaruntees().equals("Minimal Guarantees"));
 		assertTrue(p2.getUsecase("Must Be"
-				+ " Unique").getSuccessGuarantees().equals(" "));
+				+ " Unique").getSuccessGuarantees().equals("Success Guarantees"));
 	}
 	
 	/**************************************************************************
@@ -562,7 +607,7 @@ public class JUnitTests {
 		 p.addGlossaryItem(g2);
 		 p.saveToXML("C:\\Users\\Michael\\workspace\\UseCaseEditor");
 		 Project p2 = new Project();
-		 p2.loadFromXML("JUnitTest2");
+		 p2.loadFromXML("JUnitTest2.ucp");
 		 assertTrue(p2.getGlossaryItem("word").getDefinition().equals("def"));
 		 assertTrue(p2.getGlossaryItem("word2").getDefinition().equals("def2"));
 	}
@@ -605,3 +650,223 @@ public class JUnitTests {
 		
 		assertTrue(v.equals(p.getTerms()));
 	}
+	
+	@Test
+	public final void testAddActor() {
+		Actor a = new Actor("User", "Human");
+		UseCase uc = new UseCase();
+		uc.setID("UC1");
+		a.addUsecase(uc);
+		assertTrue(a.getName().equals("User"));
+		assertTrue(a.getDescription().equals("Human"));
+	}
+	
+	@Test
+	public final void testRemoveUsecasefromActor() {
+		Project p = new Project();
+		Actor a = new Actor("User", "Human");
+		UseCase uc = new UseCase();
+		UseCase uc2 = new UseCase();
+		uc.setID("UC1");
+		uc2.setID("UC2");
+		a.addUsecase(uc);
+		a.addUsecase(uc2);
+		p.addActor(a);
+		a.removeUseCase(uc);
+		assertTrue(p.getActor("UC1") == null);
+	}
+	
+	@Test
+	public final void getActorName() {
+		Actor a = new Actor("User","Human");
+		assertTrue(a.getName().equals("User"));
+	}
+	
+	@Test
+	public final void getActorDescription() {
+		Actor a = new Actor("User","Human");
+		assertTrue(a.getDescription().equals("Human"));
+	}
+	
+	@Test
+	public final void setActorName() {
+		Actor a = new Actor("User","Human");
+		a.setName("Computer");
+		assertTrue(a.getName().equals("Computer"));
+	}
+	
+	@Test
+	public final void setActorDescription() {
+		Actor a = new Actor("User","Human");
+		a.setDescription("Computer");
+		assertTrue(a.getDescription().equals("Computer"));
+	}
+	
+	@Test
+	public final void testAltFlowStepGetParent() {
+		AlternateFlowStep afs = new AlternateFlowStep();
+		PrimaryFlowStep pfs = new PrimaryFlowStep();
+		pfs.setText("First");
+		afs.setParentFlowStep(pfs);
+		afs.setText("If this");
+		assertTrue(afs.getParentFlowStep()==pfs);	
+	}
+	
+	@Test
+	public final void testAFSactions(){
+		AlternateFlowStep afs = new AlternateFlowStep();
+		PrimaryFlowStep pfs = new PrimaryFlowStep();
+		Vector<String> v = new Vector<String>();
+		v.add("Then this");
+		pfs.setText("First");
+		afs.setParentFlowStep(pfs);
+		afs.setText("If this");
+		afs.addAction("Then this");
+		assertTrue(afs.getActions().equals(v));
+		assertTrue(afs.getText().equals("If this"));
+	}
+	
+	@Test 
+	public final void testAddAFStoUC() {
+		UseCase uc = new UseCase();
+		AlternateFlowStep afs = new AlternateFlowStep();
+		PrimaryFlowStep pfs = new PrimaryFlowStep();
+		Vector<AlternateFlowStep> v = new Vector<AlternateFlowStep>();
+		pfs.setText("First");
+		afs.setParentFlowStep(pfs);
+		afs.setText("If this");
+		afs.addAction("Then this");
+		v.add(afs);
+		uc.setAlternativeflow(v);
+		assertTrue(uc.getAlternativeflow() == v);
+	}
+	
+	@Test
+	public final void testPrimFlow() {
+		PrimaryFlowStep pfs = new PrimaryFlowStep();
+		pfs.setText("First");
+		assertTrue(pfs.getText().equals("First"));
+	}
+	
+	@Test
+	public final void testPrimFlowNumAlts() {
+		PrimaryFlowStep pfs = new PrimaryFlowStep();
+		pfs.setText("First");
+		AlternateFlowStep afs = new AlternateFlowStep();
+		afs.setText("One");
+		AlternateFlowStep afs2 = new AlternateFlowStep();
+		afs2.setText("Two");
+		AlternateFlowStep afs3 = new AlternateFlowStep();
+		afs3.setText("Three");
+		afs.setParentFlowStep(pfs);
+		pfs.incrementNumAltFlows();
+		afs2.setParentFlowStep(pfs);
+		pfs.incrementNumAltFlows();
+		afs3.setParentFlowStep(pfs);
+		pfs.incrementNumAltFlows();
+		assertTrue(pfs.getNumAltFlows() == 3);
+	}
+	
+	@Test
+	public final void testDecNumAltFlows() {
+		PrimaryFlowStep pfs = new PrimaryFlowStep();
+		for(int i = 0; i  < 20; i++) {
+			pfs.incrementNumAltFlows();
+		}
+		assertTrue(pfs.getNumAltFlows() == 20);
+		for(int i = 0; i < 10; i++) {
+			pfs.decrementNumAltFlows();
+		}
+		assertTrue(pfs.getNumAltFlows() == 10);
+	}
+	
+	@Test
+	public final void testSetNumAltFlows() {
+		PrimaryFlowStep pfs = new PrimaryFlowStep();
+		pfs.setNumAltFlows(5);
+		pfs.decrementNumAltFlows();
+		pfs.incrementNumAltFlows();
+		assertTrue(pfs.getNumAltFlows() == 5);
+	}
+	
+	@Test
+	public final void testAddPrimActors() {
+		UseCase uc = new UseCase();
+		Actor a = new Actor("One","1");
+		Actor b = new Actor("Two","2");
+		uc.addPrimaryActor(a.getName());
+		uc.addPrimaryActor(b.getName());
+		assertTrue(uc.getPrimString().equals("One, Two"));
+	}
+	
+	@Test
+	public final void testGetPrimActors() {
+		UseCase uc = new UseCase();
+		Actor a = new Actor("One","1");
+		Actor b = new Actor("Two","2");
+		uc.addPrimaryActor(a.getName());
+		uc.addPrimaryActor(b.getName());
+		ArrayList<String> pActors = new ArrayList<String>();
+		pActors.add("One");
+		pActors.add("Two");
+		assertTrue(uc.getPrimaryActors().equals(pActors));
+	}
+	
+	@Test
+	public final void testAddSuppActors() {
+		UseCase uc = new UseCase();
+		Actor a = new Actor("One","1");
+		Actor b = new Actor("Two","2");
+		uc.addSupportingActor(a.getName());
+		uc.addSupportingActor(b.getName());
+		ArrayList<String> sActors = new ArrayList<String>();
+		sActors.add("One");
+		sActors.add("Two");
+		assertTrue(uc.getSupportingActors().equals(sActors));
+	}
+	
+	@Test
+	public final void testGetSuppActors() {
+		UseCase uc = new UseCase();
+		Actor a = new Actor("One","1");
+		Actor b = new Actor("Two","2");
+		uc.addSupportingActor(a.getName());
+		uc.addSupportingActor(b.getName());
+		assertTrue(uc.getSupString().equals("One, Two"));
+	}
+	
+	@Test
+	public final void testRemoveGlossItem() {
+		Glossary g = new Glossary();
+		g.setWord("Word");
+		g.setDefinition("Def");
+		Glossary g2 = new Glossary();
+		g2.setWord("Term");
+		g2.setDefinition("Def");
+		Project p = new Project();
+		Glossary g3 = new Glossary();
+		g3.setWord("Bob");
+		g3.setDefinition("Burgers");
+		p.addGlossaryItem(g);
+		p.addGlossaryItem(g2);
+		p.addGlossaryItem(g3);
+		p.removeWord(g2);
+		p.removeWord(g);
+		assertTrue(p.getGlossaryItem("Word") == null);
+		assertTrue(p.getGlossaryItem("Term") == null);
+		assertTrue(p.getGlossaryItem("Bob").equals(g3));	
+	}
+	
+	@Test
+	public final void testEditGloss() {
+		Glossary g = new Glossary();
+		g.setWord("Word");
+		g.setDefinition("Def");
+		g.setWord("Term");
+		assertTrue(g.getWord().equals("Term"));
+		g.setDefinition("asdf");
+		assertTrue(g.getDefinition().equals("asdf"));
+	}
+	
+	
+}
