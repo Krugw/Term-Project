@@ -335,7 +335,7 @@ public class GUI extends JFrame implements ActionListener{
 
 
         frame = new JFrame();
-        frame.setBounds(new Rectangle(0, 0, 1366, 766));
+        frame.setBounds(new Rectangle(0, 0, 1333, 766));
         frame.setResizable(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
