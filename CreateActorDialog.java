@@ -112,7 +112,7 @@ public class CreateActorDialog implements ActionListener {
         box.setVisible(true);
 
     }
-	@Override
+
 	public final void actionPerformed(final ActionEvent e) {
         if (e.getSource() == okButton) {
             if (!actorName.getText().equals("")) {
