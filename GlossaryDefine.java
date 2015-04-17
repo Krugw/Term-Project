@@ -65,9 +65,13 @@ public class GlossaryDefine extends JDialog implements ActionListener {
 	/**
 	 * Constructor to set up GUI for user interaction.
 	 */
-	public GlossaryDefine(final String g, final String s) {
+	public GlossaryDefine(final String g, final String s, boolean flag) {
 		setLocationRelativeTo(null);
-        setTitle("Glossary: " + g);
+		if(flag) {
+			setTitle("Glossary: " + g);
+		} else {
+			setTitle("Actor: " + g);
+		}
         setSize(500,250);
         
         panel = new JPanel();
