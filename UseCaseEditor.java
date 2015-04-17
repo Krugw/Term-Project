@@ -101,6 +101,7 @@ public class UseCaseEditor extends JDialog implements ActionListener {
      * JButton to cancel all actions close the Editor window.
      */
     private JButton cancelButton;
+    
 
     /**
      * The new usecase to be created.
@@ -194,6 +195,8 @@ public class UseCaseEditor extends JDialog implements ActionListener {
 
     private Boolean Flag = true, cancelFlag = true;
     private JButton addactor1;
+    private JButton deleteActor1;
+    private JButton deleteActor2;
     private JButton removePrimFlowStep;
     private JButton editPrimFlowStep;
     private JButton addAltFlowStep;
@@ -288,14 +291,14 @@ public class UseCaseEditor extends JDialog implements ActionListener {
 
         addactor2 = new JButton("");
         addactor2.addActionListener(this);
-        addactor2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/Modify.png")));
-        addactor2.setBounds(303, 367, 89, 23);
+        addactor2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addactor.png")));
+        addactor2.setBounds(253, 367, 89, 23);
         textPanel.add(addactor2);
 
         addactor1 = new JButton("");
-        addactor1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/Modify.png")));
+        addactor1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addactor.png")));
         addactor1.addActionListener(this);
-        addactor1.setBounds(72, 367, 89, 23);
+        addactor1.setBounds(20, 367, 89, 23);
         textPanel.add(addactor1);
         textPanel.add(okButton);
         textPanel.add(cancelButton);
@@ -380,7 +383,6 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         textPanel.add(scrollPane7);
 
         primaryFlowTxt = new JTextPane();
-        primaryFlowTxt.setEditable(false);
         scrollPane7.setViewportView(primaryFlowTxt);
         primaryFlowTxt.setForeground(Color.WHITE);
         primaryFlowTxt.setBorder(null);
@@ -392,7 +394,6 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         textPanel.add(scrollPane8);
 
         alternateFlowTxt = new JTextPane();
-        alternateFlowTxt.setEditable(false);
         scrollPane8.setViewportView(alternateFlowTxt);
         alternateFlowTxt.setForeground(Color.WHITE);
         alternateFlowTxt.setBorder(null);
@@ -423,6 +424,18 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         addAltFlowStep.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/addstep.png")));
         addAltFlowStep.setBounds(853, 367, 89, 23);
         textPanel.add(addAltFlowStep);
+
+        deleteActor1 = new JButton("");
+        deleteActor1.addActionListener(this);
+//        deleteActor1.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                System.out.println("This is the first remove actor button");
+//            }
+//        });
+        deleteActor1.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/delactor.png")));
+        deleteActor1.setBounds(128, 367, 89, 23);
+        textPanel.add(deleteActor1);
+        
         okButton.addActionListener(this);
         cancelButton.addActionListener(this);
 
@@ -437,6 +450,17 @@ public class UseCaseEditor extends JDialog implements ActionListener {
         scrollPane8.setBorder(null);
         scrollPane9.setBorder(null);;
         scrollPane10.setBorder(null);
+
+        deleteActor2 = new JButton("");
+        deleteActor2.addActionListener(this);
+//        deleteActor2.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent arg0) {
+//                System.out.println("This is the second delete actor button");
+//            }
+//        });
+        deleteActor2.setIcon(new ImageIcon(UseCaseEditor.class.getResource("/resources/delactor.png")));
+        deleteActor2.setBounds(367, 367, 89, 23);
+        textPanel.add(deleteActor2);
 
         removePrimFlowStep = new JButton("");
         removePrimFlowStep.addActionListener(this);
@@ -561,7 +585,22 @@ public class UseCaseEditor extends JDialog implements ActionListener {
             uc.setPrimaryActor(ActorDialog.getucActorlist());
             displayactors();
         }
+        
+        if(e.getSource() == deleteActor1) {
+            Flag = true;
+            ActorDialog = new AddActor(proActors, uc.getPrimaryActors());
+            uc.setPrimaryActor(ActorDialog.getucActorlist());
+            displayactors();
+        }
+        
         if(e.getSource() == addactor2){
+            Flag = false;
+            ActorDialog = new AddActor(proActors, uc.getSupportingActors());
+            uc.setSupportingActor(ActorDialog.getucActorlist());
+            displayactors();
+        }
+        
+        if(e.getSource() == deleteActor2) {
             Flag = false;
             ActorDialog = new AddActor(proActors, uc.getSupportingActors());
             uc.setSupportingActor(ActorDialog.getucActorlist());
