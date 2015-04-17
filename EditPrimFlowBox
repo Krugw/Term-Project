@@ -8,7 +8,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ImageIcon;
 
 /**
  * This class creates a GUI for the user to interact with in
@@ -60,37 +59,41 @@ public class EditPrimFlowBox extends JDialog implements ActionListener {
         setModalityType(ModalityType.APPLICATION_MODAL);
         setLocationRelativeTo(null);
         setTitle("Edit Primary Flow Step");
-        setSize(474, 177);
+        setSize(400, 200);
+
+            /*
+          Creates a panel text boxes.
+         */
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(6, 2));
 
             /*
           Creates a panel for buttons.
          */
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setBounds(0, 151, 384, 10);
 
             /*
           Description label.
          */
-        getContentPane().setLayout(null);
-        cancel = new JButton("");
-        cancel.setIcon(new ImageIcon(EditPrimFlowBox.class.getResource("/resources/cancel.png")));
-        cancel.setBounds(237, 85, 83, 23);
-        getContentPane().add(cancel);
-        cancel.addActionListener(this);
-        //buttonPanel.add(oK);
-        //buttonPanel.add(cancel);
-        getContentPane().add(buttonPanel);
-        
-                oK = new JButton("");
-                oK.setIcon(new ImageIcon(EditPrimFlowBox.class.getResource("/resources/ok.png")));
-                oK.setBounds(141, 85, 83, 23);
-                getContentPane().add(oK);
-                
-                        descTxt = new JTextField(flowStep.getText().substring(3), 60);
-                        descTxt.setBounds(60, 26, 359, 48);
-                        getContentPane().add(descTxt);
+        JLabel description = new JLabel("Description: ");
+
+        panel.add(description);
+
+        descTxt = new JTextField(flowStep.getText().substring(3), 60);
+        panel.add(descTxt);
+
+        getContentPane().add(panel, BorderLayout.NORTH);
+
+        oK = new JButton("Save");
+        cancel = new JButton("Cancel");
+        panel.add(oK);
+        panel.add(cancel);
+        buttonPanel.add(oK);
+        buttonPanel.add(cancel);
+        getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
         oK.addActionListener(this);
+        cancel.addActionListener(this);
 
 
         setVisible(true);
