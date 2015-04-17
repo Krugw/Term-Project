@@ -91,10 +91,13 @@ public class AddActor extends JDialog implements ActionListener {
 		 * * adds applicable JButtons for user
 		 * operation and fields for user input.
 		 **************************************************************/
-		deleteButton = new JButton("Edit");
+		deleteButton = new JButton("");
 		if (!editFlag) {
 			deleteButton.setIcon(new ImageIcon(AddActor.class
 					.getResource("/resources/ok.png")));
+		}else{
+			deleteButton.setIcon(new ImageIcon(AddActor.class
+					.getResource("/resources/edit.png")));
 		}
 		deleteButton.setBounds(135, 114, 80, 23);
 		cancelButton = new JButton("");
@@ -121,8 +124,14 @@ public class AddActor extends JDialog implements ActionListener {
 		panel.add(comboBox);
 
 		lblNewLabel = new JLabel("");
+		if(editFlag){
+		lblNewLabel.setIcon(new ImageIcon(AddActor.class
+				.getResource("/resources/editActor.png")));
+			
+		}else{
 		lblNewLabel.setIcon(new ImageIcon(AddActor.class
 				.getResource("/resources/RemoveActor.png")));
+		}
 		lblNewLabel.setBounds(0, 0, 471, 148);
 		panel.add(lblNewLabel);
 		comboBox.setBounds(101, 53, 267, 50);
