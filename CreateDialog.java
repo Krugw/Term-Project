@@ -85,6 +85,7 @@ public class CreateDialog implements ActionListener {
 		cancelButton = new JButton("Cancel");
 		cancelButton.setBounds(147, 116, 81, 23);
 		fileNameTxt = new JTextField(textfieldSize);
+		fileNameTxt.setBorder(null);
 		fileNameTxt.setOpaque(false);
 		fileNameTxt.setBounds(49, 67, 196, 38);
 		fileNameTxt.setText(s);		
