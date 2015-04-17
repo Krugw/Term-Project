@@ -38,7 +38,7 @@ public class AddActor extends JDialog implements ActionListener {
     private JRadioButton addActor,deleteActor;
     final int boxLength = 300;
     final int boxWidth = 100;
-    private Boolean deleteFlag = false;
+    private Boolean deleteFlag = false, editFlag = false;
     /****************************************************
      * Creates a cancel button to go in panel.
      ***************************************************/
@@ -47,19 +47,12 @@ public class AddActor extends JDialog implements ActionListener {
     private ArrayList<String> ucActors;
     private Actor delActor = new Actor("","");
     private JLabel lblNewLabel;
-    private JLabel lblNewLabel_1;
     /**
      * @wbp.parser.constructor
      */
-    
-    ///HERE
-    
-    ///HERE
-    
-    ///HERE
-    
-    public AddActor(final ArrayList<Actor> proActors){
+    public AddActor(final ArrayList<Actor> proActors, Boolean Flag){
     	deleteFlag = true;
+    	editFlag = Flag;
         projActors = proActors;
         /*****************************************************************
          * Creation of JDialog box, centers location on pop-up.
@@ -70,15 +63,12 @@ public class AddActor extends JDialog implements ActionListener {
          * Creates JPanel within JDialog box, adds applicable JButtons for
          * user operation and fields for user input.
          *****************************************************************/
-        deleteButton = new JButton("");
-        deleteButton.setIcon(new ImageIcon(AddActor.class.getResource
-
-("/resources/ok.png")));
+        deleteButton = new JButton("Edit");
+        if(!editFlag)
+        deleteButton.setIcon(new ImageIcon(AddActor.class.getResource("/resources/ok.png")));
         deleteButton.setBounds(135, 114, 80, 23);
         cancelButton = new JButton("");
-        cancelButton.setIcon(new ImageIcon(AddActor.class.getResource
-
-("/resources/cancel.png")));
+        cancelButton.setIcon(new ImageIcon(AddActor.class.getResource("/resources/cancel.png")));
         cancelButton.setBounds(270, 114, 80, 23);
 
         panel = new JPanel();
@@ -100,12 +90,10 @@ public class AddActor extends JDialog implements ActionListener {
         panel.add(ComboBox);
         
         lblNewLabel = new JLabel("");
-        lblNewLabel.setIcon(new ImageIcon(AddActor.class.getResource
-
-("/resources/RemoveActor.png")));
+        lblNewLabel.setIcon(new ImageIcon(AddActor.class.getResource("/resources/RemoveActor.png")));
         lblNewLabel.setBounds(0, 0, 471, 148);
         panel.add(lblNewLabel);
-        ComboBox.setBounds(104, 55, 262, 48);
+        ComboBox.setBounds(101, 53, 267, 50);
         
       //  createComboBox(projActors,true);
        // box.getContentPane().add(ComboBox,BorderLayout.SOUTH);
@@ -114,12 +102,6 @@ public class AddActor extends JDialog implements ActionListener {
         box.setSize(487, 187);
         box.setVisible(true);
     }
- 
-    
-  
-   
-    
-   
     public AddActor(final ArrayList<Actor> proActors, final ArrayList<String> uActors) {
         ucActors = uActors;
         projActors = proActors;
@@ -132,18 +114,10 @@ public class AddActor extends JDialog implements ActionListener {
          * Creates JPanel within JDialog box, adds applicable JButtons for
          * user operation and fields for user input.
          *****************************************************************/
-        deleteActor = new JRadioButton("");
-        deleteActor.setOpaque(false);
-        deleteActor.setBounds(103, 24, 57, 23);
-        addButton = new JButton("");
-        addButton.setIcon(new ImageIcon(AddActor.class.getResource("/resources/ok.png")));
-        addButton.setBounds(132, 115, 83, 23);
-        deleteButton = new JButton("");
-        deleteButton.setIcon(new ImageIcon(AddActor.class.getResource("/resources/ok.png")));
-        deleteButton.setBounds(132, 115, 83, 23);
-        addActor = new JRadioButton("");
-        addActor.setOpaque(false);
-        addActor.setBounds(103, 7, 57, 26);
+        deleteActor = new JRadioButton("Delete");
+        addButton = new JButton("Add");
+        deleteButton = new JButton("Delete");
+        addActor = new JRadioButton("Add");
         
         addActor.setActionCommand("addActor");
         deleteActor.setActionCommand("deleteActor");
@@ -151,9 +125,7 @@ public class AddActor extends JDialog implements ActionListener {
         deleteActor.addActionListener(this);
         addActor.setSelected(true);
         
-        cancelButton = new JButton("");
-        cancelButton.setIcon(new ImageIcon(AddActor.class.getResource("/resources/cancel.png")));
-        cancelButton.setBounds(279, 115, 83, 23);
+        cancelButton = new JButton("Close");
         
         ButtonGroup group = new ButtonGroup();
         group.add(deleteActor);
@@ -161,7 +133,6 @@ public class AddActor extends JDialog implements ActionListener {
 
         panel = new JPanel();
         panel.setBackground(Color.GRAY);
-        panel.setLayout(null);
         panel.add(addActor);
         panel.add(deleteActor);
         panel.add(addButton);
@@ -174,23 +145,12 @@ public class AddActor extends JDialog implements ActionListener {
          **************************************************************/
         box.getContentPane().add(panel);
         deleteButton.setVisible(false);
-        createComboBox(projActors,true);      
-
-        panel.add(ComboBox);
-        
-        lblNewLabel_1 = new JLabel("");
-        lblNewLabel_1.setIcon(new ImageIcon(AddActor.class.getResource("/resources/AddRemoveActor.png")));
-        lblNewLabel_1.setBounds(0, 0, 468, 138);
-        panel.add(lblNewLabel_1);
-        
-        ComboBox.setBounds(103, 50, 264, 47);
-        
-        
-     //   box.getContentPane().add(ComboBox,BorderLayout.SOUTH); //ADD ACTOR INSIDE YO
+        createComboBox(projActors,true);
+        box.getContentPane().add(ComboBox,BorderLayout.SOUTH); //ADD ACTOR INSIDE YO
         addButton.addActionListener(this);
         deleteButton.addActionListener(this);
         cancelButton.addActionListener(this);
-        box.setSize(484, 177);
+        box.setSize(boxLength, boxWidth);
         box.setVisible(true);
 
     }
@@ -256,8 +216,8 @@ public class AddActor extends JDialog implements ActionListener {
         		for(Actor a: projActors){
         		if(a.getName().equals(ComboBox.getSelectedItem()))
         		delActor = a;
-        		}
         		box.dispose();
+        		}
         	}
         }
         if("addActor".equals(e.getActionCommand())){
