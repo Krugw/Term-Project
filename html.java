@@ -34,8 +34,10 @@ public class html {
 		triggers += uc.getTriggers() + "</pre></td>";
 		String preconditions = "<td><h3>Preconditions</h3>" + "<pre>";
 		preconditions += uc.getPreconditions() + "</pre></td>";
-		String primFlow = "<td><h3>Primary Flow</h3></td>";
-		String altFlow = "<td><h3>Alternative Flow</h3></td>";
+		String primFlow = "<td><h3>Primary Flow</h3>" + "<pre>"
+				+ uc.displayPrim() + "</pre></td>";
+		String altFlow = "<td><h3>Alternative Flow</h3>" + "<pre>"
+				+ uc.displayAlt() + "</pre></td>";
 		String minG = "<td><h3>Minimal Guarantees</h3>" + "<pre>";
 		minG += uc.getMinimalGuaruntees() + "</pre></td>";
 		String sucG = "<td><h3>Success Guarantees</h3>" + "<pre>";
